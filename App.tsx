@@ -1,65 +1,61 @@
 import * as React from 'react';
-import {NavigationContainer, ParamListBase} from '@react-navigation/native';
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
-import {Pressable, Text, TouchableHighlight, View} from 'react-native';
-import {useCallback} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useState} from 'react';
+import MyPet from './src/features/mypet';
+import Home from './src/features/home';
+import Calendar from './src/features/calendar';
+import SignIn from './src/features/auth/SignIn';
+import SignUp from './src/features/auth/SignUp';
 
-type RootStackParamList = {
+export type LoggedInParamList = {
   Home: undefined;
-  Details: undefined;
+  Calendar: undefined;
+  MyPet: undefined;
+  Complete: {calendarId: string};
 };
-type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
-type DetailsScreenProps = NativeStackScreenProps<ParamListBase, 'Details'>;
 
-function HomeScreen({navigation}: HomeScreenProps) {
-  const onClick = useCallback(() => {
-    navigation.navigate('Details');
-  }, [navigation]);
+export type RootStackParamList = {
+  SignIn: undefined;
+  SignUp: undefined;
+};
 
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Pressable
-        onPress={onClick}
-        style={{
-          paddingVertical: 20,
-          paddingHorizontal: 40,
-          backgroundColor: 'blue',
-        }}>
-        <Text>Home Screen</Text>
-      </Pressable>
-    </View>
-  );
-}
-
-function DetailsScreen({navigation}: DetailsScreenProps) {
-  const onClick = useCallback(() => {
-    navigation.navigate('Home');
-  }, [navigation]);
-
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <TouchableHighlight onPress={onClick}>
-        <Text>Details Screen</Text>
-      </TouchableHighlight>
-    </View>
-  );
-}
-
+const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
 function App() {
+  const [isLoggedIn, setLoggedIn] = useState(true);
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{title: 'Overview'}}
-        />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-      </Stack.Navigator>
+      {isLoggedIn ? (
+        <Tab.Navigator>
+          <Tab.Screen name="Home" component={Home} options={{title: '홈'}} />
+          <Tab.Screen
+            name="Calendar"
+            component={Calendar}
+            options={{headerShown: false}}
+          />
+          <Tab.Screen
+            name="Settings"
+            component={MyPet}
+            options={{title: '마이펫'}}
+          />
+        </Tab.Navigator>
+      ) : (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="SignIn"
+            component={SignIn}
+            options={{title: '로그인'}}
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{title: '회원가입'}}
+          />
+        </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 }
