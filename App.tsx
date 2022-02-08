@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { NativeBaseProvider } from "native-base";
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -27,36 +28,38 @@ const Stack = createNativeStackNavigator();
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(true);
   return (
-    <NavigationContainer>
-      {isLoggedIn ? (
-        <Tab.Navigator>
-          <Tab.Screen name="Home" component={Home} options={{title: '홈'}} />
-          <Tab.Screen
-            name="Calendar"
-            component={Calendar}
-            options={{headerShown: false}}
-          />
-          <Tab.Screen
-            name="Settings"
-            component={MyPet}
-            options={{title: '마이펫'}}
-          />
-        </Tab.Navigator>
-      ) : (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="SignIn"
-            component={SignIn}
-            options={{title: '로그인'}}
-          />
-          <Stack.Screen
-            name="SignUp"
-            component={SignUp}
-            options={{title: '회원가입'}}
-          />
-        </Stack.Navigator>
-      )}
-    </NavigationContainer>
+    <NativeBaseProvider>
+      <NavigationContainer>
+        {isLoggedIn ? (
+          <Tab.Navigator>
+            <Tab.Screen name="Home" component={Home} options={{title: '홈'}} />
+            <Tab.Screen
+              name="Calendar"
+              component={Calendar}
+              options={{headerShown: false}}
+            />
+            <Tab.Screen
+              name="Settings"
+              component={MyPet}
+              options={{title: '마이펫'}}
+            />
+          </Tab.Navigator>
+        ) : (
+          <Stack.Navigator>
+            <Stack.Screen
+              name="SignIn"
+              component={SignIn}
+              options={{title: '로그인'}}
+            />
+            <Stack.Screen
+              name="SignUp"
+              component={SignUp}
+              options={{title: '회원가입'}}
+            />
+          </Stack.Navigator>
+        )}
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
 }
 
