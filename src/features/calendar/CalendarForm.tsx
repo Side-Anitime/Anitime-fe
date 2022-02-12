@@ -10,6 +10,7 @@ function CalendarForm() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Ing" component={Ing} options={{title: '진행중'}} />
+      {/* 로딩시간이 오래 걸리는 페이지 같은 경우 stack으로 덮어버린다 (지도) */}
       <Stack.Screen
         name="Complete"
         component={Complete}
