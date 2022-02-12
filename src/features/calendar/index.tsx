@@ -1,30 +1,63 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text} from 'react-native';
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import {Calendar, LocaleConfig} from 'react-native-calendars';
+import {korMonth} from '../../common/constants';
+import deepmerge from 'deepmerge';
 
-const vacation = {key: 'vacation', color: 'red', selectedDotColor: 'blue'};
-const massage = {key: 'massage', color: 'blue', selectedDotColor: 'blue'};
+LocaleConfig.locales['kr'] = {
+  monthNames: korMonth,
+  monthNamesShort: korMonth,
+  dayNames: [
+    '일요일',
+    '월요일',
+    '화요일',
+    '수요일',
+    '목요일',
+    '금요일',
+    '토요일',
+  ],
+  dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+};
+LocaleConfig.defaultLocale = 'kr';
+
+const hospital = {key: 'vacation', color: 'red'};
+const walk = {key: 'walk', color: 'blue'};
 const workout = {key: 'workout', color: 'green'};
 
+const dummyData = {
+  '2022-02-01': {
+    name: '병원',
+    dots: [hospital],
+  },
+  '2022-02-02': {name: ['산책', '병원'], dots: [walk, workout], disabled: true},
+  '2022-02-03': {dots: [walk, workout]},
+};
+
 function MyCalendar() {
+  const [curDay, setCurDay] = useState('');
+  const [selectedDay, setSelectedDay] = useState({});
+
+  const onDayPress = day => {
+    setCurDay(day.dateString);
+    const mergedDay = deepmerge(dummyData, {
+      [day.dateString]: {
+        selected: true,
+        color: 'blue',
+      },
+    });
+    setSelectedDay(mergedDay);
+  };
+
   return (
     <View>
       <Calendar
-        onDayPress={day => {
-          console.log('selected day', day);
-        }}
+        monthFormat={'yyyy년 MM월'}
+        enableSwipeMonths={true}
+        onDayPress={onDayPress}
         markingType={'multi-dot'}
-        markedDates={{
-          '2022-02-01': {
-            dots: [vacation, massage, workout],
-            selected: true,
-            selectedColor: 'red',
-          },
-          '2022-02-02': {dots: [massage, workout], disabled: true},
-          '2022-02-03': {dots: [massage, workout]},
-        }}
+        markedDates={selectedDay}
       />
-      <Text>Calendar</Text>
+      <Text>{dummyData?.[curDay]?.name}</Text>
     </View>
   );
 }
