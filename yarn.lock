@@ -6880,6 +6880,13 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
+"react-native-action-button@^2.8.5":
+  "integrity" "sha512-BvGZpzuGeuFR2Y6j93+vKiSqDhsF87VHvNXFs/qEYKfzT4b1ASAT/GQbgS6gNt4jRJCUnJWYrIwlBzRjesZQmQ=="
+  "resolved" "https://registry.npmjs.org/react-native-action-button/-/react-native-action-button-2.8.5.tgz"
+  "version" "2.8.5"
+  dependencies:
+    "prop-types" "^15.5.10"
+
 "react-native-calendars@^1.1277.0":
   "integrity" "sha512-SRpwv7uSv51WIhqHR5HHMtr8gZO3nQA+ncSmmt6JecinJPVp5kH9FFel+yTYI7hFxfWRaCf8J5Y7ZPb1Znz9yQ=="
   "resolved" "https://registry.npmjs.org/react-native-calendars/-/react-native-calendars-1.1277.0.tgz"
@@ -6969,7 +6976,7 @@
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
 
-"react-native@*", "react-native@>= 0.30.0", "react-native@>=0.25.1", "react-native@>=0.42.0", "react-native@>=0.48.4", "react-native@>=0.50.0", "react-native@>=0.63.0", "react-native@>0.62.0", "react-native@0.66.4":
+"react-native@*", "react-native@>= 0.30.0", "react-native@>=0.11", "react-native@>=0.25.1", "react-native@>=0.42.0", "react-native@>=0.48.4", "react-native@>=0.50.0", "react-native@>=0.63.0", "react-native@>0.62.0", "react-native@0.66.4":
   "integrity" "sha512-9vx5dlSfQlKbbDtr8+xMon6qsmSu7jvjdXWZpEKh3XVKpUidbbODv7048gwVKX8YAel1egeR7hN8vzSeI6ssTw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.66.4.tgz"
   "version" "0.66.4"

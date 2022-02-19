@@ -1,6 +1,6 @@
 import MyPet from './src/features/mypet';
 import Home from './src/features/home';
-import Calendar from './src/features/calendar';
+import Calendar from './src/features/calendar/components';
 import SignIn from './src/features/auth/SignIn';
 import SignUp from './src/features/auth/SignUp';
 import * as React from 'react';
