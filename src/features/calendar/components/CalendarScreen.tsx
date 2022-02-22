@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
 import {View, Text} from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
-import {korMonth} from '../../common/constants';
+import ActionButton from 'react-native-action-button';
+import {korMonth} from '../../../common/constants';
 import deepmerge from 'deepmerge';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../../../App';
 
-LocaleConfig.locales['kr'] = {
+LocaleConfig.locales.kr = {
   monthNames: korMonth,
   monthNamesShort: korMonth,
   dayNames: [
@@ -33,7 +36,12 @@ const dummyData = {
   '2022-02-03': {dots: [walk, workout]},
 };
 
-function MyCalendar() {
+type MyCalendarScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'CalendarScreen'
+>;
+
+function CalendarScreen({navigation}: MyCalendarScreenProps) {
   const [curDay, setCurDay] = useState('');
   const [selectedDay, setSelectedDay] = useState({});
 
@@ -49,7 +57,7 @@ function MyCalendar() {
   };
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Calendar
         monthFormat={'yyyy년 MM월'}
         enableSwipeMonths={true}
@@ -58,7 +66,8 @@ function MyCalendar() {
         markedDates={selectedDay}
       />
       <Text>{dummyData?.[curDay]?.name}</Text>
+      <ActionButton onPress={() => navigation.navigate('CalendarFormScreen')} />
     </View>
   );
 }
-export default MyCalendar;
+export default CalendarScreen;
