@@ -1,15 +1,7 @@
 import React from 'react';
-import {
-  Radio,
-  Stack,
-  Center,
-  NativeBaseProvider,
-  Input,
-  FormControl,
-  Button,
-} from 'native-base';
+import {Radio, Stack, Input, FormControl, Button} from 'native-base';
 
-const Example = () => {
+function RegisterPetForm() {
   return (
     <FormControl>
       <Stack space={5}>
@@ -88,14 +80,6 @@ const Example = () => {
       </Stack>
     </FormControl>
   );
-};
+}
 
-export default () => {
-  return (
-    <NativeBaseProvider>
-      <Center flex={1} px="3">
-        <Example />
-      </Center>
-    </NativeBaseProvider>
-  );
-};
+export default RegisterPetForm;
