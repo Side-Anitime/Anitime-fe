@@ -1,4 +1,4 @@
-import MyPet from './src/features/mypet';
+import MyPet from './src/features/mypet/components';
 import Home from './src/features/home';
 import Calendar from './src/features/calendar/components';
 import SignIn from './src/features/auth/SignIn';
@@ -29,7 +29,7 @@ function AppInner() {
             <Tab.Screen
               name="Settings"
               component={MyPet}
-              options={{title: '마이펫'}}
+              options={{title: '마이펫', headerShown: false}}
             />
           </Tab.Navigator>
         ) : (
