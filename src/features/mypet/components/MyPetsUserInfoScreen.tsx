@@ -10,8 +10,10 @@ import {
   Heading,
   Center,
   View,
+  Flex,
 } from 'native-base';
 import HamburgerBtn from '../../../common/components/HamburgerBtn';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const data = [
   {
@@ -44,7 +46,19 @@ function MyPetsUserInfoScreen() {
   return (
     <Box>
       <View mt={4} ml={4}>
-        <HamburgerBtn></HamburgerBtn>
+        <Flex direction="row">
+          <Center>
+            <HamburgerBtn></HamburgerBtn>
+          </Center>
+          <Center size="16" h="0" />
+          <Center size="16" h="0" />
+          <Center size="16" h="0" />
+          <Center size="16" h="0" />
+          <Center size="16" h="0" />
+          <Center>
+            <Icon name="gear" size={30} color="#000000" />
+          </Center>
+        </Flex>
       </View>
       <Center>
         <Center
