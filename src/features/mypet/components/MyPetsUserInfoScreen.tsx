@@ -14,6 +14,9 @@ import {
 } from 'native-base';
 import HamburgerBtn from '../../../common/components/HamburgerBtn';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ActionButton from 'react-native-action-button';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../../../App';
 
 const data = [
   {
@@ -42,7 +45,12 @@ const data = [
   },
 ];
 
-function MyPetsUserInfoScreen() {
+type MyPetScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'SettingMenuScreen'
+>;
+
+function MyPetsUserInfoScreen({navigation}: MyPetScreenProps) {
   return (
     <Box>
       <View mt={4} ml={4}>
@@ -56,7 +64,15 @@ function MyPetsUserInfoScreen() {
           <Center size="16" h="0" />
           <Center size="16" h="0" />
           <Center>
-            <Icon name="gear" size={30} color="#000000" />
+            {/* <Icon
+              name="gear"
+              size={30}
+              color="#000000"
+              onPress={() => navigation.navigate('SettingMenuScreen')}
+            /> */}
+            <ActionButton
+              onPress={() => navigation.navigate('SettingMenuScreen')}
+            />
           </Center>
         </Flex>
       </View>
