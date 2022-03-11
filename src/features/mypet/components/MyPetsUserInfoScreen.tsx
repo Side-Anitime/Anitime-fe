@@ -10,8 +10,12 @@ import {
   Heading,
   Center,
   View,
+  Flex,
 } from 'native-base';
 import HamburgerBtn from '../../../common/components/HamburgerBtn';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../../../App';
 
 const data = [
   {
@@ -40,11 +44,33 @@ const data = [
   },
 ];
 
-function MyPetsUserInfoScreen() {
+type MyPetScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'SettingMenuScreen'
+>;
+
+function MyPetsUserInfoScreen({navigation}: MyPetScreenProps) {
   return (
     <Box>
       <View mt={4} ml={4}>
-        <HamburgerBtn></HamburgerBtn>
+        <Flex direction="row">
+          <Center>
+            <HamburgerBtn></HamburgerBtn>
+          </Center>
+          <Center size="16" h="0" />
+          <Center size="16" h="0" />
+          <Center size="16" h="0" />
+          <Center size="16" h="0" />
+          <Center size="16" h="0" />
+          <Center>
+            <Icon
+              name="gear"
+              size={30}
+              color="#000000"
+              onPress={() => navigation.navigate('SettingMenuScreen')}
+            />
+          </Center>
+        </Flex>
       </View>
       <Center>
         <Center
