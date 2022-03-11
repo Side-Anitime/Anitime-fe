@@ -13,12 +13,17 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+export type RootStackParamList = {
+  SignIn: undefined;
+  SignUp: undefined;
+};
+
 function AppInner() {
   const [isLoggedIn, setLoggedIn] = useState(true);
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        {isLoggedIn ? (
+        {!isLoggedIn ? (
           <Tab.Navigator>
             <Tab.Screen name="Home" component={Home} options={{title: '홈'}} />
             <Tab.Screen
@@ -37,7 +42,7 @@ function AppInner() {
             <Stack.Screen
               name="SignIn"
               component={SignIn}
-              options={{title: '로그인'}}
+              options={{title: '로그인', headerShown: false}}
             />
             <Stack.Screen
               name="SignUp"
