@@ -13,7 +13,11 @@ function MyPet() {
         component={MyPetsUserInfoScreen}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="SettingMenuScreen" component={SettingMenuScreen} />
+      <Stack.Screen
+        name="SettingMenuScreen"
+        component={SettingMenuScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 }

@@ -14,7 +14,6 @@ import {
 } from 'native-base';
 import HamburgerBtn from '../../../common/components/HamburgerBtn';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ActionButton from 'react-native-action-button';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../../App';
 
@@ -64,13 +63,10 @@ function MyPetsUserInfoScreen({navigation}: MyPetScreenProps) {
           <Center size="16" h="0" />
           <Center size="16" h="0" />
           <Center>
-            {/* <Icon
+            <Icon
               name="gear"
               size={30}
               color="#000000"
-              onPress={() => navigation.navigate('SettingMenuScreen')}
-            /> */}
-            <ActionButton
               onPress={() => navigation.navigate('SettingMenuScreen')}
             />
           </Center>
