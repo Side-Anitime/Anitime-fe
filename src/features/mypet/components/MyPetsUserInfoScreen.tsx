@@ -1,21 +1,22 @@
 import React from 'react';
+import {Pressable, Text} from 'react-native';
 import {
   Box,
   FlatList,
   Avatar,
   HStack,
   VStack,
-  Text,
   Spacer,
   Heading,
   Center,
   View,
   Flex,
+  HamburgerIcon,
 } from 'native-base';
-import HamburgerBtn from '../../../common/components/HamburgerBtn';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../../App';
+import styled from 'styled-components';
 
 const data = [
   {
@@ -46,7 +47,8 @@ const data = [
 
 type MyPetScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  'SettingMenuScreen'
+  'SettingMenuScreen',
+  'AccountSettingMenuScreen'
 >;
 
 function MyPetsUserInfoScreen({navigation}: MyPetScreenProps) {
@@ -54,107 +56,152 @@ function MyPetsUserInfoScreen({navigation}: MyPetScreenProps) {
     <Box>
       <View mt={4} ml={4}>
         <Flex direction="row">
-          <Center>
-            <HamburgerBtn></HamburgerBtn>
-          </Center>
-          <Center size="16" h="0" />
-          <Center size="16" h="0" />
-          <Center size="16" h="0" />
-          <Center size="16" h="0" />
-          <Center size="16" h="0" />
-          <Center>
+          <HamButton>
+            <HamburgerIcon
+              onPress={() => navigation.navigate('AccountSettingMenuScreen')}
+            />
+          </HamButton>
+          <SettingButton>
             <Icon
               name="gear"
               size={30}
               color="#000000"
               onPress={() => navigation.navigate('SettingMenuScreen')}
             />
-          </Center>
+          </SettingButton>
         </Flex>
       </View>
-      <Center>
-        <Center
-          height={430}
-          width={{
-            base: 200,
-            lg: 250,
-          }}>
-          <VStack
-            space={5}
-            alignItems={{
-              base: 'center',
-              md: 'flex-start',
+      <ProfileImg>
+        <Center>
+          <Center
+            height={430}
+            width={{
+              base: 200,
+              lg: 250,
             }}>
-            <Avatar
-              bg="purple.600"
-              alignSelf="center"
-              size="2xl"
-              source={{
-                uri: 'https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80',
+            <VStack
+              space={5}
+              alignItems={{
+                base: 'center',
+                md: 'flex-start',
               }}>
-              RB
-            </Avatar>
-            <Text>닉네임</Text>
-          </VStack>
-        </Center>
-      </Center>
-
-      <Heading fontSize="xl" p="4" pb="3">
-        반려동물 관리
-      </Heading>
-      <FlatList
-        data={data}
-        renderItem={({item}) => (
-          <Box
-            borderBottomWidth="1"
-            _dark={{
-              borderColor: 'gray.600',
-            }}
-            borderColor="coolGray.200"
-            pl="4"
-            pr="5"
-            py="2">
-            <HStack space={3} justifyContent="space-between">
               <Avatar
-                size="48px"
+                bg="purple.600"
+                alignSelf="center"
+                size="2xl"
                 source={{
-                  uri: item.avatarUrl,
-                }}
-              />
-              <VStack>
+                  uri: 'https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80',
+                }}>
+                RB
+              </Avatar>
+              <Text>닉네임</Text>
+            </VStack>
+          </Center>
+        </Center>
+      </ProfileImg>
+
+      <PetListHead>
+        <Heading fontSize="lg">반려동물 관리</Heading>
+      </PetListHead>
+      <PetList>
+        <FlatList
+          data={data}
+          renderItem={({item}) => (
+            <Box
+              borderBottomWidth="1"
+              _dark={{
+                borderColor: 'gray.600',
+              }}
+              borderColor="coolGray.200"
+              pl="4"
+              pr="5"
+              py="2">
+              <HStack space={3} justifyContent="space-between">
+                <Avatar
+                  size="48px"
+                  source={{
+                    uri: item.avatarUrl,
+                  }}
+                />
+                <VStack>
+                  <Text
+                    _dark={{
+                      color: 'warmGray.50',
+                    }}
+                    color="coolGray.800"
+                    bold>
+                    {item.name}
+                  </Text>
+                  <Text
+                    color="coolGray.600"
+                    _dark={{
+                      color: 'warmGray.200',
+                    }}>
+                    {item.kind}
+                  </Text>
+                </VStack>
+                <Spacer />
                 <Text
+                  fontSize="xs"
                   _dark={{
                     color: 'warmGray.50',
                   }}
                   color="coolGray.800"
-                  bold>
-                  {item.name}
+                  alignSelf="flex-start">
+                  {item.regDate}
                 </Text>
-                <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: 'warmGray.200',
-                  }}>
-                  {item.kind}
-                </Text>
-              </VStack>
-              <Spacer />
-              <Text
-                fontSize="xs"
-                _dark={{
-                  color: 'warmGray.50',
-                }}
-                color="coolGray.800"
-                alignSelf="flex-start">
-                {item.regDate}
-              </Text>
-            </HStack>
-          </Box>
-        )}
-        keyExtractor={item => item.id}
-      />
+              </HStack>
+            </Box>
+          )}
+          keyExtractor={item => item.id}
+        />
+      </PetList>
     </Box>
   );
 }
+
+const HamButton = styled(Pressable)`
+  display: flex;
+  position: absolute;
+  width: 20px;
+  height: 11.33px;
+  left: 3px;
+  top: 5px;
+`;
+
+const SettingButton = styled(Pressable)`
+  display: flex;
+  width: 29px;
+  height: 29px;
+  left: 300px;
+  top: 5px;
+`;
+
+const ProfileImg = styled(Pressable)`
+  display: flex;
+  position: absolute;
+  width: 88px;
+  height: 119px;
+  left: 144px;
+  top: 60px;
+`;
+
+const PetListHead = styled(Text)`
+  display: flex;
+  position: absolute;
+  width: 120px;
+  height: 30px;
+  left: 28px;
+  top: 290px;
+`;
+
+const PetList = styled(Pressable)`
+  display: flex;
+  position: absolute;
+  width: 350px;
+  height: 200px;
+  left: 10px;
+  top: 325px;
+`;
 
 export default MyPetsUserInfoScreen;
