@@ -1,4 +1,5 @@
 import React from 'react';
+import {Pressable} from 'react-native';
 import {
   Text,
   VStack,
@@ -11,26 +12,22 @@ import {
   Center,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import styled from 'styled-components';
 
-function SettingMenuScreen({navigation}) {
+function AccountSettingMenuScreen({navigation}) {
   return (
     <NativeBaseProvider>
       <Box>
         <View mt={3} ml={45}>
           <Flex direction="row">
-            <Center size="16" h="0" />
-            <Center size="16" h="0" />
-            <Center size="16" h="0" />
-            <Center size="16" h="0" />
-            <Center size="16" h="0" />
-            <Center>
+            <CloseButton>
               <Icon
                 name="times-circle"
                 size={30}
                 color="#000000"
                 onPress={() => navigation.goBack()}
               />
-            </Center>
+            </CloseButton>
           </Flex>
         </View>
         <View mt={10} ml={10}>
@@ -50,4 +47,14 @@ function SettingMenuScreen({navigation}) {
     </NativeBaseProvider>
   );
 }
-export default SettingMenuScreen;
+
+const CloseButton = styled(Pressable)`
+  display: flex;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 260px;
+  top: 20px;
+`;
+
+export default AccountSettingMenuScreen;
