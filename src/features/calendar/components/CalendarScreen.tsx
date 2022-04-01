@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {View, Text} from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import ActionButton from 'react-native-action-button';
-import {korMonth} from '../../../common/constants';
 import deepmerge from 'deepmerge';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../../App';
-
+import {CATEGORIES, korMonth} from '../../../common/constants';
+import BottomSheet from '../../../common/components/BottomSheet';
 LocaleConfig.locales.kr = {
   monthNames: korMonth,
   monthNamesShort: korMonth,
@@ -28,12 +28,12 @@ const walk = {key: 'walk', color: 'blue'};
 const workout = {key: 'workout', color: 'green'};
 
 const dummyData = {
-  '2022-02-01': {
+  '2022-04-01': {
     name: '병원',
     dots: [hospital],
   },
-  '2022-02-02': {name: ['산책', '병원'], dots: [walk, workout], disabled: true},
-  '2022-02-03': {dots: [walk, workout]},
+  '2022-04-02': {name: ['산책', '병원'], dots: [walk, workout], disabled: true},
+  '2022-04-03': {dots: [walk, workout]},
 };
 
 type MyCalendarScreenProps = NativeStackScreenProps<
@@ -44,6 +44,8 @@ type MyCalendarScreenProps = NativeStackScreenProps<
 function CalendarScreen({navigation}: MyCalendarScreenProps) {
   const [curDay, setCurDay] = useState('');
   const [selectedDay, setSelectedDay] = useState({});
+
+  const refRBSheet = useRef();
 
   const onDayPress = day => {
     setCurDay(day.dateString);
@@ -56,6 +58,15 @@ function CalendarScreen({navigation}: MyCalendarScreenProps) {
     setSelectedDay(mergedDay);
   };
 
+  const onPressActionButton = () => {
+    refRBSheet.current.open();
+  };
+
+  const handleOnPressBottomSheet = item => {
+    console.log(item);
+    navigation.navigate('CalendarFormScreen', {item});
+  };
+
   return (
     <View style={{flex: 1}}>
       <Calendar
@@ -66,7 +77,14 @@ function CalendarScreen({navigation}: MyCalendarScreenProps) {
         markedDates={selectedDay}
       />
       <Text>{dummyData?.[curDay]?.name}</Text>
-      <ActionButton onPress={() => navigation.navigate('CalendarFormScreen')} />
+      <ActionButton onPress={onPressActionButton} />
+      <BottomSheet
+        title="말머리 선택"
+        height={400}
+        list={CATEGORIES}
+        refRBSheet={refRBSheet}
+        handleOnPress={handleOnPressBottomSheet}
+      />
     </View>
   );
 }

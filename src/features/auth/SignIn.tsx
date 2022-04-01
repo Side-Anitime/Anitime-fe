@@ -10,38 +10,38 @@ import {useAppDispatch} from '../../app/store';
 import userSlice from '../../features/user/userSlice';
 import styled from 'styled-components';
 
-type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
+// type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
-function SignIn({navigation}: SignInScreenProps) {
-  const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(false);
-
-  const onSubmit = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await axios.post(`${Config.API_URL}/login`, {});
-      console.log(response.data);
-      Alert.alert('알림', '로그인 되었습니다.');
-      dispatch(
-        userSlice.actions.setUser({
-          name: response.data.data.name,
-          email: response.data.data.email,
-          accessToken: response.data.data.accessToken,
-        }),
-      );
-      await EncryptedStorage.setItem(
-        'refreshToken',
-        response.data.data.refreshToken,
-      );
-    } catch (error) {
-      const errorResponse = (error as AxiosError).response;
-      if (errorResponse) {
-        Alert.alert('알림', errorResponse.data.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  }, [loading, dispatch]);
+function SignIn() {
+  // const dispatch = useAppDispatch();
+  // const [loading, setLoading] = useState(false);
+  //
+  // const onSubmit = useCallback(async () => {
+  //   try {
+  //     setLoading(true);
+  //     const response = await axios.post(`${Config.API_URL}/login`, {});
+  //     console.log(response.data);
+  //     Alert.alert('알림', '로그인 되었습니다.');
+  //     dispatch(
+  //       userSlice.actions.setUser({
+  //         name: response.data.data.name,
+  //         email: response.data.data.email,
+  //         accessToken: response.data.data.accessToken,
+  //       }),
+  //     );
+  //     await EncryptedStorage.setItem(
+  //       'refreshToken',
+  //       response.data.data.refreshToken,
+  //     );
+  //   } catch (error) {
+  //     const errorResponse = (error as AxiosError).response;
+  //     if (errorResponse) {
+  //       Alert.alert('알림', errorResponse.data.message);
+  //     }
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, [loading, dispatch]);
 
   return (
     <>
