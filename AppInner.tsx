@@ -23,7 +23,7 @@ function AppInner() {
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        {!isLoggedIn ? (
+        {isLoggedIn ? (
           <Tab.Navigator>
             <Tab.Screen name="Home" component={Home} options={{title: '홈'}} />
             <Tab.Screen

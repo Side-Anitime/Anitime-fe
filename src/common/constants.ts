@@ -12,3 +12,5 @@ export const korMonth = [
   '11월',
   '12월',
 ];
+
+export const CATEGORIES = ['생일', '병원', '산책', '모임', '기타'];
