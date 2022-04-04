@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {Pressable, Text} from 'react-native';
 import {
   Box,
@@ -12,10 +12,12 @@ import {
   View,
   Flex,
   HamburgerIcon,
+  Button,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../../App';
+import BottomSheetPetType from '../../../common/components/BottomSheetPetType';
 import styled from 'styled-components';
 
 const data = [
@@ -52,6 +54,17 @@ type MyPetScreenProps = NativeStackScreenProps<
 >;
 
 function MyPetsUserInfoScreen({navigation}: MyPetScreenProps) {
+  const refRBSheet = useRef();
+
+  const onPressActionButton = () => {
+    refRBSheet.current.open();
+  };
+
+  const handleOnPressBottomSheet = item => {
+    console.log(item);
+    navigation.navigate('MyPetsUserInfoScreen', {item});
+  };
+
   return (
     <Box>
       <View mt={4} ml={4}>
@@ -99,10 +112,19 @@ function MyPetsUserInfoScreen({navigation}: MyPetScreenProps) {
           </Center>
         </Center>
       </ProfileImg>
-
       <PetListHead>
         <Heading fontSize="lg">반려동물 관리</Heading>
       </PetListHead>
+      <PetAddButton>
+        <Button colorScheme="success" size="md" onPress={onPressActionButton}>
+          추가하기
+        </Button>
+        <BottomSheetPetType
+          height={400}
+          refRBSheet={refRBSheet}
+          handleOnPress={handleOnPressBottomSheet}
+        />
+      </PetAddButton>
       <PetList>
         <FlatList
           data={data}
@@ -183,7 +205,16 @@ const ProfileImg = styled(Pressable)`
   width: 88px;
   height: 119px;
   left: 144px;
-  top: 60px;
+  top: 30px;
+`;
+
+const PetAddButton = styled(Pressable)`
+  display: flex;
+  position: absolute;
+  width: 77px;
+  height: 40px;
+  left: 145px;
+  top: 280px;
 `;
 
 const PetListHead = styled(Text)`
