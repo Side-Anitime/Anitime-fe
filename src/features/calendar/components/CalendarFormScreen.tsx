@@ -1,6 +1,4 @@
 import React from 'react';
-import Complete from '../../../common/components/Complete';
-import Ing from '../../../common/components/Ing';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {View, Text} from 'react-native';
 

@@ -63,7 +63,6 @@ function CalendarScreen({navigation}: MyCalendarScreenProps) {
   };
 
   const handleOnPressBottomSheet = item => {
-    console.log(item);
     navigation.navigate('CalendarFormScreen', {item});
   };
 

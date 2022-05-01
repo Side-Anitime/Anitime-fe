@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">anytimeProject</string>
+    <string name="kakao_app_key">d684bb32cba66e8a61f0b7e111925ca8</string>
 </resources>
