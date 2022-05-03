@@ -9,14 +9,10 @@ import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {RootStackParamList, LoggedInTabParamList} from './src/common/models';
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
-
-export type RootStackParamList = {
-  SignIn: undefined;
-  SignUp: undefined;
-};
+const Tab = createBottomTabNavigator<LoggedInTabParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function AppInner() {
   const [isLoggedIn, setLoggedIn] = useState(true);
@@ -32,7 +28,7 @@ function AppInner() {
               options={{headerShown: false}}
             />
             <Tab.Screen
-              name="Settings"
+              name="MyPet"
               component={MyPet}
               options={{title: '마이펫', headerShown: false}}
             />

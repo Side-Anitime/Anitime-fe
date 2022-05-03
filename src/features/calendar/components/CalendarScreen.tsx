@@ -3,10 +3,10 @@ import {View, Text} from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import ActionButton from 'react-native-action-button';
 import deepmerge from 'deepmerge';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../../App';
 import {CATEGORIES, korMonth} from '../../../common/constants';
 import BottomSheet from '../../../common/components/BottomSheet';
+import {CalendarStackScreenProps} from '../../../common/models';
+
 LocaleConfig.locales.kr = {
   monthNames: korMonth,
   monthNamesShort: korMonth,
@@ -36,12 +36,9 @@ const dummyData = {
   '2022-04-03': {dots: [walk, workout]},
 };
 
-type MyCalendarScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'CalendarScreen'
->;
-
-function CalendarScreen({navigation}: MyCalendarScreenProps) {
+function CalendarScreen({
+  navigation,
+}: CalendarStackScreenProps<'CalendarScreen'>) {
   const [curDay, setCurDay] = useState('');
   const [selectedDay, setSelectedDay] = useState({});
 

@@ -3,8 +3,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MyPetsUserInfoScreen from './MyPetsUserInfoScreen';
 import SettingMenuScreen from './SettingMenuScreen';
 import AccountSettingMenuScreen from './AccountSettingMenuScreen';
+import {MyPetStackParamList} from '../../../common/models';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<MyPetStackParamList>();
 
 function MyPet() {
   return (

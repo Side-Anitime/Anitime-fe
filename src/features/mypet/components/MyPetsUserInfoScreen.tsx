@@ -16,7 +16,6 @@ import {
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../../App';
 import BottomSheetPetType from '../../../common/components/BottomSheetPetType';
 import styled from 'styled-components';
 
@@ -47,11 +46,11 @@ const data = [
   },
 ];
 
-type MyPetScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'SettingMenuScreen',
-  'AccountSettingMenuScreen'
->;
+// type MyPetScreenProps = NativeStackScreenProps<
+//   RootStackParamList,
+//   'SettingMenuScreen',
+//   'AccountSettingMenuScreen'
+// >;
 
 function MyPetsUserInfoScreen({navigation}: MyPetScreenProps) {
   const refRBSheet = useRef();

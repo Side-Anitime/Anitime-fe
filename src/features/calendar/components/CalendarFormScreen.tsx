@@ -1,10 +1,10 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {View, Text} from 'react-native';
+import {CalendarStackScreenProps} from '../../../common/models';
 
-const Stack = createNativeStackNavigator();
-
-function CalendarFormScreen({route}) {
+function CalendarFormScreen({
+  route,
+}: CalendarStackScreenProps<'CalendarFormScreen'>) {
   const {item} = route.params;
   return (
     <View>
