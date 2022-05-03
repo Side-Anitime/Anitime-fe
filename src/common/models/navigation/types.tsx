@@ -24,11 +24,12 @@ export type LoggedInTabParamList = {
 
 export type CalendarStackParamList = {
   CalendarScreen: undefined;
-  CalendarFormScreen: {item: undefined};
+  CalendarFormScreen: {item: any};
 };
 
+// TODO: define any
 export type MyPetStackParamList = {
-  MyPetsUserInfoScreen: undefined;
+  MyPetsUserInfoScreen: {item: any};
   SettingMenuScreen: undefined;
   AccountSettingMenuScreen: undefined;
 };

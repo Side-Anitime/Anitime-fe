@@ -15,9 +15,9 @@ import {
   Button,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import BottomSheetPetType from '../../../common/components/BottomSheetPetType';
 import styled from 'styled-components';
+import {MyPetStackScreenProps} from '../../../common/models';
 
 const data = [
   {
@@ -46,13 +46,9 @@ const data = [
   },
 ];
 
-// type MyPetScreenProps = NativeStackScreenProps<
-//   RootStackParamList,
-//   'SettingMenuScreen',
-//   'AccountSettingMenuScreen'
-// >;
-
-function MyPetsUserInfoScreen({navigation}: MyPetScreenProps) {
+function MyPetsUserInfoScreen({
+  navigation,
+}: MyPetStackScreenProps<'MyPetsUserInfoScreen'>) {
   const refRBSheet = useRef();
 
   const onPressActionButton = () => {
