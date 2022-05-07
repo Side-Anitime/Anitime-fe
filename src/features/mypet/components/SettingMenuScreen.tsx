@@ -9,12 +9,14 @@ import {
   Box,
   Heading,
   View,
-  Center,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components';
+import {MyPetStackScreenProps} from '../../../common/models';
 
-function AccountSettingMenuScreen({navigation}) {
+function AccountSettingMenuScreen({
+  navigation,
+}: MyPetStackScreenProps<'AccountSettingMenuScreen'>) {
   return (
     <NativeBaseProvider>
       <Box>
