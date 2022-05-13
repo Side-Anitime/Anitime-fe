@@ -15,9 +15,10 @@ import {
   Button,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import BottomSheetPetType from '../../../common/components/BottomSheetPetType';
 import styled from 'styled-components';
-import {MyPetStackScreenProps} from '../../../common/models';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomSheetPet';
+import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
 
 const data = [
   {
@@ -49,15 +50,16 @@ const data = [
 function MyPetsUserInfoScreen({
   navigation,
 }: MyPetStackScreenProps<'MyPetsUserInfoScreen'>) {
-  const refRBSheet = useRef();
+  const refRBSheet = useRef<RBSheet>(null);
 
-  const onPressActionButton = () => {
-    refRBSheet.current.open();
+  const onPressAddPet = () => {
+    refRBSheet.current?.open();
   };
 
-  const handleOnPressBottomSheet = item => {
-    console.log(item);
-    navigation.navigate('MyPetsUserInfoScreen', {item});
+  const onCompleteAddPet = (petInfo: PetInfo) => {
+    console.log(`PET INFO: ${petInfo}`);
+    //TODO: send data
+    //TODO: navigate to REGISTERPETFORM screen
   };
 
   return (
@@ -111,14 +113,10 @@ function MyPetsUserInfoScreen({
         <Heading fontSize="lg">반려동물 관리</Heading>
       </PetListHead>
       <PetAddButton>
-        <Button colorScheme="success" size="md" onPress={onPressActionButton}>
+        <Button colorScheme="success" size="md" onPress={onPressAddPet}>
           추가하기
         </Button>
-        <BottomSheetPetType
-          height={400}
-          refRBSheet={refRBSheet}
-          handleOnPress={handleOnPressBottomSheet}
-        />
+        <BottomSheetPet refRBSheet={refRBSheet} onComplete={onCompleteAddPet} />
       </PetAddButton>
       <PetList>
         <FlatList

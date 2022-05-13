@@ -9,3 +9,10 @@ export type {CalendarStackParamList} from './navigation/types';
 export type {CalendarStackScreenProps} from './navigation/types';
 export type {MyPetStackParamList} from './navigation/types';
 export type {MyPetStackScreenProps} from './navigation/types';
+/*
+ *
+ * Pet
+ *
+ */
+export type {Species} from './pet/types';
+export type {PetInfo} from './pet/types';
