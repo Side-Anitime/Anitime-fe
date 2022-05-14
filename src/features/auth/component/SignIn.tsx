@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Alert, Platform} from 'react-native';
 import styled from 'styled-components/native';
 import {login, getProfile, KakaoProfile} from '@react-native-seoul/kakao-login';
-import {NaverLogin} from '@react-native-seoul/naver-login';
+import {ConfigParam, NaverLogin} from '@react-native-seoul/naver-login';
 
 const iosKeys = {
   kConsumerKey: 'VC5CPfjRigclJV_TFACU',
@@ -28,7 +28,7 @@ function SignIn() {
       await getProfile();
   };
 
-  const naverLogin = props => {
+  const naverLogin = (props: ConfigParam) => {
     return new Promise((resolve, reject) => {
       NaverLogin.login(props, (err, token) => {
         console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
@@ -59,7 +59,9 @@ function SignIn() {
   return (
     <>
       <Wrapper>
-        <StyledLogo source={require('../../common/asstes/anytime_logo.png')} />
+        <StyledLogo
+          source={require('../../../common/asstes/anytime_logo.png')}
+        />
       </Wrapper>
       <ButtonWrapper>
         <StyledButton onPress={loginByKakao}>
