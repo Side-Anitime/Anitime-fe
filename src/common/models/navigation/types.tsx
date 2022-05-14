@@ -18,7 +18,7 @@ export type RootStackParamList = {
 export type LoggedInTabParamList = {
   Home: undefined;
   Calendar: NavigatorScreenParams<CalendarStackParamList>;
-  MyPet: undefined;
+  MyPet: NavigatorScreenParams<MyPetStackParamList>;
   // Complete: {calendarId: string};
 };
 
@@ -27,9 +27,8 @@ export type CalendarStackParamList = {
   CalendarFormScreen: {item: any};
 };
 
-// TODO: define any
 export type MyPetStackParamList = {
-  MyPetsUserInfoScreen: {item: any};
+  MyPetsUserInfoScreen: undefined;
   SettingMenuScreen: undefined;
   AccountSettingMenuScreen: undefined;
 };
