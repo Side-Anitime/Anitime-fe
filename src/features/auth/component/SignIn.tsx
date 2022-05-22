@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, Platform} from 'react-native';
+import {Alert, Platform, Pressable, Image} from 'react-native';
 import styled from 'styled-components/native';
 import {login, getProfile, KakaoProfile} from '@react-native-seoul/kakao-login';
 import {ConfigParam, NaverLogin} from '@react-native-seoul/naver-login';
@@ -57,61 +57,80 @@ function SignIn() {
   };
 
   return (
-    <>
+    <Container>
       <Wrapper>
-        <StyledLogo
-          source={require('../../../common/asstes/anytime_logo.png')}
-        />
+        <LoginIconWrapper>
+          <Pressable onPress={loginByKakao}>
+            <Image source={require('../../../common/asstes/kakaoLogin.png')} />
+          </Pressable>
+          <Pressable onPress={naverLogin}>
+            <Image source={require('../../../common/asstes/naverLogin.png')} />
+          </Pressable>
+        </LoginIconWrapper>
       </Wrapper>
-      <ButtonWrapper>
-        <StyledButton onPress={loginByKakao}>
-          <StyledText>카카오로 시작하기</StyledText>
-        </StyledButton>
-        <StyledButton onPress={() => naverLogin(initials)}>
-          <StyledText>네이버로 시작하기</StyledText>
-        </StyledButton>
-      </ButtonWrapper>
-    </>
+      <EmailLoginButton>
+        <EmailLoginText>이메일로 로그인</EmailLoginText>
+      </EmailLoginButton>
+      <FindIdWrapper>
+        <FindIdQuestionText>계정이 기억나지 않으세요? </FindIdQuestionText>
+        <FindIdText>계정찾기</FindIdText>
+      </FindIdWrapper>
+    </Container>
   );
 }
 
+const Container = styled.View`
+  display: flex;
+  align-items: center;
+`;
+
 const Wrapper = styled.View`
   display: flex;
-  flex: 10;
+  flex-direction: row;
   justify-content: center;
+`;
+
+const LoginIconWrapper = styled.View`
+  width: 125px;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  background-color: #ffb82f;
+  margin-bottom: 24px;
 `;
 
-const ButtonWrapper = styled.View`
-  justify-content: center;
-  flex: 7;
-  align-items: center;
-  background-color: #ffb82f;
-`;
-
-const StyledLogo = styled.Image`
-  margin-top: 50px;
-`;
-
-const StyledButton = styled.Pressable`
+const EmailLoginButton = styled.Pressable`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 315px;
   height: 54px;
-  background: #ffffff;
+  border: 1.5px solid #c4c4c4;
   border-radius: 30px;
   color: black;
-  margin-bottom: 10px;
+  margin-bottom: 29px;
 `;
 
-const StyledText = styled.Text`
-  font-weight: 500;
+const EmailLoginText = styled.Text`
+  font-weight: 600;
+  font-size: 18px;
+  color: black;
+`;
+
+const FindIdWrapper = styled.View`
+  flex-direction: row;
+`;
+
+const FindIdQuestionText = styled.Text`
+  font-weight: 400;
   font-size: 16px;
-  line-height: 24px;
-  text-align: center;
-  color: #000000;
+  color: #242424;
+`;
+
+const FindIdText = styled.Text`
+  font-weight: 400;
+  font-size: 16px;
+  color: #242424;
+  text-decoration-line: underline;
 `;
 
 export default SignIn;

@@ -45,7 +45,7 @@ function AppInner() {
         ) : (
           <Stack.Navigator>
             <Stack.Screen
-              name="SignUp"
+              name="GuideScreen"
               component={GuideScreen}
               options={{title: '회원가입', headerShown: false}}
             />
