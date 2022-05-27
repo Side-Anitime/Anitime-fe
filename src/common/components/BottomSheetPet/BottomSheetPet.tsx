@@ -7,12 +7,16 @@ import {useSelector} from 'react-redux';
 import {useAppDispatch} from '../../../app/store';
 import {BottomSheetPetName, BottomSheetPetSpecies} from './sheets';
 import {PetInfo, Species} from '../../models';
-import {setPetSpecies} from '../../../features/mypet/petInfoSlice';
+import {
+  setPetSpecies,
+  setPetName,
+  selectPetInfo,
+  reset,
+} from '../../../features/mypet/petInfoSlice';
 import {
   selectCurrentSheet,
   selectCurrentSheetComplete,
   incrementSheet,
-  reset,
 } from './bottomSheetPetSlice';
 
 interface Props {
@@ -21,19 +25,25 @@ interface Props {
 }
 
 function BottomSheetPet({refRBSheet}: Props) {
+  const currentSheet = useSelector(selectCurrentSheet);
+  const currentSheetComplete = useSelector(selectCurrentSheetComplete);
+  const currentInfo = useSelector(selectPetInfo);
+  const dispatch = useAppDispatch();
+
   const sheetList = [
     <BottomSheetPetSpecies
       onSelect={(species: Species) => {
         dispatch(setPetSpecies(species));
       }}
+      currentSpecies={currentInfo.species}
     />,
-    <BottomSheetPetName />,
+    <BottomSheetPetName
+      onChange={(petName?: string) => {
+        dispatch(setPetName(petName));
+      }}
+      currentPetName={currentInfo.name}
+    />,
   ];
-
-  const currentSheet = useSelector(selectCurrentSheet);
-  const currentSheetComplete = useSelector(selectCurrentSheetComplete);
-
-  const dispatch = useAppDispatch();
 
   const onCloseBottomSheet = () => {
     dispatch(reset());

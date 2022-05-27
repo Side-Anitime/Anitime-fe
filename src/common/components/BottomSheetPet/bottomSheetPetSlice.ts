@@ -1,6 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../../app/rootReducer';
-import {setPetSpecies} from '../../../features/mypet/petInfoSlice';
+import {
+  setPetSpecies,
+  reset as resetPetInfo,
+  setPetName,
+} from '../../../features/mypet/petInfoSlice';
 
 enum PetBottomSheets {
   PETSPECIES,
@@ -16,7 +20,7 @@ interface BottomSheetPetState {
 const initialState: BottomSheetPetState = {
   currentSheet: 0,
   currentSheetComplete: false,
-  maxSheetLength: 1,
+  maxSheetLength: 2,
 };
 
 const bottomSheetPetSlice = createSlice({
@@ -45,6 +49,17 @@ const bottomSheetPetSlice = createSlice({
         state.currentSheetComplete = true;
       }
     },
+    [setPetName.type]: (state, action) => {
+      if (state.currentSheet === PetBottomSheets.PETNAME) {
+        //TODO: naming rule
+        if (action.payload.length < 1) {
+          state.currentSheetComplete = false;
+          return;
+        }
+        state.currentSheetComplete = true;
+      }
+    },
+    [resetPetInfo.type]: () => initialState,
   },
 });
 

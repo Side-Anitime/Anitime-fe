@@ -16,12 +16,15 @@ const petInfoSlice = createSlice({
     setPetSpecies: (state, {payload}: PayloadAction<PetInfo['species']>) => {
       state.species = payload;
     },
+    setPetName: (state, {payload}: PayloadAction<PetInfo['name']>) => {
+      state.name = payload;
+    },
   },
   extraReducers: builder => {},
 });
 
 export const selectPetInfo = (state: RootState) => state.petInfo;
 
-export const {reset, setPetSpecies} = petInfoSlice.actions;
+export const {reset, setPetSpecies, setPetName} = petInfoSlice.actions;
 
 export default petInfoSlice;

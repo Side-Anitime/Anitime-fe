@@ -3,13 +3,17 @@ import {Pressable} from 'react-native';
 import styled from 'styled-components/native';
 import {Heading, Avatar, Button} from 'native-base';
 import {Species} from '../../../models';
+//img
+import dogFace from '../../../asstes/UI/dogface.png';
+import catFace from '../../../asstes/UI/catface.png';
 
 interface Props {
   onSelect: (petSpecies: Species) => void;
+  currentSpecies?: Species;
 }
-function BottomSheetPetSpecies({onSelect}: Props) {
+function BottomSheetPetSpecies(props: Props) {
   const onSelectPetSpecies = (petType: Species) => {
-    onSelect(petType);
+    props.onSelect(petType);
   };
 
   return (
@@ -19,33 +23,27 @@ function BottomSheetPetSpecies({onSelect}: Props) {
       </Title>
       <Selection>
         <DogSelection onPress={() => onSelectPetSpecies('dog')}>
-          <DogAva>
-            <Avatar
-              bg="purple.600"
-              alignSelf="center"
-              size="2xl"
-              source={{
-                uri: 'https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80',
-              }}>
-              RB
-            </Avatar>
+          <DogAva
+            bgColor={props?.currentSpecies === 'dog' ? '#FFA115' : '#F2F2F2'}
+            alignSelf="center"
+            size="2xl"
+            source={dogFace}
+            //FIXME: correct adjustments after getting unified image sizes. As of now the images are incoherent
+            safeArea={5}>
+            RB
           </DogAva>
           <PetText>
             <Heading>강아지</Heading>
           </PetText>
         </DogSelection>
         <CatSelection onPress={() => onSelectPetSpecies('cat')}>
-          <CatAvg>
-            <Avatar
-              bg="purple.600"
-              alignSelf="center"
-              size="2xl"
-              source={{
-                uri: 'https://img.huffingtonpost.com/asset/618cc2d026000093123cdf98.jpg?cache=xQWtHHJF1a&ops=scalefit_720_noupscale&format=webp',
-              }}>
-              RB
-            </Avatar>
-          </CatAvg>
+          <CatAva
+            bgColor={props?.currentSpecies === 'cat' ? '#FFA115' : '#F2F2F2'}
+            alignSelf="center"
+            size="2xl"
+            source={catFace}>
+            RB
+          </CatAva>
           <PetText>
             <Heading>고양이</Heading>
           </PetText>
@@ -70,11 +68,11 @@ const Selection = styled.View`
 const DogSelection = styled(Pressable)``;
 const CatSelection = styled(Pressable)``;
 
-const DogAva = styled.View``;
+const DogAva = styled(Avatar)``;
 
 const PetText = styled.Text`
   text-align: center;
   margin-top: 10px;
 `;
 
-const CatAvg = styled.View``;
+const CatAva = styled(Avatar)``;
