@@ -1,9 +1,23 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import styled from 'styled-components/native';
 import {useTheme} from '@react-navigation/native';
+import BottomSheet from '../../../common/components/BottomSheet';
+import {CATEGORIES} from '../../../common/constants';
+import {GuideStackScreenProps} from '../../../common/models/navigation/types';
+import SignIn from './SignIn';
 
-function GuideScreen() {
+function GuideScreen({navigation}: GuideStackScreenProps) {
+  const refRBSheet = useRef();
   const {colors} = useTheme();
+
+  const handleOnPressBottomSheet = item => {
+    navigation.navigate('CalendarFormScreen', {item});
+  };
+
+  const onPressLoginButton = () => {
+    refRBSheet.current.open();
+  };
+
   return (
     <Container colors={colors}>
       <StyledGuideText>반려동물과의</StyledGuideText>
@@ -12,14 +26,23 @@ function GuideScreen() {
       <StyledWrapper>
         <StyledLogo source={require('../../../common/asstes/auth_logo.png')} />
         <ButtonWrapper>
-          <StyledButton>
+          <StyledLoginButton onPress={onPressLoginButton}>
             <StyledText>기존 회원 로그인</StyledText>
-          </StyledButton>
+          </StyledLoginButton>
           <SignUpButton>
             <SignUpText>회원가입</SignUpText>
           </SignUpButton>
         </ButtonWrapper>
       </StyledWrapper>
+      <BottomSheet
+        title="로그인 방법을 선택해주세요"
+        titlePosition="center"
+        height={300}
+        list={CATEGORIES}
+        refRBSheet={refRBSheet}
+        handleOnPress={handleOnPressBottomSheet}>
+        <SignIn />
+      </BottomSheet>
     </Container>
   );
 }
@@ -53,7 +76,7 @@ const StyledText = styled.Text`
   color: white;
 `;
 
-const StyledButton = styled.Pressable`
+const StyledLoginButton = styled.Pressable`
   display: flex;
   justify-content: center;
   align-items: center;

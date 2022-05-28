@@ -2,12 +2,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import React from 'react';
 import styled from 'styled-components/native';
 
-function BottomSheet({title, height, refRBSheet, list, handleOnPress}) {
-  const onPress = item => {
-    handleOnPress(item);
-    refRBSheet.current.close();
-  };
-
+function BottomSheet({children, title, titlePosition, height, refRBSheet}) {
   return (
     <RBSheet
       height={height}
@@ -25,16 +20,10 @@ function BottomSheet({title, height, refRBSheet, list, handleOnPress}) {
         },
       }}>
       <Wrapper>
-        <BottomSelectHeader>
+        <BottomSelectHeader titlePosition={titlePosition}>
           <BottomSelectHeaderText>{title}</BottomSelectHeaderText>
         </BottomSelectHeader>
-        {list.map(item => {
-          return (
-            <BottomSelectRow key={item} onPress={() => onPress(item)}>
-              <BottomSelectRowText>{item}</BottomSelectRowText>
-            </BottomSelectRow>
-          );
-        })}
+        {children}
       </Wrapper>
     </RBSheet>
   );
@@ -48,25 +37,13 @@ const Wrapper = styled.View`
 
 const BottomSelectHeader = styled.View`
   display: flex;
+  align-items: ${({titlePosition}) => titlePosition};
   justify-content: center;
   height: 68px;
 `;
 
 const BottomSelectHeaderText = styled.Text`
   font-size: 18px;
-  padding-left: 30px;
   font-weight: 600;
   color: #000000;
-`;
-
-const BottomSelectRow = styled.Pressable`
-  flex-direction: row;
-  align-items: center;
-  height: 52px;
-`;
-
-const BottomSelectRowText = styled.Text`
-  padding-left: 30px;
-  font-size: 15px;
-  color: #1d1e02;
 `;
