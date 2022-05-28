@@ -12,7 +12,7 @@ import type {NativeStackScreenProps} from '@react-navigation/native-stack';
  */
 export type RootStackParamList = {
   SignIn: undefined;
-  SignUp: undefined;
+  SignUpScreen: undefined;
   GuideScreen: undefined;
 };
 
@@ -39,6 +39,11 @@ export type MyPetStackParamList = {
  * Stack Screen Props
  *
  */
+
+export type SignUpScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'SignUpScreen'
+>;
 
 export type GuideStackScreenProps = NativeStackScreenProps<
   RootStackParamList,

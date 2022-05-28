@@ -2,7 +2,6 @@ import React, {useRef} from 'react';
 import styled from 'styled-components/native';
 import {useTheme} from '@react-navigation/native';
 import BottomSheet from '../../../common/components/BottomSheet';
-import {CATEGORIES} from '../../../common/constants';
 import {GuideStackScreenProps} from '../../../common/models/navigation/types';
 import SignIn from './SignIn';
 
@@ -10,12 +9,12 @@ function GuideScreen({navigation}: GuideStackScreenProps) {
   const refRBSheet = useRef();
   const {colors} = useTheme();
 
-  const handleOnPressBottomSheet = item => {
-    navigation.navigate('CalendarFormScreen', {item});
-  };
-
   const onPressLoginButton = () => {
     refRBSheet.current.open();
+  };
+
+  const onPressSignUpButton = item => {
+    navigation.push('SignUpScreen');
   };
 
   return (
@@ -29,7 +28,7 @@ function GuideScreen({navigation}: GuideStackScreenProps) {
           <StyledLoginButton onPress={onPressLoginButton}>
             <StyledText>기존 회원 로그인</StyledText>
           </StyledLoginButton>
-          <SignUpButton>
+          <SignUpButton onPress={onPressSignUpButton}>
             <SignUpText>회원가입</SignUpText>
           </SignUpButton>
         </ButtonWrapper>
@@ -38,9 +37,7 @@ function GuideScreen({navigation}: GuideStackScreenProps) {
         title="로그인 방법을 선택해주세요"
         titlePosition="center"
         height={300}
-        list={CATEGORIES}
-        refRBSheet={refRBSheet}
-        handleOnPress={handleOnPressBottomSheet}>
+        refRBSheet={refRBSheet}>
         <SignIn />
       </BottomSheet>
     </Container>
