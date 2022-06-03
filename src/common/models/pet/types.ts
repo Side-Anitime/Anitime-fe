@@ -1,5 +1,7 @@
 export type Species = 'dog' | 'cat';
 
+export type Gender = 'M' | 'F';
+
 export type PetInfo = {
   // info req.
   id: string; // 고유 아이디
@@ -8,6 +10,7 @@ export type PetInfo = {
   species?: Species; // 강아지 / 고양이
   name?: string; // 이름
   breed?: string; // 품종
+  gender?: Gender;
   birthDate?: string; // 생일
   meetDate?: string; // 처음만난날
   isNeutered?: boolean; // 중성화 여부

@@ -4,13 +4,13 @@ import {Heading} from 'native-base';
 import {Pressable, TextInput} from 'react-native';
 
 interface Props {
-  onChange: (petName?: string) => void;
+  onSet: (petName?: string) => void;
   currentPetName?: string;
 }
 
 function BottomSheetPetName(props: Props) {
   const onChangePetName = (petName?: string) => {
-    props.onChange(petName);
+    props.onSet(petName);
   };
 
   return (

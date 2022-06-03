@@ -15,4 +15,5 @@ export type {MyPetStackScreenProps} from './navigation/types';
  *
  */
 export type {Species} from './pet/types';
+export type {Gender} from './pet/types';
 export type {PetInfo} from './pet/types';

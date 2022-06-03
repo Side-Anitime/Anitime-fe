@@ -8,12 +8,12 @@ import dogFace from '../../../asstes/UI/dogface.png';
 import catFace from '../../../asstes/UI/catface.png';
 
 interface Props {
-  onSelect: (petSpecies: Species) => void;
+  onSet: (petSpecies: Species) => void;
   currentSpecies?: Species;
 }
 function BottomSheetPetSpecies(props: Props) {
   const onSelectPetSpecies = (petType: Species) => {
-    props.onSelect(petType);
+    props.onSet(petType);
   };
 
   return (

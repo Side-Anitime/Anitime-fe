@@ -1,4 +1,4 @@
-import React, {RefObject} from 'react';
+import React, {ReactNode, RefObject} from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import styled from 'styled-components/native';
 import {Button} from 'native-base';
@@ -6,23 +6,30 @@ import {Pressable} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useAppDispatch} from '../../../app/store';
 import {BottomSheetPetName, BottomSheetPetSpecies} from './sheets';
-import {PetInfo, Species} from '../../models';
+import {Gender, PetInfo, Species} from '../../models';
 import {
   setPetSpecies,
   setPetName,
   selectPetInfo,
   reset,
+  setPetGender,
 } from '../../../features/mypet/petInfoSlice';
 import {
   selectCurrentSheet,
   selectCurrentSheetComplete,
   incrementSheet,
 } from './bottomSheetPetSlice';
+import BottomSheetPetGender from './sheets/BottomSheetPetGender';
 
 interface Props {
   refRBSheet: RefObject<RBSheet>;
   onComplete: (petInfo: PetInfo) => void;
 }
+
+type Sheet = {
+  title: ReactNode;
+  component: ReactNode;
+};
 
 function BottomSheetPet({refRBSheet}: Props) {
   const currentSheet = useSelector(selectCurrentSheet);
@@ -32,16 +39,23 @@ function BottomSheetPet({refRBSheet}: Props) {
 
   const sheetList = [
     <BottomSheetPetSpecies
-      onSelect={(species: Species) => {
+      onSet={(species: Species) => {
         dispatch(setPetSpecies(species));
       }}
       currentSpecies={currentInfo.species}
     />,
     <BottomSheetPetName
-      onChange={(petName?: string) => {
+      onSet={(petName?: string) => {
         dispatch(setPetName(petName));
       }}
       currentPetName={currentInfo.name}
+    />,
+    <BottomSheetPetGender
+      onSet={(petGender?: Gender) => {
+        dispatch(setPetGender(petGender));
+      }}
+      currentPetName={currentInfo.name}
+      currentPetGender={currentInfo.gender}
     />,
   ];
 
@@ -102,6 +116,8 @@ const Wrapper = styled.View`
 const SheetWrapper = styled.View`
   margin: 40px 20px 20px 20px;
 `;
+const SheetTitle = styled.Text``;
+
 const NextButton = styled(Pressable)`
   width: 100%;
   height: 56px;
