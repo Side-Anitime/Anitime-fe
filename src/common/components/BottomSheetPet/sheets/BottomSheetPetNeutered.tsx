@@ -2,46 +2,52 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {Heading} from 'native-base';
 import {Pressable, Text, TextInput, Button} from 'react-native';
-import {Gender} from '../../../models';
+import {Gender, Species} from '../../../models';
 import {CSSProperties} from 'styled-components';
-import {
-  selectPetInfo,
-  setPetGender,
-} from '../../../../features/mypet/petInfoSlice';
 import {useSelector} from 'react-redux';
 import {useAppDispatch} from '../../../../app/store';
+import {
+  selectPetInfo,
+  setPetNeutered,
+  setPetSpecies,
+} from '../../../../features/mypet/petInfoSlice';
 
-function BottomSheetPetGender() {
+function BottomSheetPetNeutered() {
   const dispatch = useAppDispatch();
   const currentPetInfo = useSelector(selectPetInfo);
-  const onSet = (petGender: Gender) => {
-    dispatch(setPetGender(petGender));
+  const onSet = (petNeutered: string) => {
+    dispatch(setPetNeutered(petNeutered));
   };
 
   return (
     <>
       <Title>
         <Heading>
-          {currentPetInfo.name}의{'\n'}성별을 선택해주세요.
+          {currentPetInfo.name}의{'\n'}중성화 여부를 선택해주세요.
         </Heading>
       </Title>
       <Selection>
         <PetButton
-          color={currentPetInfo.gender === 'M' ? '#FFA115' : '#c4c4c4'}
-          onPress={() => onSet('M')}>
-          <PetText>남아</PetText>
+          color={currentPetInfo.isNeutered === 'Y' ? '#FFA115' : '#c4c4c4'}
+          onPress={() => onSet('Y')}>
+          <PetText>예</PetText>
         </PetButton>
         <PetButton
-          onPress={() => onSet('F')}
-          color={currentPetInfo.gender === 'F' ? '#FFA115' : '#c4c4c4'}>
-          <PetText>여아</PetText>
+          onPress={() => onSet('N')}
+          color={currentPetInfo.isNeutered === 'N' ? '#FFA115' : '#c4c4c4'}>
+          <PetText>아니요</PetText>
+        </PetButton>
+        <PetButton
+          onPress={() => onSet('')}
+          color={currentPetInfo.isNeutered === '' ? '#FFA115' : '#c4c4c4'}>
+          <PetText>몰라요</PetText>
         </PetButton>
       </Selection>
     </>
   );
 }
 
-export default BottomSheetPetGender;
+export default BottomSheetPetNeutered;
 
 interface PetButtonProps {
   color?: CSSProperties['color'];
@@ -52,7 +58,7 @@ const Title = styled.Text`
 
 const PetButton = styled(Pressable)<PetButtonProps>`
   height: 48px;
-  width: 140px;
+  width: 100px;
   background-color: #fff;
   border-color: ${props => props.color};
   border-width: 1px;

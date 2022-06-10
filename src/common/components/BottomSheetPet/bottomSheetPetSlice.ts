@@ -5,12 +5,20 @@ import {
   reset as resetPetInfo,
   setPetName,
   setPetGender,
+  setPetBirthDate,
+  setPetNeutered,
+  setPetMemo,
+  setPetFirstMeetDate,
 } from '../../../features/mypet/petInfoSlice';
 
 enum PetBottomSheets {
   PETSPECIES,
   PETNAME,
   PETGENDER,
+  PETBIRTHDATE,
+  PETFIRSTMEETDATE,
+  PETNEUTERED,
+  PETMEMO,
 }
 
 interface BottomSheetPetState {
@@ -22,7 +30,7 @@ interface BottomSheetPetState {
 const initialState: BottomSheetPetState = {
   currentSheet: 0,
   currentSheetComplete: false,
-  maxSheetLength: 3,
+  maxSheetLength: 7,
 };
 
 const bottomSheetPetSlice = createSlice({
@@ -62,7 +70,27 @@ const bottomSheetPetSlice = createSlice({
       }
     },
     [setPetGender.type]: (state, action) => {
-      if(state.currentSheet === PetBottomSheets.PETGENDER) {
+      if (state.currentSheet === PetBottomSheets.PETGENDER) {
+        state.currentSheetComplete = true;
+      }
+    },
+    [setPetBirthDate.type]: (state, action) => {
+      if (state.currentSheet === PetBottomSheets.PETBIRTHDATE) {
+        state.currentSheetComplete = true;
+      }
+    },
+    [setPetFirstMeetDate.type]: (state, action) => {
+      if (state.currentSheet === PetBottomSheets.PETFIRSTMEETDATE) {
+        state.currentSheetComplete = true;
+      }
+    },
+    [setPetNeutered.type]: (state, action) => {
+      if (state.currentSheet === PetBottomSheets.PETNEUTERED) {
+        state.currentSheetComplete = true;
+      }
+    },
+    [setPetMemo.type]: (state, action) => {
+      if (state.currentSheet === PetBottomSheets.PETMEMO) {
         state.currentSheetComplete = true;
       }
     },

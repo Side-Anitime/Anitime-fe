@@ -12,8 +12,8 @@ export type PetInfo = {
   breed?: string; // 품종
   gender?: Gender;
   birthDate?: string; // 생일
-  meetDate?: string; // 처음만난날
-  isNeutered?: boolean; // 중성화 여부
+  firstMeetDate?: string; // 처음만난날
+  isNeutered?: string; // 중성화 여부 Y N
   memo?: string; // 소개
   avatarUrl?: string; // 이미지
 };

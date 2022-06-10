@@ -22,13 +22,42 @@ const petInfoSlice = createSlice({
     setPetGender: (state, {payload}: PayloadAction<PetInfo['gender']>) => {
       state.gender = payload;
     },
+    setPetBirthDate: (
+      state,
+      {payload}: PayloadAction<PetInfo['birthDate']>,
+    ) => {
+      state.birthDate = payload;
+    },
+    setPetFirstMeetDate: (
+      state,
+      {payload}: PayloadAction<PetInfo['firstMeetDate']>,
+    ) => {
+      state.firstMeetDate = payload;
+    },
+    setPetNeutered: (
+      state,
+      {payload}: PayloadAction<PetInfo['isNeutered']>,
+    ) => {
+      state.isNeutered = payload;
+    },
+    setPetMemo: (state, {payload}: PayloadAction<PetInfo['memo']>) => {
+      state.memo = payload;
+    },
   },
   extraReducers: builder => {},
 });
 
 export const selectPetInfo = (state: RootState) => state.petInfo;
 
-export const {reset, setPetSpecies, setPetName, setPetGender} =
-  petInfoSlice.actions;
+export const {
+  reset,
+  setPetSpecies,
+  setPetName,
+  setPetGender,
+  setPetBirthDate,
+  setPetFirstMeetDate,
+  setPetNeutered,
+  setPetMemo,
+} = petInfoSlice.actions;
 
 export default petInfoSlice;

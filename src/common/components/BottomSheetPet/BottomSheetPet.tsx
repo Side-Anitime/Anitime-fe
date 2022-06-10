@@ -5,21 +5,22 @@ import {Button} from 'native-base';
 import {Pressable} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useAppDispatch} from '../../../app/store';
-import {BottomSheetPetName, BottomSheetPetSpecies} from './sheets';
-import {Gender, PetInfo, Species} from '../../models';
 import {
-  setPetSpecies,
-  setPetName,
-  selectPetInfo,
-  reset,
-  setPetGender,
-} from '../../../features/mypet/petInfoSlice';
+  BottomSheetPetName,
+  BottomSheetPetSpecies,
+  BottomSheetPetGender,
+  BottomSheetPetBirthDate,
+  BottomSheetPetFirstMeetDate,
+  BottomSheetPetNeutered,
+} from './sheets';
+import {PetInfo} from '../../models';
+import {reset} from '../../../features/mypet/petInfoSlice';
 import {
   selectCurrentSheet,
   selectCurrentSheetComplete,
   incrementSheet,
 } from './bottomSheetPetSlice';
-import BottomSheetPetGender from './sheets/BottomSheetPetGender';
+import BottomSheetPetMemo from './sheets/BottomSheetPetMemo';
 
 interface Props {
   refRBSheet: RefObject<RBSheet>;
@@ -34,29 +35,16 @@ type Sheet = {
 function BottomSheetPet({refRBSheet}: Props) {
   const currentSheet = useSelector(selectCurrentSheet);
   const currentSheetComplete = useSelector(selectCurrentSheetComplete);
-  const currentInfo = useSelector(selectPetInfo);
   const dispatch = useAppDispatch();
 
   const sheetList = [
-    <BottomSheetPetSpecies
-      onSet={(species: Species) => {
-        dispatch(setPetSpecies(species));
-      }}
-      currentSpecies={currentInfo.species}
-    />,
-    <BottomSheetPetName
-      onSet={(petName?: string) => {
-        dispatch(setPetName(petName));
-      }}
-      currentPetName={currentInfo.name}
-    />,
-    <BottomSheetPetGender
-      onSet={(petGender?: Gender) => {
-        dispatch(setPetGender(petGender));
-      }}
-      currentPetName={currentInfo.name}
-      currentPetGender={currentInfo.gender}
-    />,
+    <BottomSheetPetSpecies />,
+    <BottomSheetPetName />,
+    <BottomSheetPetGender />,
+    <BottomSheetPetBirthDate />,
+    <BottomSheetPetFirstMeetDate />,
+    <BottomSheetPetNeutered />,
+    <BottomSheetPetMemo />,
   ];
 
   const onCloseBottomSheet = () => {

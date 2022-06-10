@@ -1,4 +1,6 @@
 import React from 'react';
+import {useAppDispatch} from '../../../../app/store';
+import {useSelector} from 'react-redux';
 import {Pressable} from 'react-native';
 import styled from 'styled-components/native';
 import {Heading, Avatar, Button} from 'native-base';
@@ -6,14 +8,16 @@ import {Species} from '../../../models';
 //img
 import dogFace from '../../../asstes/UI/dogface.png';
 import catFace from '../../../asstes/UI/catface.png';
+import {
+  selectPetInfo,
+  setPetSpecies,
+} from '../../../../features/mypet/petInfoSlice';
 
-interface Props {
-  onSet: (petSpecies: Species) => void;
-  currentSpecies?: Species;
-}
-function BottomSheetPetSpecies(props: Props) {
-  const onSelectPetSpecies = (petType: Species) => {
-    props.onSet(petType);
+function BottomSheetPetSpecies() {
+  const dispatch = useAppDispatch();
+  const currentSpecies = useSelector(selectPetInfo).species;
+  const onSet = (petType: Species) => {
+    dispatch(setPetSpecies(petType));
   };
 
   return (
@@ -22,9 +26,9 @@ function BottomSheetPetSpecies(props: Props) {
         <Heading>어떤 동물을 키우시나요?</Heading>
       </Title>
       <Selection>
-        <DogSelection onPress={() => onSelectPetSpecies('dog')}>
+        <DogSelection onPress={() => onSet('dog')}>
           <DogAva
-            bgColor={props?.currentSpecies === 'dog' ? '#FFA115' : '#F2F2F2'}
+            bgColor={currentSpecies === 'dog' ? '#FFA115' : '#F2F2F2'}
             alignSelf="center"
             size="2xl"
             source={dogFace}
@@ -36,9 +40,9 @@ function BottomSheetPetSpecies(props: Props) {
             <Heading>강아지</Heading>
           </PetText>
         </DogSelection>
-        <CatSelection onPress={() => onSelectPetSpecies('cat')}>
+        <CatSelection onPress={() => onSet('cat')}>
           <CatAva
-            bgColor={props?.currentSpecies === 'cat' ? '#FFA115' : '#F2F2F2'}
+            bgColor={currentSpecies === 'cat' ? '#FFA115' : '#F2F2F2'}
             alignSelf="center"
             size="2xl"
             source={catFace}>
