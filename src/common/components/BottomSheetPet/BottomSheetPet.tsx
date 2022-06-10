@@ -1,48 +1,50 @@
-import React, {RefObject} from 'react';
+import React, {ReactNode, RefObject} from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import styled from 'styled-components/native';
 import {Button} from 'native-base';
 import {Pressable} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useAppDispatch} from '../../../app/store';
-import {BottomSheetPetName, BottomSheetPetSpecies} from './sheets';
-import {PetInfo, Species} from '../../models';
 import {
-  setPetSpecies,
-  setPetName,
-  selectPetInfo,
-  reset,
-} from '../../../features/mypet/petInfoSlice';
+  BottomSheetPetName,
+  BottomSheetPetSpecies,
+  BottomSheetPetGender,
+  BottomSheetPetBirthDate,
+  BottomSheetPetFirstMeetDate,
+  BottomSheetPetNeutered,
+} from './sheets';
+import {PetInfo} from '../../models';
+import {reset} from '../../../features/mypet/petInfoSlice';
 import {
   selectCurrentSheet,
   selectCurrentSheetComplete,
   incrementSheet,
 } from './bottomSheetPetSlice';
+import BottomSheetPetMemo from './sheets/BottomSheetPetMemo';
 
 interface Props {
   refRBSheet: RefObject<RBSheet>;
   onComplete: (petInfo: PetInfo) => void;
 }
 
+type Sheet = {
+  title: ReactNode;
+  component: ReactNode;
+};
+
 function BottomSheetPet({refRBSheet}: Props) {
   const currentSheet = useSelector(selectCurrentSheet);
   const currentSheetComplete = useSelector(selectCurrentSheetComplete);
-  const currentInfo = useSelector(selectPetInfo);
   const dispatch = useAppDispatch();
 
   const sheetList = [
-    <BottomSheetPetSpecies
-      onSelect={(species: Species) => {
-        dispatch(setPetSpecies(species));
-      }}
-      currentSpecies={currentInfo.species}
-    />,
-    <BottomSheetPetName
-      onChange={(petName?: string) => {
-        dispatch(setPetName(petName));
-      }}
-      currentPetName={currentInfo.name}
-    />,
+    <BottomSheetPetSpecies />,
+    <BottomSheetPetName />,
+    <BottomSheetPetGender />,
+    <BottomSheetPetBirthDate />,
+    <BottomSheetPetFirstMeetDate />,
+    <BottomSheetPetNeutered />,
+    <BottomSheetPetMemo />,
   ];
 
   const onCloseBottomSheet = () => {
@@ -102,6 +104,8 @@ const Wrapper = styled.View`
 const SheetWrapper = styled.View`
   margin: 40px 20px 20px 20px;
 `;
+const SheetTitle = styled.Text``;
+
 const NextButton = styled(Pressable)`
   width: 100%;
   height: 56px;
