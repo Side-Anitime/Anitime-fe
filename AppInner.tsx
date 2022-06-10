@@ -5,11 +5,19 @@ import SignIn from './src/features/auth/component/SignIn';
 import GuideScreen from './src/features/auth/component/GuideScreen';
 import * as React from 'react';
 import {useState} from 'react';
-import {NativeBaseProvider} from 'native-base';
+import {Image, NativeBaseProvider} from 'native-base';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  BottomTabBarProps,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 import {RootStackParamList, LoggedInTabParamList} from './src/common/models';
+import styled from 'styled-components/native';
+import BottomTabBar from './src/common/components/BottomTabBar';
+import home from './src/common/asstes/icons/home.png';
+import calendar from './src/common/asstes/icons/calendar.png';
+import mypet from './src/common/asstes/icons/mypet.png';
 
 const Tab = createBottomTabNavigator<LoggedInTabParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -29,19 +37,29 @@ function AppInner() {
     <NativeBaseProvider>
       <NavigationContainer theme={MyTheme}>
         {!isLoggedIn ? (
-          <Tab.Navigator>
-            <Tab.Screen name="Home" component={Home} options={{title: '홈'}} />
+          <BottomTab
+            tabBar={(props: BottomTabBarProps) => <BottomTabBar {...props} />}>
+            <Tab.Screen
+              name="Home"
+              component={Home}
+              options={{
+                title: '홈',
+                // tabBarIcon: ({focused, color, size}) => (
+                //   <Image source={home} style={{width: 100, height: 100}} />
+                // ),
+              }}
+            />
             <Tab.Screen
               name="Calendar"
               component={Calendar}
-              options={{headerShown: false}}
+              options={{title: '캘린더', headerShown: false}}
             />
             <Tab.Screen
               name="MyPet"
               component={MyPet}
               options={{title: '마이펫', headerShown: false}}
             />
-          </Tab.Navigator>
+          </BottomTab>
         ) : (
           <Stack.Navigator>
             <Stack.Screen
@@ -60,5 +78,7 @@ function AppInner() {
     </NativeBaseProvider>
   );
 }
+
+const BottomTab = styled(Tab.Navigator)``;
 
 export default AppInner;

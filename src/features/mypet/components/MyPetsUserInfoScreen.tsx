@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {Pressable} from 'react-native';
+import {Pressable, TouchableOpacity} from 'react-native';
 import {Avatar, HStack, VStack, Spacer, Center, View, Image} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components/native';
@@ -9,6 +9,7 @@ import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomShee
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
 import {formatDateString} from '../../../common/utils/DateUtils';
 import AddButton from '../../../common/asstes/UI/add_btn.png';
+import union from '../../../common/asstes/UI/rounded_edge_bottom_tab.png';
 
 function MyPetsUserInfoScreen({
   navigation,
@@ -120,24 +121,23 @@ function MyPetsUserInfoScreen({
         refRBSheet={refRBSheet}
         onComplete={petInfo => onCompleteAddPet(petInfo)}
       />
+
       <PetAddButton onPress={() => onPressAddPetButton()} />
-      {/* <PetAddButton onPress={() => onPressAddPetButton()}>
-        <Image source={AddButton} alt="add" />
-      </PetAddButton> */}
     </Wrapper>
   );
 }
 
 const Wrapper = styled.View`
-  margin: 0px 45px;
+  height: 100%;
+  flex: 1;
 `;
 const PetAddButton = styled(ActionButton)`
-  bottom: -81px;
-  right: -45px;
+  position: absolute;
+  z-index: 2;
 `;
 const PetHeader = styled.View`
   display: flex;
-  margin-top: 20px;
+  margin: 20px 45px 0px 45px;
   flex-direction: row-reverse;
   justify-content: space-between;
 `;
@@ -153,7 +153,7 @@ const ProfileText = styled.Text`
 `;
 
 const PetListView = styled.View`
-  margin-top: 40px;
+  margin: 30px 45px 0px 45px;
 `;
 const PetListTitleText = styled.Text`
   color: #000;
@@ -179,4 +179,9 @@ const HamButton = styled(Pressable)``;
 
 const SettingButton = styled(Pressable)``;
 
+// const ButtonHolder = styled(Image)`
+//   position: absolute;
+//   bottom: 0px;
+//   right: 0px;
+// `;
 export default MyPetsUserInfoScreen;
