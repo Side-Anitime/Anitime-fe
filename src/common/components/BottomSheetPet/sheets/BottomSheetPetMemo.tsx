@@ -22,10 +22,12 @@ function BottomSheetPetMemo() {
       <Title>
         <Heading>{currentPetInfo.name}를 소개해주세요.</Heading>
       </Title>
-      <PetText>이름</PetText>
+      <PetText>하고싶은 말이나 다짐을 써도 좋아요.</PetText>
       <PetInput
         onChangeText={text => onSet(text)}
         value={currentPetInfo.memo}
+        style={{color: !currentPetInfo ? '#C4C4C4' : '#000'}}
+        placeholder={'보리야 하루에 한번씩은 꼭 산책하자'}
       />
     </>
   );
@@ -40,7 +42,9 @@ const Title = styled.Text`
   margin-bottom: 40px;
 `;
 
-const PetText = styled.Text``;
+const PetText = styled.Text`
+  margin-bottom: 10px;
+`;
 const PetInput = styled(TextInput)`
   border-bottom-width: 1px;
   border-color: black;

@@ -1,27 +1,15 @@
 import React, {useRef} from 'react';
-import {Pressable, Text} from 'react-native';
-import {
-  Box,
-  FlatList,
-  Avatar,
-  HStack,
-  VStack,
-  Spacer,
-  Heading,
-  Center,
-  Flex,
-  HamburgerIcon,
-  Button,
-  View,
-} from 'native-base';
-
+import {Pressable, TouchableOpacity} from 'react-native';
+import {Avatar, HStack, VStack, Spacer, Center, View, Image} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import ActionButton from 'react-native-action-button';
 import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomSheetPet';
-
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
 import {formatDateString} from '../../../common/utils/DateUtils';
+import AddButton from '../../../common/asstes/UI/add_btn.png';
+import union from '../../../common/asstes/UI/rounded_edge_bottom_tab.png';
 
 function MyPetsUserInfoScreen({
   navigation,
@@ -68,11 +56,11 @@ function MyPetsUserInfoScreen({
   return (
     <Wrapper>
       <PetHeader>
-        <HamButton>
+        {/* <HamButton>
           <HamburgerIcon
             onPress={() => navigation.navigate('AccountSettingMenuScreen')}
           />
-        </HamButton>
+        </HamButton> */}
         <SettingButton>
           <Icon
             name="gear"
@@ -107,16 +95,17 @@ function MyPetsUserInfoScreen({
                 space={5}
                 justifyContent="space-between">
                 <Avatar
-                  size="48px"
+                  size="59px"
                   source={{
                     uri: item.avatarUrl,
                   }}
                 />
-
-                <VStack>
-                  <PetNameText>{item.name}</PetNameText>
-                  <PetBreedText>{item.kind}</PetBreedText>
-                </VStack>
+                <Center>
+                  <VStack>
+                    <PetNameText>{item.name}</PetNameText>
+                    <PetBreedText>{item.kind}</PetBreedText>
+                  </VStack>
+                </Center>
                 <Spacer />
                 <Center>
                   <PetDateText>
@@ -128,51 +117,59 @@ function MyPetsUserInfoScreen({
           </PetListVStack>
         </PetListView>
       )}
+      <BottomSheetPet
+        refRBSheet={refRBSheet}
+        onComplete={petInfo => onCompleteAddPet(petInfo)}
+      />
+
+      <PetAddButton onPress={() => onPressAddPetButton()} />
     </Wrapper>
   );
 }
 
 const Wrapper = styled.View`
-  margin: 0px 40px;
+  height: 100%;
+  flex: 1;
 `;
-
+const PetAddButton = styled(ActionButton)`
+  position: absolute;
+  z-index: 2;
+`;
 const PetHeader = styled.View`
   display: flex;
-  margin-top: 20px;
-  flex-direction: row;
+  margin: 20px 45px 0px 45px;
+  flex-direction: row-reverse;
   justify-content: space-between;
 `;
+
 const ProfileImgView = styled(Center)`
   margin-top: 40px;
 `;
-
 const ProfileText = styled.Text`
   margin-top: 15px
   color: #000;
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
 `;
 
 const PetListView = styled.View`
-  margin-top: 40px;
+  margin: 30px 45px 0px 45px;
 `;
 const PetListTitleText = styled.Text`
   color: #000;
 `;
-
 const PetNameText = styled.Text`
   color: #000;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 19px;
 `;
-
 const PetBreedText = styled.Text`
   color: #000;
-  font-size: 14px;
+  font-size: 13px;
 `;
 const PetDateText = styled.Text`
   color: #000;
-  font-size: 18px;
+  font-size: 16px;
 `;
 const PetListVStack = styled(VStack)``;
 
@@ -182,4 +179,9 @@ const HamButton = styled(Pressable)``;
 
 const SettingButton = styled(Pressable)``;
 
+// const ButtonHolder = styled(Image)`
+//   position: absolute;
+//   bottom: 0px;
+//   right: 0px;
+// `;
 export default MyPetsUserInfoScreen;
