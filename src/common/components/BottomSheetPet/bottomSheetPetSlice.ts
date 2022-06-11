@@ -4,11 +4,21 @@ import {
   setPetSpecies,
   reset as resetPetInfo,
   setPetName,
+  setPetGender,
+  setPetBirthDate,
+  setPetNeutered,
+  setPetMemo,
+  setPetFirstMeetDate,
 } from '../../../features/mypet/petInfoSlice';
 
 enum PetBottomSheets {
   PETSPECIES,
   PETNAME,
+  PETGENDER,
+  PETBIRTHDATE,
+  PETFIRSTMEETDATE,
+  PETNEUTERED,
+  PETMEMO,
 }
 
 interface BottomSheetPetState {
@@ -20,7 +30,7 @@ interface BottomSheetPetState {
 const initialState: BottomSheetPetState = {
   currentSheet: 0,
   currentSheetComplete: false,
-  maxSheetLength: 2,
+  maxSheetLength: 7,
 };
 
 const bottomSheetPetSlice = createSlice({
@@ -29,7 +39,7 @@ const bottomSheetPetSlice = createSlice({
   reducers: {
     reset: () => initialState,
     incrementSheet: state => {
-      if (state.currentSheet < state.maxSheetLength) {
+      if (state.currentSheet + 1 < state.maxSheetLength) {
         state.currentSheet += 1;
         state.currentSheetComplete = false;
       }
@@ -56,6 +66,31 @@ const bottomSheetPetSlice = createSlice({
           state.currentSheetComplete = false;
           return;
         }
+        state.currentSheetComplete = true;
+      }
+    },
+    [setPetGender.type]: (state, action) => {
+      if (state.currentSheet === PetBottomSheets.PETGENDER) {
+        state.currentSheetComplete = true;
+      }
+    },
+    [setPetBirthDate.type]: (state, action) => {
+      if (state.currentSheet === PetBottomSheets.PETBIRTHDATE) {
+        state.currentSheetComplete = true;
+      }
+    },
+    [setPetFirstMeetDate.type]: (state, action) => {
+      if (state.currentSheet === PetBottomSheets.PETFIRSTMEETDATE) {
+        state.currentSheetComplete = true;
+      }
+    },
+    [setPetNeutered.type]: (state, action) => {
+      if (state.currentSheet === PetBottomSheets.PETNEUTERED) {
+        state.currentSheetComplete = true;
+      }
+    },
+    [setPetMemo.type]: (state, action) => {
+      if (state.currentSheet === PetBottomSheets.PETMEMO) {
         state.currentSheetComplete = true;
       }
     },
