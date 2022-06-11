@@ -1,7 +1,6 @@
 import MyPet from './src/features/mypet/components';
 import Home from './src/features/home';
 import Calendar from './src/features/calendar/components';
-import SignIn from './src/features/auth/component/SignIn';
 import GuideScreen from './src/features/auth/component/GuideScreen';
 import * as React from 'react';
 import {useState} from 'react';
@@ -13,6 +12,8 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import {RootStackParamList, LoggedInTabParamList} from './src/common/models';
+
+import SignUpScreen from './src/features/auth/component/SignUpScreen';
 import styled from 'styled-components/native';
 import BottomTabBar from './src/common/components/BottomTabBar';
 import home from './src/common/asstes/icons/home.png';
@@ -65,12 +66,12 @@ function AppInner() {
             <Stack.Screen
               name="GuideScreen"
               component={GuideScreen}
-              options={{title: '회원가입', headerShown: false}}
+              options={{title: '가이드', headerShown: false}}
             />
             <Stack.Screen
-              name="SignIn"
-              component={SignIn}
-              options={{title: '로그인', headerShown: false}}
+              name="SignUpScreen"
+              component={SignUpScreen}
+              options={{title: '회원가입', headerShown: true}}
             />
           </Stack.Navigator>
         )}
