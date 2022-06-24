@@ -14,10 +14,11 @@ import {
   BottomSheetPetNeutered,
 } from './sheets';
 import {PetInfo} from '../../models';
-import {reset} from '../../../features/mypet/petInfoSlice';
+import {reset, selectPetInfo} from '../../../features/mypet/petInfoSlice';
 import {
   selectCurrentSheet,
   selectCurrentSheetComplete,
+  selectMaxSheetLength,
   incrementSheet,
 } from './bottomSheetPetSlice';
 import BottomSheetPetMemo from './sheets/BottomSheetPetMemo';
@@ -32,9 +33,11 @@ type Sheet = {
   component: ReactNode;
 };
 
-function BottomSheetPet({refRBSheet}: Props) {
+function BottomSheetPet(props: Props) {
   const currentSheet = useSelector(selectCurrentSheet);
   const currentSheetComplete = useSelector(selectCurrentSheetComplete);
+  const currentPetInfo = useSelector(selectPetInfo);
+  const maxSheetLength = useSelector(selectMaxSheetLength);
   const dispatch = useAppDispatch();
 
   const sheetList = [
@@ -47,18 +50,20 @@ function BottomSheetPet({refRBSheet}: Props) {
     <BottomSheetPetMemo />,
   ];
 
-  const onCloseBottomSheet = () => {
-    dispatch(reset());
-  };
   const onPressNextButton = () => {
     dispatch(incrementSheet());
+    if (currentSheet + 1 === maxSheetLength) {
+      props.refRBSheet.current?.close();
+      props.onComplete(currentPetInfo);
+    }
   };
 
   return (
     <RBSheet
-      ref={refRBSheet}
+      ref={props.refRBSheet}
       height={400}
-      onClose={() => onCloseBottomSheet()}
+      onOpen={() => dispatch(reset())}
+      onClose={() => dispatch(reset())}
       closeOnDragDown={true}
       customStyles={{
         wrapper: {

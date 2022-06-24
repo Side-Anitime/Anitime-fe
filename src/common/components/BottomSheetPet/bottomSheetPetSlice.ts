@@ -104,6 +104,9 @@ export const selectCurrentSheet = (state: RootState) =>
 export const selectCurrentSheetComplete = (state: RootState) =>
   state.bottomSheetPet.currentSheetComplete;
 
+export const selectMaxSheetLength = (state: RootState) =>
+  state.bottomSheetPet.maxSheetLength;
+
 export const {reset, incrementSheet, decrementSheet, setCurrentSheetComplete} =
   bottomSheetPetSlice.actions;
 

@@ -15,7 +15,7 @@ import {
 
 function BottomSheetPetSpecies() {
   const dispatch = useAppDispatch();
-  const currentSpecies = useSelector(selectPetInfo).species;
+  const currentSpecies = useSelector(selectPetInfo).type;
   const onSet = (petType: Species) => {
     dispatch(setPetSpecies(petType));
   };
@@ -26,9 +26,9 @@ function BottomSheetPetSpecies() {
         <Heading>어떤 동물을 키우시나요?</Heading>
       </Title>
       <Selection>
-        <DogSelection onPress={() => onSet('dog')}>
+        <DogSelection onPress={() => onSet('DOG')}>
           <DogAva
-            bgColor={currentSpecies === 'dog' ? '#FFA115' : '#F2F2F2'}
+            bgColor={currentSpecies === 'DOG' ? '#FFA115' : '#F2F2F2'}
             alignSelf="center"
             size="2xl"
             source={dogFace}
@@ -40,9 +40,9 @@ function BottomSheetPetSpecies() {
             <Heading>강아지</Heading>
           </PetText>
         </DogSelection>
-        <CatSelection onPress={() => onSet('cat')}>
+        <CatSelection onPress={() => onSet('CAT')}>
           <CatAva
-            bgColor={currentSpecies === 'cat' ? '#FFA115' : '#F2F2F2'}
+            bgColor={currentSpecies === 'CAT' ? '#FFA115' : '#F2F2F2'}
             alignSelf="center"
             size="2xl"
             source={catFace}>

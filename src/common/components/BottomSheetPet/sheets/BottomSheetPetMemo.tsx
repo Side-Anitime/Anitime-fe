@@ -25,7 +25,7 @@ function BottomSheetPetMemo() {
       <PetText>하고싶은 말이나 다짐을 써도 좋아요.</PetText>
       <PetInput
         onChangeText={text => onSet(text)}
-        value={currentPetInfo.memo}
+        value={currentPetInfo.shortIntroduce}
         style={{color: !currentPetInfo ? '#C4C4C4' : '#000'}}
         placeholder={'보리야 하루에 한번씩은 꼭 산책하자'}
       />

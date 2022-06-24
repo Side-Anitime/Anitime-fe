@@ -7,7 +7,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import ActionButton from 'react-native-action-button';
 import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomSheetPet';
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
-import {formatDateString} from '../../../common/utils/DateUtils';
+import {formatDateString} from '../../../common/utils/TimeUtils';
 import AddButton from '../../../common/asstes/UI/add_btn.png';
 import union from '../../../common/asstes/UI/rounded_edge_bottom_tab.png';
 
@@ -47,10 +47,8 @@ function MyPetsUserInfoScreen({
     refRBSheet.current?.open();
   };
 
-  const onCompleteAddPet = (petInfo: PetInfo) => {
-    console.log(`PET INFO: ${petInfo}`);
-    //TODO: send data
-    //TODO: navigate to REGISTERPETFORM screen
+  const onCompleteAddPet = (item: PetInfo) => {
+    navigation.navigate('PetInfoEditScreen', {item});
   };
 
   return (

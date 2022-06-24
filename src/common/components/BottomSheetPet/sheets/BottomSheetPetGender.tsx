@@ -27,13 +27,13 @@ function BottomSheetPetGender() {
       </Title>
       <Selection>
         <PetButton
-          color={currentPetInfo.gender === 'M' ? '#FFA115' : '#c4c4c4'}
-          onPress={() => onSet('M')}>
+          color={currentPetInfo.gender === 'MALE' ? '#FFA115' : '#c4c4c4'}
+          onPress={() => onSet('MALE')}>
           <PetText>남아</PetText>
         </PetButton>
         <PetButton
-          onPress={() => onSet('F')}
-          color={currentPetInfo.gender === 'F' ? '#FFA115' : '#c4c4c4'}>
+          onPress={() => onSet('FEMALE')}
+          color={currentPetInfo.gender === 'FEMALE' ? '#FFA115' : '#c4c4c4'}>
           <PetText>여아</PetText>
         </PetButton>
       </Selection>

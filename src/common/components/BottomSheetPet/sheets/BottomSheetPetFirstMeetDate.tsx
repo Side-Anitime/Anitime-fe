@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {Heading} from 'native-base';
 import DatePicker, {DatePickerProps} from 'react-native-date-picker';
-import {formatDate} from '../../../utils/DateUtils';
+import {formatDate} from '../../../utils/TimeUtils';
 import {useSelector} from 'react-redux';
 import {useAppDispatch} from '../../../../app/store';
 import {

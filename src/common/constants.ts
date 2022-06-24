@@ -16,6 +16,7 @@ export const korMonth = [
 export const CATEGORIES = ['생일', '병원', '산책', '모임', '기타'];
 
 export const EMAIL_REG_EXP = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+export const PETNAME_REG_EXP = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{0,10}$/;
 export const NICKNAME_REG_EXP = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,10}$/;
 export const PASSWORD_REG_EXP =
   /^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,20}$/;

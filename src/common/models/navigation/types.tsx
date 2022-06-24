@@ -4,6 +4,7 @@ import type {
 } from '@react-navigation/native';
 import type {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { PetInfo } from '../pet/types';
 
 /*
  *
@@ -32,6 +33,9 @@ export type MyPetStackParamList = {
   MyPetsUserInfoScreen: undefined;
   SettingMenuScreen: undefined;
   AccountSettingMenuScreen: undefined;
+  PetInfoEditScreen: {
+    item: PetInfo
+  }
 };
 
 /*
