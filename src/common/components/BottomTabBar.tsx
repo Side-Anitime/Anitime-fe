@@ -1,4 +1,5 @@
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {Center, Image} from 'native-base';
 import React from 'react';
 import {Pressable, Text, TouchableOpacity, View} from 'react-native';
@@ -52,7 +53,9 @@ export default function BottomTabBar(props: Props) {
               target: route.key,
             });
           };
-
+          if (options.tabBarStyle && options.tabBarStyle.display === 'none') {
+            return <View key={index}></View>;
+          }
           return (
             <BottomTabBarButton
               key={index}
