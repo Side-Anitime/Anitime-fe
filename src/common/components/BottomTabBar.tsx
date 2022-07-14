@@ -1,11 +1,9 @@
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {Center, Image} from 'native-base';
 import React from 'react';
-import {Pressable, Text, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
-import union from '../asstes/UI/rounded_edge_bottom_tab.png';
-import ActionButton from './ActionButton/ActionButton';
+import {union} from '../asstes';
 
 interface Props extends BottomTabBarProps {}
 
@@ -25,11 +23,12 @@ export default function BottomTabBar(props: Props) {
           const isFocused = props.state.index === index;
           const icon = options.tabBarIcon
             ? options.tabBarIcon({
-                focused: route.name === options.title,
+                focused: isFocused,
                 color: '',
                 size: 2,
               })
             : undefined;
+
           const onPress = () => {
             const event = props.navigation.emit({
               type: 'tabPress',
@@ -53,9 +52,9 @@ export default function BottomTabBar(props: Props) {
               target: route.key,
             });
           };
-          if (options.tabBarStyle && options.tabBarStyle.display === 'none') {
-            return <View key={index}></View>;
-          }
+          // if (options.tabBarStyle && options.tabBarStyle.display === 'none') {
+          //   return <View key={index}></View>;
+          // }
           return (
             <BottomTabBarButton
               key={index}
@@ -67,11 +66,11 @@ export default function BottomTabBar(props: Props) {
               onLongPress={onLongPress}>
               <Center>
                 {icon}
-                <Text
+                {/* <Text
                 // style={{color: isFocused ? '#673ab7' : '#222'}}
                 >
                   {label}
-                </Text>
+                </Text> */}
               </Center>
             </BottomTabBarButton>
           );
