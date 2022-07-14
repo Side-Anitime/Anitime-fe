@@ -1,21 +1,22 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Pressable, TouchableOpacity} from 'react-native';
 import {Avatar, HStack, VStack, Spacer, Center, View, Image} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import ActionButton from 'react-native-action-button';
 import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomSheetPet';
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
 import {formatDateString} from '../../../common/utils/TimeUtils';
-import AddButton from '../../../common/asstes/UI/add_btn.png';
-import union from '../../../common/asstes/UI/rounded_edge_bottom_tab.png';
+import {useSelector} from 'react-redux';
+import {useAppDispatch} from '../../../app/store';
+import {toggleLoading} from '../../loading/loadingSlice';
+import ActionButton from '../../../common/components/ActionButton/ActionButton';
 
 function MyPetsUserInfoScreen({
   navigation,
 }: MyPetStackScreenProps<'MyPetsUserInfoScreen'>) {
   const refRBSheet = useRef<RBSheet>(null);
-
+  const dispatch = useAppDispatch();
   const petList = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -48,8 +49,22 @@ function MyPetsUserInfoScreen({
   };
 
   const onCompleteAddPet = (item: PetInfo) => {
+    //TODO: LOADING SCREEN
+    dispatch(toggleLoading());
+    refRBSheet.current?.close();
     navigation.navigate('PetInfoEditScreen', {item});
+    dispatch(toggleLoading());
   };
+  // console.log('STATE', refRBSheet.current?.state?.modalVisible);
+  // if (isAction && !refRBSheet.current?.state?.modalVisible) {
+  //   refRBSheet.current?.open();
+  // }
+  // useEffect(() => {
+  //   if (isAction && !refRBSheet.current?.state?.modalVisible) {
+  //     refRBSheet.current?.open();
+  //     dispatch(toggleActionButton(false));
+  //   }
+  // });
 
   return (
     <Wrapper>
@@ -115,12 +130,11 @@ function MyPetsUserInfoScreen({
           </PetListVStack>
         </PetListView>
       )}
+      <ActionButton onPress={() => onPressAddPetButton()} />
       <BottomSheetPet
         refRBSheet={refRBSheet}
         onComplete={petInfo => onCompleteAddPet(petInfo)}
       />
-
-      <PetAddButton onPress={() => onPressAddPetButton()} />
     </Wrapper>
   );
 }
@@ -129,10 +143,7 @@ const Wrapper = styled.View`
   height: 100%;
   flex: 1;
 `;
-const PetAddButton = styled(ActionButton)`
-  position: absolute;
-  z-index: 2;
-`;
+
 const PetHeader = styled.View`
   display: flex;
   margin: 20px 45px 0px 45px;

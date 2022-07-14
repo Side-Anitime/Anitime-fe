@@ -53,7 +53,6 @@ function BottomSheetPet(props: Props) {
   const onPressNextButton = () => {
     dispatch(incrementSheet());
     if (currentSheet + 1 === maxSheetLength) {
-      props.refRBSheet.current?.close();
       props.onComplete(currentPetInfo);
     }
   };
@@ -63,7 +62,6 @@ function BottomSheetPet(props: Props) {
       ref={props.refRBSheet}
       height={400}
       onOpen={() => dispatch(reset())}
-      onClose={() => dispatch(reset())}
       closeOnDragDown={true}
       customStyles={{
         wrapper: {

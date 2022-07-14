@@ -94,6 +94,7 @@ const bottomSheetPetSlice = createSlice({
         state.currentSheetComplete = true;
       }
     },
+
     [resetPetInfo.type]: () => initialState,
   },
 });
