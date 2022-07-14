@@ -11,7 +11,6 @@ interface Props extends BottomTabBarProps {}
 export default function BottomTabBar(props: Props) {
   return (
     <Wrapper pointerEvents={'box-none'}>
-      {/* <TabImage source={union} alt="i" /> */}
       <ButtonWrapper>
         {props.state.routes.map((route, index) => {
           const {options, render} = props.descriptors[route.key];
@@ -75,10 +74,9 @@ export default function BottomTabBar(props: Props) {
           );
         })}
       </ButtonWrapper>
-      <ActionView pointerEvents={'none'}>
+      <UnionView pointerEvents={'none'}>
         <Image source={union} alt="배경" />
-        {/* <ActionButton ref={} /> */}
-      </ActionView>
+      </UnionView>
     </Wrapper>
   );
 }
@@ -97,7 +95,7 @@ const Wrapper = styled.View`
 const ButtonWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  background-color: transparent;
+  background-color: #f5f5f5;
   flex-grow: 1;
 `;
 const BottomTabBarButton = styled(TouchableOpacity)`
@@ -105,10 +103,7 @@ const BottomTabBarButton = styled(TouchableOpacity)`
   box-sizing: content-box;
   background-color: #f5f5f5;
 `;
-const ActionView = styled.View`
+const UnionView = styled.View`
   right: 0;
   background-color: transparent;
 `;
-// const ActionButton = styled.View`
-//   width: 100px;
-// `;
