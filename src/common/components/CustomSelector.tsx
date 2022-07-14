@@ -22,8 +22,9 @@ interface Props {
 function CustomSelector(props: Props) {
   return (
     <View style={styles.wrapper}>
-      {props.options.map(option => (
+      {props.options.map((option, index) => (
         <TouchableOpacity
+          key={index}
           onPress={() => {
             props.onChange(option.value);
           }}>
@@ -43,9 +44,7 @@ function CustomSelector(props: Props) {
 
 export default CustomSelector;
 
-CustomSelector.defaultProps = {
-  value: '남아',
-};
+CustomSelector.defaultProps = {};
 
 const styles = StyleSheet.create({
   wrapper: {

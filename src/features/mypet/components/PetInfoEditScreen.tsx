@@ -30,13 +30,10 @@ function PetInfoEditScreen(props: Props) {
     defaultValues: {
       name: currentPetInfo.name,
       birthDate: currentPetInfo.birthDate,
-      gender: 'MALE',
+      gender: currentPetInfo.gender,
+      neuterYn: currentPetInfo.neuterYn,
     },
   });
-
-  const onSubmit = () => {
-    console.log('SUBMIT', currentPetInfo);
-  };
 
   return (
     <KeyboardAwareScrollView style={{flex: 1}} extraScrollHeight={60}>
@@ -151,6 +148,18 @@ function PetInfoEditScreen(props: Props) {
             />
           )}
           name="neuterYn"
+        />
+        {errors.name && (
+          <Text style={styles.errorText}>{errors.name?.message}</Text>
+        )}
+      </View>
+
+      <View style={styles.inputWrapper}>
+        <Text style={styles.label}>소개글</Text>
+        <Controller
+          control={control}
+          render={({field: {onChange, onBlur, value}}) => <></>}
+          name="shortIntroduce"
         />
         {errors.name && (
           <Text style={styles.errorText}>{errors.name?.message}</Text>

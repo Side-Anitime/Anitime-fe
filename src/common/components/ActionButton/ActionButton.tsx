@@ -45,20 +45,19 @@ function ActionButton(props: Props) {
         };
 
   return (
-    <TouchableOpacity
-      style={{
-        ...styles.wrapper,
-        ...parentStyle,
-      }}
-      accessibilityRole="button"
-      onPress={onPress}>
-      <Image source={props.src ?? actionButton} alt="버튼" />
-    </TouchableOpacity>
+    <View style={styles.overlay} pointerEvents={'box-none'}>
+      <TouchableOpacity
+        style={parentStyle}
+        accessibilityRole="button"
+        onPress={onPress}>
+        <Image source={props.src ?? actionButton} alt="버튼" />
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
+  overlay: {
     position: 'absolute',
     bottom: 0,
     left: 0,
@@ -74,9 +73,9 @@ const styles = StyleSheet.create({
 export default ActionButton;
 
 ActionButton.defaultProps = {
-  offsetX: 30,
-  offsetY: 30,
   fixNativeFeedbackRadius: false,
   size: 56,
   degrees: 45,
+  offsetX: 30,
+  offsetY: 30,
 };

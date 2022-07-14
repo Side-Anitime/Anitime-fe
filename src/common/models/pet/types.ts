@@ -19,6 +19,7 @@ export type PetInfo = {
   shortIntroduce?: string;
   birthDate?: string;
   firstMeetDate?: string;
+  avatarUrl?: string;
   // regDate: string; // 등록날짜
   // avatarUrl?: string; // 이미지
 };

@@ -30,10 +30,10 @@ export type CalendarStackParamList = {
 };
 
 export type MyPetStackParamList = {
-  MyPetsUserInfoScreen: undefined;
+  PetListDisplayScreen: undefined;
+  PetInfoEditScreen?: undefined;
   SettingMenuScreen: undefined;
   AccountSettingMenuScreen: undefined;
-  PetInfoEditScreen?: undefined;
 };
 
 /*
