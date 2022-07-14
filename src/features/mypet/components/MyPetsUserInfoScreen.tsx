@@ -6,8 +6,7 @@ import styled from 'styled-components/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomSheetPet';
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
-import {formatDateString} from '../../../common/utils/TimeUtils';
-import {useSelector} from 'react-redux';
+import {formatStringToString} from '../../../common/utils/TimeUtils';
 import {useAppDispatch} from '../../../app/store';
 import {toggleLoading} from '../../loading/loadingSlice';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
@@ -52,19 +51,9 @@ function MyPetsUserInfoScreen({
     //TODO: LOADING SCREEN
     dispatch(toggleLoading());
     refRBSheet.current?.close();
-    navigation.navigate('PetInfoEditScreen', {item});
+    navigation.navigate('PetInfoEditScreen');
     dispatch(toggleLoading());
   };
-  // console.log('STATE', refRBSheet.current?.state?.modalVisible);
-  // if (isAction && !refRBSheet.current?.state?.modalVisible) {
-  //   refRBSheet.current?.open();
-  // }
-  // useEffect(() => {
-  //   if (isAction && !refRBSheet.current?.state?.modalVisible) {
-  //     refRBSheet.current?.open();
-  //     dispatch(toggleActionButton(false));
-  //   }
-  // });
 
   return (
     <Wrapper>
@@ -122,7 +111,7 @@ function MyPetsUserInfoScreen({
                 <Spacer />
                 <Center>
                   <PetDateText>
-                    {formatDateString(item.regDate, 'YYYY.MM.DD')}
+                    {formatStringToString(item.regDate, 'YYYY.MM.DD')}
                   </PetDateText>
                 </Center>
               </PetListHStack>
@@ -184,13 +173,6 @@ const PetListVStack = styled(VStack)``;
 
 const PetListHStack = styled(HStack)``;
 
-const HamButton = styled(Pressable)``;
-
 const SettingButton = styled(Pressable)``;
 
-// const ButtonHolder = styled(Image)`
-//   position: absolute;
-//   bottom: 0px;
-//   right: 0px;
-// `;
 export default MyPetsUserInfoScreen;

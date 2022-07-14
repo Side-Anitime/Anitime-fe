@@ -33,9 +33,7 @@ export type MyPetStackParamList = {
   MyPetsUserInfoScreen: undefined;
   SettingMenuScreen: undefined;
   AccountSettingMenuScreen: undefined;
-  PetInfoEditScreen?: {
-    item?: PetInfo;
-  };
+  PetInfoEditScreen?: undefined;
 };
 
 /*

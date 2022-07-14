@@ -1,13 +1,22 @@
 import RBSheet from 'react-native-raw-bottom-sheet';
 import React, {useRef} from 'react';
 import styled from 'styled-components/native';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+} from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import {formatDateToString} from '../utils/TimeUtils';
 
 interface Props {
   date?: Date;
   maximumDate?: Date;
   onDateChange: (date?: Date) => void;
+  labelStyle?: StyleProp<TextStyle>;
 }
 
 function CustomDatePicker(props: Props) {
@@ -20,12 +29,14 @@ function CustomDatePicker(props: Props) {
   return (
     <View style={styles.wrapper}>
       <Pressable style={styles.textWrapper} onPress={() => onOpenDatePicker()}>
-        <Text>{props.date ? 'ff' : 'nn'} </Text>
-        <Text style={styles.label}>년</Text>
-        <Text>{props.date ? 'ff' : 'nn'} </Text>
-        <Text style={styles.label}>월</Text>
-        <Text>{props.date ? 'ff' : 'nn'} </Text>
-        <Text style={styles.label}>일</Text>
+        <Text style={styles.text}>
+          {props.date ? formatDateToString(props.date, 'YYYY') : '__'}
+          <Text style={props.labelStyle}> {'년 '}</Text>
+          {props.date ? formatDateToString(props.date, 'MM') : '__'}
+          <Text style={props.labelStyle}> {'월 '}</Text>
+          {props.date ? formatDateToString(props.date, 'DD') : '__'}
+          <Text style={props.labelStyle}> {'일 '}</Text>
+        </Text>
       </Pressable>
       <RBSheet ref={refRBSheet}>
         <DatePicker
@@ -45,17 +56,19 @@ function CustomDatePicker(props: Props) {
 
 export default CustomDatePicker;
 
+CustomDatePicker.defaultProps = {
+  labelStyle: {
+    fontWeight: 'bold',
+  },
+};
+
 const styles = StyleSheet.create({
   wrapper: {
     display: 'flex',
   },
-  datePicker: {
-    height: 70,
-  },
-  textWrapper: {
-    flexDirection: 'row',
-  },
-  label: {
+  datePicker: {},
+  textWrapper: {},
+  text: {
     fontSize: 16,
   },
 });

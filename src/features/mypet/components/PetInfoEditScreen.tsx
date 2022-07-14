@@ -10,15 +10,16 @@ import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
 import {selectPetInfo, setPetBirthDate, setPetName} from '../petInfoSlice';
 import {useAppDispatch} from '../../../app/store';
 
-import {formatDate} from '../../../common/utils/TimeUtils';
+import {formatDateToString} from '../../../common/utils/TimeUtils';
 import CustomDatePicker from '../../../common/components/CustomDatePicker';
+import CustomSelector from '../../../common/components/CustomSelector';
 
 interface Props extends MyPetStackScreenProps<'PetInfoEditScreen'> {}
 
 function PetInfoEditScreen(props: Props) {
   const nameRef = useRef<TextInput | null>(null);
   const dispatch = useAppDispatch();
-  const currentPetInfo = useSelector(selectPetInfo);
+  const currentPetInfo: PetInfo = useSelector(selectPetInfo);
 
   const {
     control,
@@ -27,13 +28,16 @@ function PetInfoEditScreen(props: Props) {
   } = useForm<PetInfo>({
     mode: 'onBlur',
     defaultValues: {
-      name: props.route.params?.item?.name,
+      name: currentPetInfo.name,
+      birthDate: currentPetInfo.birthDate,
+      gender: 'MALE',
     },
   });
 
   const onSubmit = () => {
     console.log('SUBMIT', currentPetInfo);
   };
+
   return (
     <KeyboardAwareScrollView style={{flex: 1}} extraScrollHeight={60}>
       <View style={styles.inputWrapper}>
@@ -75,19 +79,28 @@ function PetInfoEditScreen(props: Props) {
         <Controller
           control={control}
           rules={{
-            required: '이름을 입력해주세요',
+            required: '성별을 선택해주세요',
             pattern: {
               value: PETNAME_REG_EXP,
               message: '올바른 형식이 아닙니다.',
             },
           }}
           render={({field: {onChange, onBlur, value}}) => (
-            <>
-              <Text style={styles.labelSelect}>남아</Text>
-              <Text style={styles.labelSelect}>여아</Text>
-            </>
+            <CustomSelector
+              onChange={gender => {
+                onChange(gender);
+              }}
+              value={value}
+              options={[
+                {value: 'MALE', label: '남아'},
+                {
+                  value: 'FEMALE',
+                  label: '여아',
+                },
+              ]}
+            />
           )}
-          name="name"
+          name="gender"
         />
         {errors.name && (
           <Text style={styles.errorText}>{errors.name?.message}</Text>
@@ -97,22 +110,47 @@ function PetInfoEditScreen(props: Props) {
         <Text style={styles.label}>생일</Text>
         <Controller
           control={control}
-          rules={{
-            required: '이름을 입력해주세요',
-            pattern: {
-              value: PETNAME_REG_EXP,
-              message: '올바른 형식이 아닙니다.',
-            },
-          }}
           render={({field: {onChange, onBlur, value}}) => (
             <CustomDatePicker
               maximumDate={new Date()}
+              date={value ? new Date(value) : undefined}
               onDateChange={date => {
-                dispatch(setPetBirthDate(formatDate(date)));
+                console.log('CURRENT', formatDateToString(date));
+                dispatch(setPetBirthDate(formatDateToString(date)));
+                onChange(formatDateToString(date));
               }}
             />
           )}
-          name="name"
+          name="birthDate"
+        />
+        {errors.birthDate && (
+          <Text style={styles.errorText}>{errors.name?.message}</Text>
+        )}
+      </View>
+      <View style={styles.inputWrapper}>
+        <Text style={styles.label}>중성화 여부</Text>
+        <Controller
+          control={control}
+          render={({field: {onChange, onBlur, value}}) => (
+            <CustomSelector
+              onChange={neuterYn => {
+                onChange(neuterYn);
+              }}
+              value={value}
+              options={[
+                {value: 'Y', label: '예'},
+                {
+                  value: 'N',
+                  label: '아니오',
+                },
+                {
+                  value: '',
+                  label: '몰라요',
+                },
+              ]}
+            />
+          )}
+          name="neuterYn"
         />
         {errors.name && (
           <Text style={styles.errorText}>{errors.name?.message}</Text>
@@ -133,10 +171,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-  labelSelect: {
-    fontSize: 16,
-    paddingRight: 50,
-  },
+
   errorText: {
     fontSize: 12,
     fontWeight: '400',
