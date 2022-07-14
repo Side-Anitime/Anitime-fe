@@ -1,24 +1,17 @@
-import React, {useRef} from 'react';
-import {
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useSelector} from 'react-redux';
-import {SignUpScreenProps} from '../../../common/models/navigation/types';
 import {useForm, Controller} from 'react-hook-form';
 import {PETNAME_REG_EXP} from '../../../common/constants';
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
 
-import {selectPetInfo, setPetName} from '../petInfoSlice';
+import {selectPetInfo, setPetBirthDate, setPetName} from '../petInfoSlice';
 import {useAppDispatch} from '../../../app/store';
-import {HStack, VStack} from 'native-base';
-import {flexbox} from 'native-base/lib/typescript/theme/styled-system';
+
+import {formatDate} from '../../../common/utils/TimeUtils';
+import CustomDatePicker from '../../../common/components/CustomDatePicker';
 
 interface Props extends MyPetStackScreenProps<'PetInfoEditScreen'> {}
 
@@ -34,17 +27,17 @@ function PetInfoEditScreen(props: Props) {
   } = useForm<PetInfo>({
     mode: 'onBlur',
     defaultValues: {
-      name: props.route.params.item.name,
+      name: props.route.params?.item?.name,
     },
   });
+
   const onSubmit = () => {
-    console.log('SUBMIT');
+    console.log('SUBMIT', currentPetInfo);
   };
   return (
-    <KeyboardAwareScrollView
-      style={{flex: 1, margin: 20}}
-      extraScrollHeight={60}>
-      <View>
+    <KeyboardAwareScrollView style={{flex: 1}} extraScrollHeight={60}>
+      <View style={styles.inputWrapper}>
+        <Text style={styles.label}>이름</Text>
         <Controller
           control={control}
           rules={{
@@ -55,24 +48,21 @@ function PetInfoEditScreen(props: Props) {
             },
           }}
           render={({field: {onChange, onBlur, value}}) => (
-            <HStack>
-              <Text style={styles.label}>이름</Text>
-              <TextInput
-                style={styles.textInput}
-                onBlur={onBlur}
-                placeholder="이름을 입력해주세요"
-                placeholderTextColor="#9F9F9F"
-                onChangeText={(name: string) => {
-                  dispatch(setPetName(name));
-                  onChange(name);
-                }}
-                value={value}
-                ref={nameRef}
-                textContentType="name"
-                clearButtonMode="while-editing"
-                returnKeyType="next"
-              />
-            </HStack>
+            <TextInput
+              style={styles.textInput}
+              onBlur={onBlur}
+              placeholder="이름을 입력해주세요"
+              placeholderTextColor="#9F9F9F"
+              onChangeText={(name: string) => {
+                dispatch(setPetName(name));
+                onChange(name);
+              }}
+              value={value}
+              ref={nameRef}
+              textContentType="name"
+              clearButtonMode="while-editing"
+              returnKeyType="next"
+            />
           )}
           name="name"
         />
@@ -80,7 +70,7 @@ function PetInfoEditScreen(props: Props) {
           <Text style={styles.errorText}>{errors.name?.message}</Text>
         )}
       </View>
-      <View>
+      <View style={styles.inputWrapper}>
         <Text style={styles.label}>성별</Text>
         <Controller
           control={control}
@@ -92,10 +82,35 @@ function PetInfoEditScreen(props: Props) {
             },
           }}
           render={({field: {onChange, onBlur, value}}) => (
-            <HStack style={{display: 'flex', justifyContent: 'space-evenly'}}>
-              <Text>남아</Text>
-              <Text>여아</Text>
-            </HStack>
+            <>
+              <Text style={styles.labelSelect}>남아</Text>
+              <Text style={styles.labelSelect}>여아</Text>
+            </>
+          )}
+          name="name"
+        />
+        {errors.name && (
+          <Text style={styles.errorText}>{errors.name?.message}</Text>
+        )}
+      </View>
+      <View style={styles.inputWrapper}>
+        <Text style={styles.label}>생일</Text>
+        <Controller
+          control={control}
+          rules={{
+            required: '이름을 입력해주세요',
+            pattern: {
+              value: PETNAME_REG_EXP,
+              message: '올바른 형식이 아닙니다.',
+            },
+          }}
+          render={({field: {onChange, onBlur, value}}) => (
+            <CustomDatePicker
+              maximumDate={new Date()}
+              onDateChange={date => {
+                dispatch(setPetBirthDate(formatDate(date)));
+              }}
+            />
           )}
           name="name"
         />
@@ -109,13 +124,18 @@ function PetInfoEditScreen(props: Props) {
 
 const styles = StyleSheet.create({
   textInput: {
-    padding: 5,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
 
+  inputWrapper: {flexDirection: 'row', padding: 20},
   label: {
+    paddingRight: 50,
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  labelSelect: {
+    fontSize: 16,
+    paddingRight: 50,
   },
   errorText: {
     fontSize: 12,

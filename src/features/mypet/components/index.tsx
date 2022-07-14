@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MyPetsUserInfoScreen from './MyPetsUserInfoScreen';
 import SettingMenuScreen from './SettingMenuScreen';
 import AccountSettingMenuScreen from './AccountSettingMenuScreen';
-import PetInfoEditScreen from "./PetInfoEditScreen"
+import PetInfoEditScreen from './PetInfoEditScreen';
 import {MyPetStackParamList} from '../../../common/models';
 
 const Stack = createNativeStackNavigator<MyPetStackParamList>();
@@ -13,7 +13,7 @@ function MyPet() {
     <Stack.Navigator initialRouteName="MyPetsUserInfoScreen">
       <Stack.Screen
         name="MyPetsUserInfoScreen"
-        component={MyPetsUserInfoScreen}
+        component={PetInfoEditScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
