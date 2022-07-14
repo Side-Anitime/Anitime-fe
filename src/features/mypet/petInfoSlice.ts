@@ -3,8 +3,8 @@ import {RootState} from '../../app/rootReducer';
 import {PetInfo} from '../../common/models';
 
 const initialState: PetInfo = {
-  id: '',
-  regDate: '',
+  petId: '',
+  userToken: '',
 };
 
 const petInfoSlice = createSlice({
@@ -13,8 +13,8 @@ const petInfoSlice = createSlice({
   reducers: {
     reset: () => initialState,
     setPetInfo: (state, {payload}: PayloadAction<PetInfo>) => payload,
-    setPetSpecies: (state, {payload}: PayloadAction<PetInfo['species']>) => {
-      state.species = payload;
+    setPetSpecies: (state, {payload}: PayloadAction<PetInfo['type']>) => {
+      state.type = payload;
     },
     setPetName: (state, {payload}: PayloadAction<PetInfo['name']>) => {
       state.name = payload;
@@ -34,14 +34,14 @@ const petInfoSlice = createSlice({
     ) => {
       state.firstMeetDate = payload;
     },
-    setPetNeutered: (
-      state,
-      {payload}: PayloadAction<PetInfo['isNeutered']>,
-    ) => {
-      state.isNeutered = payload;
+    setPetNeutered: (state, {payload}: PayloadAction<PetInfo['neuterYn']>) => {
+      state.neuterYn = payload;
     },
-    setPetMemo: (state, {payload}: PayloadAction<PetInfo['memo']>) => {
-      state.memo = payload;
+    setPetMemo: (
+      state,
+      {payload}: PayloadAction<PetInfo['shortIntroduce']>,
+    ) => {
+      state.shortIntroduce = payload;
     },
   },
   extraReducers: builder => {},

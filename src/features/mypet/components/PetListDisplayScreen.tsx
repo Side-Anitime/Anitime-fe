@@ -1,56 +1,36 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Pressable, TouchableOpacity} from 'react-native';
 import {Avatar, HStack, VStack, Spacer, Center, View, Image} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import ActionButton from 'react-native-action-button';
 import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomSheetPet';
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
-import {formatDateString} from '../../../common/utils/DateUtils';
-import AddButton from '../../../common/asstes/UI/add_btn.png';
-import union from '../../../common/asstes/UI/rounded_edge_bottom_tab.png';
+import {formatStringToString} from '../../../common/utils/TimeUtils';
+import {useAppDispatch} from '../../../app/store';
+import {toggleLoading} from '../../loading/loadingSlice';
+import ActionButton from '../../../common/components/ActionButton/ActionButton';
 
-function MyPetsUserInfoScreen({
+function PetListDisplayScreen({
   navigation,
-}: MyPetStackScreenProps<'MyPetsUserInfoScreen'>) {
+}: MyPetStackScreenProps<'PetListDisplayScreen'>) {
   const refRBSheet = useRef<RBSheet>(null);
+  const dispatch = useAppDispatch();
+  const petList: Array<PetInfo> = [];
 
-  const petList = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      name: '보리',
-      regDate: '2022-03-01',
-      kind: '푸들',
-      avatarUrl:
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      name: '옥수수',
-      regDate: '2022-03-01',
-      kind: '진돗개',
-      avatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyEaZqT3fHeNrPGcnjLLX1v_W4mvBlgpwxnA&usqp=CAU',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f64',
-      name: '쌀',
-      regDate: '2022-03-01',
-      kind: '똥개',
-      avatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyEaZqT3fHeNrPGcnjLLX1v_W4mvBlgpwxnA&usqp=CAU',
-    },
-  ];
-
+  const onPressSettingButton = () => {
+    navigation.navigate('SettingMenuScreen');
+  };
   const onPressAddPetButton = () => {
     refRBSheet.current?.open();
   };
 
-  const onCompleteAddPet = (petInfo: PetInfo) => {
-    console.log(`PET INFO: ${petInfo}`);
-    //TODO: send data
-    //TODO: navigate to REGISTERPETFORM screen
+  const onCompleteAddPet = () => {
+    //TODO: LOADING SCREEN
+    dispatch(toggleLoading());
+    // refRBSheet.current?.close();
+    navigation.navigate('PetInfoEditScreen');
+    dispatch(toggleLoading());
   };
 
   return (
@@ -103,13 +83,13 @@ function MyPetsUserInfoScreen({
                 <Center>
                   <VStack>
                     <PetNameText>{item.name}</PetNameText>
-                    <PetBreedText>{item.kind}</PetBreedText>
+                    <PetBreedText>{item.petKindId}</PetBreedText>
                   </VStack>
                 </Center>
                 <Spacer />
                 <Center>
                   <PetDateText>
-                    {formatDateString(item.regDate, 'YYYY.MM.DD')}
+                    {formatStringToString(item.birthDate, 'YYYY.MM.DD')}
                   </PetDateText>
                 </Center>
               </PetListHStack>
@@ -117,12 +97,11 @@ function MyPetsUserInfoScreen({
           </PetListVStack>
         </PetListView>
       )}
+      <ActionButton onPress={() => onPressAddPetButton()} />
       <BottomSheetPet
         refRBSheet={refRBSheet}
-        onComplete={petInfo => onCompleteAddPet(petInfo)}
+        onComplete={petInfo => onCompleteAddPet()}
       />
-
-      <PetAddButton onPress={() => onPressAddPetButton()} />
     </Wrapper>
   );
 }
@@ -131,10 +110,7 @@ const Wrapper = styled.View`
   height: 100%;
   flex: 1;
 `;
-const PetAddButton = styled(ActionButton)`
-  position: absolute;
-  z-index: 2;
-`;
+
 const PetHeader = styled.View`
   display: flex;
   margin: 20px 45px 0px 45px;
@@ -175,13 +151,6 @@ const PetListVStack = styled(VStack)``;
 
 const PetListHStack = styled(HStack)``;
 
-const HamButton = styled(Pressable)``;
-
 const SettingButton = styled(Pressable)``;
 
-// const ButtonHolder = styled(Image)`
-//   position: absolute;
-//   bottom: 0px;
-//   right: 0px;
-// `;
-export default MyPetsUserInfoScreen;
+export default PetListDisplayScreen;

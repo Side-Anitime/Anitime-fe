@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {Heading} from 'native-base';
 import DatePicker, {DatePickerProps} from 'react-native-date-picker';
-import {formatDate} from '../../../utils/DateUtils';
+import {formatDateToString} from '../../../utils/TimeUtils';
 import {useSelector} from 'react-redux';
 import {useAppDispatch} from '../../../../app/store';
 import {
@@ -14,7 +14,7 @@ function BottomSheetPetFirstMeetDate() {
   const dispatch = useAppDispatch();
   const currentPetInfo = useSelector(selectPetInfo);
   const onSet = (petFirstMeetDate: Date) => {
-    const formattedDate = formatDate(petFirstMeetDate);
+    const formattedDate = formatDateToString(petFirstMeetDate);
     dispatch(setPetFirstMeetDate(formattedDate));
   };
 

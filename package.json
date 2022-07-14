@@ -17,6 +17,7 @@
     "@react-navigation/native-stack": "^6.4.0",
     "@reduxjs/toolkit": "^1.7.2",
     "axios": "^0.26.0",
+    "dayjs": "^1.11.3",
     "deepmerge": "^4.2.2",
     "moment": "^2.29.3",
     "native-base": "3.3.5",
