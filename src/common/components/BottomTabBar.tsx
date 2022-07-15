@@ -3,13 +3,14 @@ import {Center, Image} from 'native-base';
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
-import {union} from '../asstes';
+import {union, buttonHolder} from '../asstes';
 
 interface Props extends BottomTabBarProps {}
 
 export default function BottomTabBar(props: Props) {
   return (
     <Wrapper pointerEvents={'box-none'}>
+      <ButtonHolder alt="dfdsf" source={buttonHolder} />
       <ButtonWrapper>
         {props.state.routes.map((route, index) => {
           const {options, render} = props.descriptors[route.key];
@@ -76,13 +77,14 @@ export default function BottomTabBar(props: Props) {
           );
         })}
       </ButtonWrapper>
-      <UnionView pointerEvents={'none'}>
-        <Image source={union} alt="배경" />
-      </UnionView>
+      <Spacer />
     </Wrapper>
   );
 }
-
+const Spacer = styled.View`
+  width: 120px;
+  height: 60px;
+`;
 const Wrapper = styled.View`
   position: absolute;
   flex-direction: row;
@@ -90,22 +92,30 @@ const Wrapper = styled.View`
   left: 0px;
   right: 0px;
   bottom: 0px;
-  height: 81.5px;
   background-color: transparent;
 `;
-
+const ButtonHolder = styled(Image)`
+  position: absolute;
+  bottom: 0px;
+  height: 62px;
+  width: 100%;
+`;
 const ButtonWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
   background-color: #f5f5f5;
   flex-grow: 1;
+
+  background-color: transparent;
 `;
 const BottomTabBarButton = styled(TouchableOpacity)`
   margin: auto;
   box-sizing: content-box;
   background-color: #f5f5f5;
+  background-color: transparent;
 `;
 const UnionView = styled.View`
   right: 0;
+
   background-color: transparent;
 `;

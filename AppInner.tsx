@@ -33,7 +33,7 @@ const MyTheme = {
   colors: {
     ...DefaultTheme.colors,
     primary: '#FFB933',
-    background: 'white',
+    background: '#FAFAFA',
   },
 };
 
@@ -50,6 +50,7 @@ function AppInner() {
               component={Home}
               options={{
                 title: '홈',
+                headerShown: false,
                 tabBarIcon: ({focused, color, size}) => {
                   return <Image source={home} alt="홈" />;
                 },
