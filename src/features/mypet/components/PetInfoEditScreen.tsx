@@ -13,6 +13,7 @@ import {useAppDispatch} from '../../../app/store';
 import {formatDateToString} from '../../../common/utils/TimeUtils';
 import CustomDatePicker from '../../../common/components/CustomDatePicker';
 import CustomSelector from '../../../common/components/CustomSelector';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 interface Props extends MyPetStackScreenProps<'PetInfoEditScreen'> {}
 
@@ -34,7 +35,23 @@ function PetInfoEditScreen(props: Props) {
       neuterYn: currentPetInfo.neuterYn,
     },
   });
-
+  // React.useLayoutEffect(() => {
+  //   const routeName = getFocusedRouteNameFromRoute(props.route);
+  //   console.log('rroute', routeName);
+  //   if (routeName === 'Group') {
+  //     props.navigation.setOptions({
+  //       tabBarStyle: {
+  //         display: 'none',
+  //       },
+  //     });
+  //   } else {
+  //     props.navigation.setOptions({
+  //       tabBarStyle: {
+  //         display: 'none',
+  //       },
+  //     });
+  //   }
+  // }, [props.navigation, props.route]);
   return (
     <KeyboardAwareScrollView style={{flex: 1}} extraScrollHeight={60}>
       <View style={styles.inputWrapper}>

@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {Pressable, TouchableOpacity} from 'react-native';
+import {Pressable, Text, TouchableOpacity} from 'react-native';
 import {Avatar, HStack, VStack, Spacer, Center, View, Image} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components/native';
@@ -10,13 +10,15 @@ import {formatStringToString} from '../../../common/utils/TimeUtils';
 import {useAppDispatch} from '../../../app/store';
 import {toggleLoading} from '../../loading/loadingSlice';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
+import {useQuery} from 'react-query';
+import axios from 'axios';
+import {fetchPetList} from '../../../repositories/PetRepository';
 
 function PetListDisplayScreen({
   navigation,
 }: MyPetStackScreenProps<'PetListDisplayScreen'>) {
   const refRBSheet = useRef<RBSheet>(null);
   const dispatch = useAppDispatch();
-  const petList: Array<PetInfo> = [];
 
   const onPressSettingButton = () => {
     navigation.navigate('SettingMenuScreen');
@@ -33,14 +35,15 @@ function PetListDisplayScreen({
     dispatch(toggleLoading());
   };
 
+  const {status, data, error, isFetching} = fetchPetList();
+
+  useEffect(() => {
+    refRBSheet.current?.close();
+  }, [refRBSheet.current?.state]);
+
   return (
     <Wrapper>
       <PetHeader>
-        {/* <HamButton>
-          <HamburgerIcon
-            onPress={() => navigation.navigate('AccountSettingMenuScreen')}
-          />
-        </HamButton> */}
         <SettingButton>
           <Icon
             name="gear"
@@ -52,24 +55,19 @@ function PetListDisplayScreen({
       </PetHeader>
       <View mt={4} ml={4}>
         <ProfileImgView>
-          <Avatar
-            bg="purple.600"
-            alignSelf="center"
-            size="2xl"
-            source={{
-              uri: 'https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80',
-            }}
-          />
+          <Avatar bg="purple.600" alignSelf="center" size="2xl" />
           <ProfileText>닉네임</ProfileText>
         </ProfileImgView>
       </View>
-      {petList?.length < 1 ? (
-        <PetListView></PetListView>
+      {status === 'loading' ? (
+        <Text>Loading</Text>
+      ) : status === 'error' ? (
+        <span>Error: {'ERROR'}</span>
       ) : (
         <PetListView>
           <PetListVStack space={5}>
             <PetListTitleText>반려동물 관리</PetListTitleText>
-            {petList.map((item, index) => (
+            {data?.data?.map((item, index) => (
               <PetListHStack
                 key={index}
                 space={5}
