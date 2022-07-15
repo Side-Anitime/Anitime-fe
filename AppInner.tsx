@@ -50,6 +50,9 @@ function AppInner() {
               component={Home}
               options={{
                 title: '홈',
+                tabBarIcon: ({focused, color, size}) => {
+                  return <Image source={home} alt="홈" />;
+                },
               }}
             />
             <Tab.Screen
@@ -58,6 +61,9 @@ function AppInner() {
               options={{
                 title: '캘린더',
                 headerShown: false,
+                tabBarIcon: ({focused, color, size}) => {
+                  return <Image source={schedule} alt="캘린더" />;
+                },
               }}
             />
             <Tab.Screen
@@ -66,6 +72,9 @@ function AppInner() {
               options={{
                 title: '마이펫',
                 headerShown: false,
+                tabBarIcon: ({focused, color, size}) => {
+                  return <Image source={mypet} alt="마이펫" />;
+                },
               }}
             />
           </BottomTab>
