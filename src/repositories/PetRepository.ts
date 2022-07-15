@@ -1,15 +1,15 @@
 import axios from 'axios';
-import React from 'react';
+import Config from 'react-native-config';
 import {useQuery} from 'react-query';
-import {PetInfo} from '../common/models';
 import PetListResponse from '../common/models/pet/response';
 
-const temp =
-  'http://3.34.198.47:8888/anitime/pet/list/{userToken}?userToken=testtoken';
+const tempUserToken = 'testtoken';
 
 export function fetchPetList() {
   return useQuery(['pet'], async () => {
-    const {data}: PetListResponse = await axios.get(temp);
+    const {data}: PetListResponse = await axios.get(
+      `${Config.API_HOST}/pet/list/{userToken}?userToken=${tempUserToken}`,
+    );
 
     return data;
   });
