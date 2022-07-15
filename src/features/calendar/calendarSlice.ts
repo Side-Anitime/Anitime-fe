@@ -1,4 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
+import axios from 'axios';
+import Config from 'react-native-config';
+
+export const getColors = async () => {
+  const res = await axios.get(`${Config.API_HOST}/plan/colors`);
+  return res.data;
+};
 
 const initialState = {
   title: '',
