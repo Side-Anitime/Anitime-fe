@@ -24,24 +24,32 @@ interface Props {
   degrees?: number;
 }
 
-function ActionButton(props: Props) {
-  const onPress = () => {
-    props.onPress();
+function ActionButton({
+  onPress,
+  fixNativeFeedbackRadius,
+  offsetX,
+  offsetY,
+  size,
+  zIndex,
+  src,
+}: Props) {
+  const handleOnPress = () => {
+    onPress();
   };
 
   const parentStyle =
-    isAndroid && props.fixNativeFeedbackRadius
+    isAndroid && fixNativeFeedbackRadius
       ? {
-          right: props.offsetX,
-          zIndex: props.zIndex,
-          borderRadius: props.size ? props.size / 2 : undefined,
-          width: props.size,
-          paddingVertical: props.offsetY,
+          right: offsetX,
+          zIndex: zIndex,
+          borderRadius: size ? size / 2 : undefined,
+          width: size,
+          paddingVertical: offsetY,
         }
       : {
-          marginHorizontal: props.offsetX,
-          zIndex: props.zIndex,
-          paddingVertical: props.offsetY,
+          marginHorizontal: offsetX,
+          zIndex: zIndex,
+          paddingVertical: offsetY,
         };
 
   return (
@@ -49,8 +57,8 @@ function ActionButton(props: Props) {
       <TouchableOpacity
         style={parentStyle}
         accessibilityRole="button"
-        onPress={onPress}>
-        <Image source={props.src ?? actionButton} alt="버튼" />
+        onPress={handleOnPress}>
+        <Image source={src ?? actionButton} alt="버튼" />
       </TouchableOpacity>
     </View>
   );
