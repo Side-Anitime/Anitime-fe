@@ -2,7 +2,21 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import React from 'react';
 import styled from 'styled-components/native';
 
-function BottomSheet({children, title, titlePosition, height, refRBSheet}) {
+interface BottomSheetProps {
+  children: React.ReactNode;
+  title: string;
+  titlePosition?: string;
+  height?: number;
+  refRBSheet?: React.RefObject<RBSheet>;
+}
+
+function BottomSheet({
+  children,
+  title,
+  titlePosition,
+  height,
+  refRBSheet,
+}: BottomSheetProps) {
   return (
     <RBSheet
       height={height}

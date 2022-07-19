@@ -7,6 +7,8 @@ import {CATEGORIES, korMonth} from '../../../common/constants';
 import BottomSheet from '../../../common/components/BottomSheet';
 import {CalendarStackScreenProps} from '../../../common/models';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import styled from 'styled-components/native';
 
 LocaleConfig.locales.kr = {
   monthNames: korMonth,
@@ -43,7 +45,7 @@ function CalendarScreen({
   const [curDay, setCurDay] = useState('');
   const [selectedDay, setSelectedDay] = useState({});
 
-  const refRBSheet = useRef();
+  const refRBSheet = useRef<RBSheet>(null);
 
   const onDayPress = day => {
     setCurDay(day.dateString);
@@ -57,11 +59,7 @@ function CalendarScreen({
   };
 
   const onPressActionButton = () => {
-    refRBSheet.current.open();
-  };
-
-  const handleOnPressBottomSheet = item => {
-    navigation.navigate('CalendarFormScreen', {item});
+    refRBSheet.current?.open();
   };
 
   return (
@@ -78,11 +76,18 @@ function CalendarScreen({
       <BottomSheet
         title="말머리 선택"
         height={400}
-        list={CATEGORIES}
-        refRBSheet={refRBSheet}
-        handleOnPress={handleOnPressBottomSheet}
-      />
+        titlePosition={'center'}
+        refRBSheet={refRBSheet}>
+        {CATEGORIES.map(item => (
+          <ListText>{item}</ListText>
+        ))}
+      </BottomSheet>
     </View>
   );
 }
+
+const ListText = styled.Text`
+  padding: 10px;
+`;
+
 export default CalendarScreen;
