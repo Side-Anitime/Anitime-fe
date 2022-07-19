@@ -1,6 +1,5 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import MyPetsUserInfoScreen from './PetListDisplayScreen';
 import SettingMenuScreen from './SettingMenuScreen';
 import AccountSettingMenuScreen from './AccountSettingMenuScreen';
 import PetInfoEditScreen from './PetInfoEditScreen';

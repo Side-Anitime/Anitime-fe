@@ -17,3 +17,6 @@ export type {MyPetStackScreenProps} from './navigation/types';
 export type {Species} from './pet/types';
 export type {Gender} from './pet/types';
 export type {PetInfo} from './pet/types';
+export type {default as PetListResponse} from './pet/response';
+export type {default as PetListParams} from './pet/params/PetListParams';
+export type {default as PetKindParams} from './pet/params/PetKindParams';
