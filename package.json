@@ -16,6 +16,8 @@
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.4.0",
     "@reduxjs/toolkit": "^1.7.2",
+    "@rneui/base": "^4.0.0-rc.5",
+    "@rneui/themed": "^4.0.0-rc.5",
     "axios": "^0.26.0",
     "dayjs": "^1.11.3",
     "deepmerge": "^4.2.2",
