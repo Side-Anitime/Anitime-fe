@@ -9,6 +9,7 @@ import {CalendarStackScreenProps} from '../../../common/models';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import styled from 'styled-components/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 LocaleConfig.locales.kr = {
   monthNames: korMonth,
@@ -31,12 +32,12 @@ const walk = {key: 'walk', color: 'blue'};
 const workout = {key: 'workout', color: 'green'};
 
 const dummyData = {
-  '2022-04-01': {
+  '2022-08-01': {
     name: '병원',
     dots: [hospital],
   },
-  '2022-04-02': {name: ['산책', '병원'], dots: [walk, workout], disabled: true},
-  '2022-04-03': {dots: [walk, workout]},
+  '2022-08-02': {name: ['산책', '병원'], dots: [walk, workout], disabled: true},
+  '2022-08-03': {dots: [walk, workout]},
 };
 
 function CalendarScreen({
@@ -62,6 +63,7 @@ function CalendarScreen({
     refRBSheet.current?.open();
   };
 
+  const Stack = createNativeStackNavigator();
   return (
     <View style={{flex: 1}}>
       <Calendar
@@ -72,7 +74,7 @@ function CalendarScreen({
         markedDates={selectedDay}
       />
       <Text>{dummyData?.[curDay]?.name}</Text>
-      <ActionButton onPress={onPressActionButton} />
+      <ActionButton onPress={() => navigation.navigate('CalendarFormScreen')} />
       <BottomSheet
         title="말머리 선택"
         height={400}
