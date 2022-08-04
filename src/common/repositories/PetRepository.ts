@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Config from 'react-native-config';
 import {useQuery} from 'react-query';
-import PetListResponse from '../common/models/pet/response';
+import PetListResponse from '../models/pet/response';
 
 const tempUserToken = 'testtoken';
 
