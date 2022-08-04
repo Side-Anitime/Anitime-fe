@@ -4,7 +4,7 @@ import Calendar from './src/features/calendar/components';
 import GuideScreen from './src/features/auth/component/GuideScreen';
 import * as React from 'react';
 import {useState} from 'react';
-import {Image, NativeBaseProvider} from 'native-base';
+import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
@@ -24,6 +24,7 @@ import {
   mypet_off,
   home_off,
 } from './src/common/asstes/';
+import {Image} from 'react-native';
 
 const Tab = createBottomTabNavigator<LoggedInTabParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -52,7 +53,10 @@ function AppInner() {
                 title: '홈',
                 headerShown: false,
                 tabBarIcon: ({focused, color, size}) => {
-                  return <Image source={home} alt="홈" />;
+                  if (!focused) {
+                    return <Image source={home_off} />;
+                  }
+                  return <Image source={home} />;
                 },
               }}
             />
@@ -63,7 +67,10 @@ function AppInner() {
                 title: '캘린더',
                 headerShown: false,
                 tabBarIcon: ({focused, color, size}) => {
-                  return <Image source={schedule} alt="캘린더" />;
+                  if (!focused) {
+                    return <Image source={schedule_off} />;
+                  }
+                  return <Image source={schedule} />;
                 },
               }}
             />
@@ -74,7 +81,10 @@ function AppInner() {
                 title: '마이펫',
                 headerShown: false,
                 tabBarIcon: ({focused, color, size}) => {
-                  return <Image source={mypet} alt="마이펫" />;
+                  if (!focused) {
+                    return <Image source={mypet_off} />;
+                  }
+                  return <Image source={mypet} />;
                 },
               }}
             />

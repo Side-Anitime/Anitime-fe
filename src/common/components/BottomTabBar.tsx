@@ -3,14 +3,14 @@ import {Center, Image} from 'native-base';
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
-import {union, buttonHolder} from '../asstes';
+import {buttonHolder} from '../asstes';
 
 interface Props extends BottomTabBarProps {}
 
 export default function BottomTabBar(props: Props) {
   return (
     <Wrapper pointerEvents={'box-none'}>
-      <ButtonHolder alt="dfdsf" source={buttonHolder} />
+      <ButtonHolder alt="buttonholder" source={buttonHolder} />
       <ButtonWrapper>
         {props.state.routes.map((route, index) => {
           const {options, render} = props.descriptors[route.key];
@@ -20,7 +20,6 @@ export default function BottomTabBar(props: Props) {
               : options.title !== undefined
               ? options.title
               : route.name;
-
           const isFocused = props.state.index === index;
           const icon = options.tabBarIcon
             ? options.tabBarIcon({
@@ -65,14 +64,7 @@ export default function BottomTabBar(props: Props) {
               testID={options.tabBarTestID}
               onPress={onPress}
               onLongPress={onLongPress}>
-              <Center>
-                {icon}
-                {/* <Text
-                // style={{color: isFocused ? '#673ab7' : '#222'}}
-                >
-                  {label}
-                </Text> */}
-              </Center>
+              <Center>{icon}</Center>
             </BottomTabBarButton>
           );
         })}

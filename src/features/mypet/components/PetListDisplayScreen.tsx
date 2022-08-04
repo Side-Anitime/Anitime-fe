@@ -59,7 +59,7 @@ function PetListDisplayScreen({
       {status === 'loading' ? (
         <Text>Loading</Text>
       ) : status === 'error' ? (
-        <span>Error: {'ERROR'}</span>
+        <Text>Error: {'ERROR'}</Text>
       ) : (
         <PetListView>
           <PetListVStack space={2}>
