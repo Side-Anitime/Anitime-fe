@@ -7,6 +7,17 @@ export const getColors = async () => {
   return res.data;
 };
 
+export const getPlans = async (
+  year: string,
+  month: string,
+  userToken: string,
+) => {
+  const res = await axios.get(
+    `${Config.API_HOST}/plan/calendar-view/${year}/${month}/${userToken}`,
+  );
+  return res.data;
+};
+
 const initialState = {
   title: '',
   date: '',

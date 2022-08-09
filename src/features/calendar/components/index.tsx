@@ -14,7 +14,11 @@ function Calendar() {
         component={CalendarScreen}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="CalendarFormScreen" component={CalendarFormScreen} />
+      <Stack.Screen
+        name="CalendarFormScreen"
+        component={CalendarFormScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 }
