@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Text} from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 // import ActionButton from 'react-native-action-button';
@@ -9,7 +9,7 @@ import {CalendarStackScreenProps} from '../../../common/models';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import styled from 'styled-components/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {getPlans} from '../calendarSlice';
 
 LocaleConfig.locales.kr = {
   monthNames: korMonth,
@@ -48,6 +48,11 @@ function CalendarScreen({
 
   const refRBSheet = useRef<RBSheet>(null);
 
+  useEffect(() => {
+    // getPlans('2022', '07', 'testtoken');
+    setSelectedDay(dummyData);
+  }, []);
+
   const onDayPress = day => {
     setCurDay(day.dateString);
     const mergedDay = deepmerge(dummyData, {
@@ -59,13 +64,8 @@ function CalendarScreen({
     setSelectedDay(mergedDay);
   };
 
-  const onPressActionButton = () => {
-    refRBSheet.current?.open();
-  };
-
-  const Stack = createNativeStackNavigator();
   return (
-    <View style={{flex: 1}}>
+    <Container>
       <Calendar
         monthFormat={'yyyy년 MM월'}
         enableSwipeMonths={true}
@@ -84,9 +84,13 @@ function CalendarScreen({
           <ListText>{item}</ListText>
         ))}
       </BottomSheet>
-    </View>
+    </Container>
   );
 }
+
+const Container = styled.View`
+  flex: 1;
+`;
 
 const ListText = styled.Text`
   padding: 10px;

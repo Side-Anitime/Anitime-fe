@@ -7,20 +7,20 @@ import {buttonHolder} from '../asstes';
 
 interface Props extends BottomTabBarProps {}
 
-export default function BottomTabBar(props: Props) {
+export default function BottomTabBar({descriptors, state, navigation}: Props) {
   return (
     <Wrapper pointerEvents={'box-none'}>
       <ButtonHolder alt="buttonholder" source={buttonHolder} />
       <ButtonWrapper>
-        {props.state.routes.map((route, index) => {
-          const {options, render} = props.descriptors[route.key];
+        {state.routes.map((route, index) => {
+          const {options, render} = descriptors[route.key];
           const label =
             options.tabBarLabel !== undefined
               ? options.tabBarLabel
               : options.title !== undefined
               ? options.title
               : route.name;
-          const isFocused = props.state.index === index;
+          const isFocused = state.index === index;
           const icon = options.tabBarIcon
             ? options.tabBarIcon({
                 focused: isFocused,
@@ -30,7 +30,7 @@ export default function BottomTabBar(props: Props) {
             : undefined;
 
           const onPress = () => {
-            const event = props.navigation.emit({
+            const event = navigation.emit({
               type: 'tabPress',
               target: route.key,
               canPreventDefault: true,
@@ -38,7 +38,7 @@ export default function BottomTabBar(props: Props) {
 
             if (!isFocused && !event.defaultPrevented) {
               // The `merge: true` option makes sure that the params inside the tab screen are preserved
-              props.navigation.navigate({
+              navigation.navigate({
                 name: route.name,
                 merge: true,
                 params: {},
@@ -47,7 +47,7 @@ export default function BottomTabBar(props: Props) {
           };
 
           const onLongPress = () => {
-            props.navigation.emit({
+            navigation.emit({
               type: 'tabLongPress',
               target: route.key,
             });
@@ -73,6 +73,7 @@ export default function BottomTabBar(props: Props) {
     </Wrapper>
   );
 }
+
 const Spacer = styled.View`
   width: 120px;
   height: 60px;
@@ -81,14 +82,14 @@ const Wrapper = styled.View`
   position: absolute;
   flex-direction: row;
   justify-content: space-between;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: transparent;
 `;
 const ButtonHolder = styled(Image)`
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   height: 62px;
   width: 100%;
 `;
@@ -97,7 +98,6 @@ const ButtonWrapper = styled.View`
   justify-content: space-between;
   background-color: #f5f5f5;
   flex-grow: 1;
-
   background-color: transparent;
 `;
 const BottomTabBarButton = styled(TouchableOpacity)`
@@ -108,6 +108,5 @@ const BottomTabBarButton = styled(TouchableOpacity)`
 `;
 const UnionView = styled.View`
   right: 0;
-
   background-color: transparent;
 `;
