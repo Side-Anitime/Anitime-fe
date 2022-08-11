@@ -31,17 +31,33 @@ function BottomSheetPetNeutered() {
         <PetButton
           color={currentPetInfo.neuterYn === 'Y' ? '#FFA115' : '#c4c4c4'}
           onPress={() => onSet('Y')}>
-          <PetText>예</PetText>
+          <PetText
+            style={{
+              color: currentPetInfo.neuterYn === 'Y' ? '#FFA115' : '#c4c4c4',
+            }}>
+            예
+          </PetText>
         </PetButton>
         <PetButton
           onPress={() => onSet('N')}
           color={currentPetInfo.neuterYn === 'N' ? '#FFA115' : '#c4c4c4'}>
-          <PetText>아니요</PetText>
+          <PetText
+            style={{
+              color: currentPetInfo.neuterYn === 'N' ? '#FFA115' : '#c4c4c4',
+            }}>
+            아니요
+          </PetText>
         </PetButton>
         <PetButton
           onPress={() => onSet(undefined)}
           color={currentPetInfo.neuterYn === undefined ? '#FFA115' : '#c4c4c4'}>
-          <PetText>몰라요</PetText>
+          <PetText
+            style={{
+              color:
+                currentPetInfo.neuterYn === undefined ? '#FFA115' : '#c4c4c4',
+            }}>
+            몰라요
+          </PetText>
         </PetButton>
       </Selection>
     </>

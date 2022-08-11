@@ -14,6 +14,7 @@ import {formatDateToString} from '../../../common/utils/TimeUtils';
 import CustomDatePicker from '../../../common/components/CustomDatePicker';
 import CustomSelector from '../../../common/components/CustomSelector';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+import {Avatar} from 'native-base';
 
 interface Props extends MyPetStackScreenProps<'PetInfoEditScreen'> {}
 
@@ -31,29 +32,18 @@ function PetInfoEditScreen(props: Props) {
     defaultValues: {
       name: currentPetInfo.name,
       birthDate: currentPetInfo.birthDate,
-      gender: currentPetInfo.gender,
+      gender: currentPetInfo.gender ?? 'MALE',
       neuterYn: currentPetInfo.neuterYn,
     },
   });
-  // React.useLayoutEffect(() => {
-  //   const routeName = getFocusedRouteNameFromRoute(props.route);
-  //   console.log('rroute', routeName);
-  //   if (routeName === 'Group') {
-  //     props.navigation.setOptions({
-  //       tabBarStyle: {
-  //         display: 'none',
-  //       },
-  //     });
-  //   } else {
-  //     props.navigation.setOptions({
-  //       tabBarStyle: {
-  //         display: 'none',
-  //       },
-  //     });
-  //   }
-  // }, [props.navigation, props.route]);
+
   return (
-    <KeyboardAwareScrollView style={{flex: 1}} extraScrollHeight={60}>
+    <KeyboardAwareScrollView
+      style={{flex: 1, margin: 25}}
+      extraScrollHeight={60}>
+      <View style={styles.avatarWrapper}>
+        <Avatar bg="warmGray.200" alignSelf="center" size="2xl" />
+      </View>
       <View style={styles.inputWrapper}>
         <Text style={styles.label}>이름</Text>
         <Controller
@@ -116,9 +106,6 @@ function PetInfoEditScreen(props: Props) {
           )}
           name="gender"
         />
-        {errors.name && (
-          <Text style={styles.errorText}>{errors.name?.message}</Text>
-        )}
       </View>
       <View style={styles.inputWrapper}>
         <Text style={styles.label}>생일</Text>
@@ -150,7 +137,7 @@ function PetInfoEditScreen(props: Props) {
               onChange={neuterYn => {
                 onChange(neuterYn);
               }}
-              value={value}
+              value={value ?? ''}
               options={[
                 {value: 'Y', label: '예'},
                 {
@@ -166,9 +153,6 @@ function PetInfoEditScreen(props: Props) {
           )}
           name="neuterYn"
         />
-        {errors.name && (
-          <Text style={styles.errorText}>{errors.name?.message}</Text>
-        )}
       </View>
 
       <View style={styles.inputWrapper}>
@@ -178,26 +162,31 @@ function PetInfoEditScreen(props: Props) {
           render={({field: {onChange, onBlur, value}}) => <></>}
           name="shortIntroduce"
         />
-        {errors.name && (
-          <Text style={styles.errorText}>{errors.name?.message}</Text>
-        )}
       </View>
     </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  textInput: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
+  avatarWrapper: {
+    marginVertical: 20,
   },
 
-  inputWrapper: {flexDirection: 'row', padding: 20},
+  inputWrapper: {
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    paddingBottom: 30,
+  },
   label: {
     paddingRight: 50,
-    fontWeight: 'bold',
     fontSize: 16,
+    color: '#000000',
   },
-
+  textInput: {
+    padding: 0,
+    height: 20,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
   errorText: {
     fontSize: 12,
     fontWeight: '400',

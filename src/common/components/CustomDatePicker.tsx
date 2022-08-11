@@ -30,11 +30,11 @@ function CustomDatePicker(props: Props) {
     <View style={styles.wrapper}>
       <Pressable style={styles.textWrapper} onPress={() => onOpenDatePicker()}>
         <Text style={styles.text}>
-          {props.date ? formatDateToString(props.date, 'YYYY') : '__'}
+          {props.date ? formatDateToString(props.date, 'YYYY') : '_____'}
           <Text style={props.labelStyle}> {'년 '}</Text>
-          {props.date ? formatDateToString(props.date, 'MM') : '__'}
+          {props.date ? formatDateToString(props.date, 'MM') : '___'}
           <Text style={props.labelStyle}> {'월 '}</Text>
-          {props.date ? formatDateToString(props.date, 'DD') : '__'}
+          {props.date ? formatDateToString(props.date, 'DD') : '___'}
           <Text style={props.labelStyle}> {'일 '}</Text>
         </Text>
       </Pressable>
@@ -58,7 +58,7 @@ export default CustomDatePicker;
 
 CustomDatePicker.defaultProps = {
   labelStyle: {
-    fontWeight: 'bold',
+    color: '#000000',
   },
 };
 
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
   datePicker: {},
   textWrapper: {},
   text: {
+    color: '#000000',
     fontSize: 16,
   },
 });
