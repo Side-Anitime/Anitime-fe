@@ -1,17 +1,23 @@
 import React, {useEffect, useRef} from 'react';
 import {Pressable, Text, TouchableOpacity} from 'react-native';
-import {Avatar, HStack, VStack, Spacer, Center, View, Image} from 'native-base';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+  Avatar,
+  HStack,
+  VStack,
+  Spacer,
+  Center,
+  View,
+  Image,
+  FlatList,
+} from 'native-base';
+
 import styled from 'styled-components/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomSheetPet';
-import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
+import {MyPetStackScreenProps} from '../../../common/models';
 import {useAppDispatch} from '../../../app/store';
 import {toggleLoading} from '../../loading/loadingSlice';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
-import {useQuery} from 'react-query';
-import axios from 'axios';
 import {fetchPetList} from '../../../common/repositories/PetRepository';
 import {arrow_right, menu} from '../../../common/asstes';
 
@@ -52,7 +58,7 @@ function PetListDisplayScreen({
       </PetHeader>
       <View mt={4} ml={4}>
         <ProfileImgView>
-          <Avatar bg="purple.600" alignSelf="center" size="2xl" />
+          <Avatar bg="gray.600" alignSelf="center" size="2xl" />
           <ProfileText>닉네임</ProfileText>
         </ProfileImgView>
       </View>
@@ -62,7 +68,38 @@ function PetListDisplayScreen({
         <Text>Error: {'ERROR'}</Text>
       ) : (
         <PetListView>
-          <PetListVStack space={2}>
+          <PetListTitleText>반려동물 관리</PetListTitleText>
+          <PetList
+            data={data?.data}
+            showsVerticalScrollIndicator={false}
+            ListFooterComponent={<View style={{height: 200}} />}
+            renderItem={({item, index}) => (
+              <PetListHStack
+                key={index}
+                space={5}
+                justifyContent="space-between">
+                <Avatar
+                  size="59px"
+                  source={{
+                    uri: item.avatarUrl,
+                  }}
+                />
+                <Center>
+                  <VStack>
+                    <PetNameText>{item.name}</PetNameText>
+                    <PetBreedText>견종</PetBreedText>
+                  </VStack>
+                </Center>
+                <Spacer />
+                <Center>
+                  <TouchableOpacity>
+                    <Image source={arrow_right} alt=">" />
+                  </TouchableOpacity>
+                </Center>
+              </PetListHStack>
+            )}
+          />
+          {/* <PetListVStack space={2}>
             <PetListTitleText>반려동물 관리</PetListTitleText>
             {data?.data?.map((item, index) => (
               <PetListHStack
@@ -89,7 +126,7 @@ function PetListDisplayScreen({
                 </Center>
               </PetListHStack>
             ))}
-          </PetListVStack>
+          </PetListVStack> */}
         </PetListView>
       )}
       <ActionButton onPress={() => onPressAddPetButton()} />
@@ -122,12 +159,18 @@ const ProfileText = styled.Text`
   text-align: center;
   font-size: 18px;
 `;
-
+const PetList = styled.FlatList`
+  display: flex;
+  height: 300px;
+  padding-bottom: 300px;
+`;
 const PetListView = styled.View`
   margin: 75px 25px 0px 25px;
 `;
 const PetListTitleText = styled.Text`
   color: #000;
+  font-size: 18px;
+  margin-bottom: 15px;
 `;
 const PetNameText = styled.Text`
   color: #000;
@@ -138,18 +181,14 @@ const PetBreedText = styled.Text`
   color: #000;
   font-size: 13px;
 `;
-const PetDateText = styled.Text`
-  color: #000;
-  font-size: 16px;
-`;
-const PetListVStack = styled(VStack)``;
 
 const PetListHStack = styled(HStack)`
   background-color: white;
-  padding: 10px 20px;
+  padding: 13px 20px;
+  margin: 5px 0px
   border-radius: 15px;
   border-width: 1px;
-  border-color: #f7f7f7;
+  border-color: #f3f3f3;
 `;
 
 const SettingButton = styled(Pressable)``;
