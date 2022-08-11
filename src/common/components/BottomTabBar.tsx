@@ -1,16 +1,30 @@
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
+import {getPathFromState} from '@react-navigation/native';
 import {Center, Image} from 'native-base';
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components/native';
 import {buttonHolder} from '../asstes';
+import {hiddenTabList} from '../constants';
 
 interface Props extends BottomTabBarProps {}
 
 export default function BottomTabBar({descriptors, state, navigation}: Props) {
+  const getDisplay = () => {
+    const path = getPathFromState(state);
+    if (hiddenTabList.find(value => path.includes(value))) {
+      return false;
+    }
+    return true;
+  };
+
   return (
-    <Wrapper pointerEvents={'box-none'}>
-      <ButtonHolder alt="buttonholder" source={buttonHolder} />
+    <Wrapper
+      pointerEvents={'box-none'}
+      style={{display: getDisplay() ? 'flex' : 'none'}}>
+      <ImageWrapper pointerEvents={'none'}>
+        <ButtonHolder alt="buttonholder" source={buttonHolder} />
+      </ImageWrapper>
       <ButtonWrapper>
         {state.routes.map((route, index) => {
           const {options, render} = descriptors[route.key];
@@ -86,10 +100,9 @@ const Wrapper = styled.View`
   right: 0;
   bottom: 0;
   background-color: transparent;
+  pointer-events: box-none;
 `;
 const ButtonHolder = styled(Image)`
-  position: absolute;
-  bottom: 0;
   height: 62px;
   width: 100%;
 `;
@@ -97,6 +110,7 @@ const ButtonWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
   background-color: #f5f5f5;
+  pointer-events: box-none;
   flex-grow: 1;
   background-color: transparent;
 `;
@@ -104,9 +118,11 @@ const BottomTabBarButton = styled(TouchableOpacity)`
   margin: auto;
   box-sizing: content-box;
   background-color: #f5f5f5;
+  pointer-events: box-none;
   background-color: transparent;
 `;
-const UnionView = styled.View`
-  right: 0;
-  background-color: transparent;
+const ImageWrapper = styled.View`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 `;

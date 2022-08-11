@@ -1,12 +1,12 @@
 import React, {useEffect, useRef} from 'react';
 import {Pressable, Text, TouchableOpacity} from 'react-native';
 import {Avatar, HStack, VStack, Spacer, Center, View, Image} from 'native-base';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomSheetPet';
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
-import {formatStringToString} from '../../../common/utils/TimeUtils';
 import {useAppDispatch} from '../../../app/store';
 import {toggleLoading} from '../../loading/loadingSlice';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
