@@ -31,8 +31,8 @@ function CustomSelector(props: Props) {
           <Text
             style={{
               ...styles.optionLabel,
-              color: props.value === option.value ? '#FFA115' : '#C5C5C5',
-              fontWeight: props.value === option.value ? 'bold' : 'normal',
+              color: props.value === option.value ? '#000000' : '#C5C5C5',
+              // fontWeight: props.value === option.value ? 'bold' : 'normal',
             }}>
             {option.label}
           </Text>

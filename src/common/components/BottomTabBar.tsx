@@ -100,7 +100,6 @@ const Wrapper = styled.View`
   right: 0;
   bottom: 0;
   background-color: transparent;
-  pointer-events: box-none;
 `;
 const ButtonHolder = styled(Image)`
   height: 62px;
@@ -110,7 +109,7 @@ const ButtonWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
   background-color: #f5f5f5;
-  pointer-events: box-none;
+
   flex-grow: 1;
   background-color: transparent;
 `;
@@ -118,7 +117,6 @@ const BottomTabBarButton = styled(TouchableOpacity)`
   margin: auto;
   box-sizing: content-box;
   background-color: #f5f5f5;
-  pointer-events: box-none;
   background-color: transparent;
 `;
 const ImageWrapper = styled.View`
