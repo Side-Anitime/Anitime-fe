@@ -53,6 +53,7 @@ function BottomSheetPet(props: Props) {
   const onPressNextButton = () => {
     dispatch(incrementSheet());
     if (currentSheet + 1 === maxSheetLength) {
+      props.refRBSheet.current?.close();
       props.onComplete(currentPetInfo);
     }
   };

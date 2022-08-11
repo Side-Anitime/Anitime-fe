@@ -37,7 +37,7 @@ function PetListDisplayScreen({
   const onCompleteAddPet = () => {
     //TODO: LOADING SCREEN
     dispatch(toggleLoading());
-    // refRBSheet.current?.close();
+
     navigation.navigate('PetInfoEditScreen');
     dispatch(toggleLoading());
   };

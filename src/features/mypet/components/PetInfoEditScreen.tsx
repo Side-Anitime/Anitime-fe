@@ -1,19 +1,15 @@
 import React, {useEffect, useRef} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useSelector} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
 import {PETNAME_REG_EXP} from '../../../common/constants';
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
-
 import {selectPetInfo, setPetBirthDate, setPetName} from '../petInfoSlice';
 import {useAppDispatch} from '../../../app/store';
-
 import {formatDateToString} from '../../../common/utils/TimeUtils';
 import CustomDatePicker from '../../../common/components/CustomDatePicker';
 import CustomSelector from '../../../common/components/CustomSelector';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {Avatar} from 'native-base';
 
 interface Props extends MyPetStackScreenProps<'PetInfoEditScreen'> {}
