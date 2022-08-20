@@ -1,31 +1,31 @@
 import React, {useEffect, useRef} from 'react';
 import {Pressable, Text, TouchableOpacity} from 'react-native';
-import {
-  Avatar,
-  HStack,
-  VStack,
-  Spacer,
-  Center,
-  View,
-  Image,
-  FlatList,
-} from 'native-base';
+import {Avatar, HStack, VStack, Spacer, Center, View, Image} from 'native-base';
 
 import styled from 'styled-components/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomSheetPet';
-import {MyPetStackScreenProps} from '../../../common/models';
+import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
 import {useAppDispatch} from '../../../app/store';
 import {toggleLoading} from '../../loading/loadingSlice';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
 import {fetchPetList} from '../../../common/repositories/PetRepository';
 import {arrow_right, menu} from '../../../common/asstes';
+import {setPetInfo} from '../petInfoSlice';
+import {useFocusEffect} from '@react-navigation/native';
 
 function PetListDisplayScreen({
   navigation,
 }: MyPetStackScreenProps<'PetListDisplayScreen'>) {
   const refRBSheet = useRef<RBSheet>(null);
   const dispatch = useAppDispatch();
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => refRBSheet.current?.close();
+    }, []),
+  );
+
+  const {status, data, error, isFetching} = fetchPetList();
 
   const onPressSettingButton = () => {
     navigation.navigate('SettingMenuScreen');
@@ -34,19 +34,17 @@ function PetListDisplayScreen({
     refRBSheet.current?.open();
   };
 
+  const onPressDetailPetButton = (item: PetInfo) => {
+    dispatch(setPetInfo(item));
+    navigation.navigate('PetInfoDisplayScreen', {editMode: false});
+  };
+
   const onCompleteAddPet = () => {
     //TODO: LOADING SCREEN
     dispatch(toggleLoading());
-
-    navigation.navigate('PetInfoEditScreen');
+    navigation.navigate('PetInfoDisplayScreen', {editMode: true});
     dispatch(toggleLoading());
   };
-
-  const {status, data, error, isFetching} = fetchPetList();
-
-  useEffect(() => {
-    refRBSheet.current?.close();
-  }, [refRBSheet.current?.state]);
 
   return (
     <Wrapper>
@@ -58,7 +56,7 @@ function PetListDisplayScreen({
       </PetHeader>
       <View mt={4} ml={4}>
         <ProfileImgView>
-          <Avatar bg="gray.600" alignSelf="center" size="2xl" />
+          <Avatar bg="gray.300" alignSelf="center" size="2xl" />
           <ProfileText>닉네임</ProfileText>
         </ProfileImgView>
       </View>
@@ -73,60 +71,37 @@ function PetListDisplayScreen({
             data={data?.data}
             showsVerticalScrollIndicator={false}
             ListFooterComponent={<View style={{height: 200}} />}
-            renderItem={({item, index}) => (
-              <PetListHStack
-                key={index}
-                space={5}
-                justifyContent="space-between">
-                <Avatar
-                  size="59px"
-                  source={{
-                    uri: item.avatarUrl,
-                  }}
-                />
-                <Center>
-                  <VStack>
-                    <PetNameText>{item.name}</PetNameText>
-                    <PetBreedText>견종</PetBreedText>
-                  </VStack>
-                </Center>
-                <Spacer />
-                <Center>
-                  <TouchableOpacity>
-                    <Image source={arrow_right} alt=">" />
-                  </TouchableOpacity>
-                </Center>
-              </PetListHStack>
-            )}
+            renderItem={({item, index}) => {
+              const petItem = item as PetInfo;
+              return (
+                <PetListHStack
+                  key={index}
+                  space={5}
+                  justifyContent="space-between">
+                  <Avatar
+                    bg="gray.300"
+                    size="59px"
+                    source={{
+                      uri: petItem.image,
+                    }}
+                  />
+                  <Center>
+                    <VStack>
+                      <PetNameText>{petItem.name}</PetNameText>
+                      <PetBreedText>{petItem.petKind?.kindName}</PetBreedText>
+                    </VStack>
+                  </Center>
+                  <Spacer />
+                  <Center>
+                    <TouchableOpacity
+                      onPress={() => onPressDetailPetButton(petItem)}>
+                      <Image source={arrow_right} alt=">" />
+                    </TouchableOpacity>
+                  </Center>
+                </PetListHStack>
+              );
+            }}
           />
-          {/* <PetListVStack space={2}>
-            <PetListTitleText>반려동물 관리</PetListTitleText>
-            {data?.data?.map((item, index) => (
-              <PetListHStack
-                key={index}
-                space={5}
-                justifyContent="space-between">
-                <Avatar
-                  size="59px"
-                  source={{
-                    uri: item.avatarUrl,
-                  }}
-                />
-                <Center>
-                  <VStack>
-                    <PetNameText>{item.name}</PetNameText>
-                    <PetBreedText>견종</PetBreedText>
-                  </VStack>
-                </Center>
-                <Spacer />
-                <Center>
-                  <TouchableOpacity>
-                    <Image source={arrow_right} alt=">" />
-                  </TouchableOpacity>
-                </Center>
-              </PetListHStack>
-            ))}
-          </PetListVStack> */}
         </PetListView>
       )}
       <ActionButton onPress={() => onPressAddPetButton()} />
@@ -190,7 +165,5 @@ const PetListHStack = styled(HStack)`
   border-width: 1px;
   border-color: #f3f3f3;
 `;
-
-const SettingButton = styled(Pressable)``;
 
 export default PetListDisplayScreen;

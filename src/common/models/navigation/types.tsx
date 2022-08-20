@@ -4,7 +4,6 @@ import type {
 } from '@react-navigation/native';
 import type {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {PetInfo} from '../pet/types';
 
 /*
  *
@@ -31,7 +30,7 @@ export type CalendarStackParamList = {
 
 export type MyPetStackParamList = {
   PetListDisplayScreen: undefined;
-  PetInfoEditScreen?: undefined;
+  PetInfoDisplayScreen?: {editMode?: boolean};
   SettingMenuScreen: undefined;
   AccountSettingMenuScreen: undefined;
 };

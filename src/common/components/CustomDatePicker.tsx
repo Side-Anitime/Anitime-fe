@@ -17,25 +17,44 @@ interface Props {
   maximumDate?: Date;
   onDateChange: (date?: Date) => void;
   labelStyle?: StyleProp<TextStyle>;
+  isEditing?: boolean;
 }
 
-function CustomDatePicker(props: Props) {
+function CustomDatePicker({
+  isEditing,
+  date,
+  labelStyle,
+  maximumDate,
+  onDateChange,
+}: Props) {
   const refRBSheet = useRef<RBSheet>(null);
 
   const onOpenDatePicker = () => {
     refRBSheet.current?.open();
   };
 
+  if (!isEditing) {
+    return (
+      <Text style={styles.text}>
+        {date ? formatDateToString(date, 'YYYY') : '_____'}
+        <Text style={labelStyle}> {'년 '}</Text>
+        {date ? formatDateToString(date, 'MM') : '___'}
+        <Text style={labelStyle}> {'월 '}</Text>
+        {date ? formatDateToString(date, 'DD') : '___'}
+        <Text style={labelStyle}> {'일 '}</Text>
+      </Text>
+    );
+  }
   return (
     <View style={styles.wrapper}>
       <Pressable style={styles.textWrapper} onPress={() => onOpenDatePicker()}>
         <Text style={styles.text}>
-          {props.date ? formatDateToString(props.date, 'YYYY') : '_____'}
-          <Text style={props.labelStyle}> {'년 '}</Text>
-          {props.date ? formatDateToString(props.date, 'MM') : '___'}
-          <Text style={props.labelStyle}> {'월 '}</Text>
-          {props.date ? formatDateToString(props.date, 'DD') : '___'}
-          <Text style={props.labelStyle}> {'일 '}</Text>
+          {date ? formatDateToString(date, 'YYYY') : '_____'}
+          <Text style={labelStyle}> {'년 '}</Text>
+          {date ? formatDateToString(date, 'MM') : '___'}
+          <Text style={labelStyle}> {'월 '}</Text>
+          {date ? formatDateToString(date, 'DD') : '___'}
+          <Text style={labelStyle}> {'일 '}</Text>
         </Text>
       </Pressable>
       <RBSheet ref={refRBSheet}>
@@ -43,10 +62,10 @@ function CustomDatePicker(props: Props) {
           style={styles.datePicker}
           locale="ko"
           mode="date"
-          maximumDate={props.maximumDate}
-          date={props.date ?? new Date()}
+          maximumDate={maximumDate}
+          date={date ?? new Date()}
           onDateChange={date => {
-            props.onDateChange(date);
+            onDateChange(date);
           }}
         />
       </RBSheet>
@@ -60,6 +79,7 @@ CustomDatePicker.defaultProps = {
   labelStyle: {
     color: '#000000',
   },
+  isEditing: false,
 };
 
 const styles = StyleSheet.create({

@@ -51,6 +51,7 @@ export const selectPetInfo = (state: RootState) => state.petInfo;
 
 export const {
   reset,
+  setPetInfo,
   setPetSpecies,
   setPetName,
   setPetGender,

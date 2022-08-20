@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Config from 'react-native-config';
 import {useQuery} from 'react-query';
+import {PetInfo} from '../models';
 import PetListResponse from '../models/pet/response';
 
 const tempUserToken = 'testtoken';
@@ -14,3 +15,9 @@ export function fetchPetList() {
     return data;
   });
 }
+
+export const editPetInfo = async (petInfo: PetInfo) => {
+  const result = await axios.put(`${Config.API_HOST}/pet/modify`, petInfo);
+  console.log('result', result);
+  return result.data;
+};
