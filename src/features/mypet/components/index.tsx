@@ -5,6 +5,7 @@ import AccountSettingMenuScreen from './AccountSettingMenuScreen';
 import PetInfoEditScreen from './PetInfoEditScreen';
 import {MyPetStackParamList} from '../../../common/models';
 import PetListDisplayScreen from './PetListDisplayScreen';
+import PetInfoDisplayScreen from './PetInfoDisplayScreen';
 
 const Stack = createNativeStackNavigator<MyPetStackParamList>();
 
@@ -17,8 +18,8 @@ function MyPet() {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="PetInfoEditScreen"
-        component={PetInfoEditScreen}
+        name="PetInfoDisplayScreen"
+        component={PetInfoDisplayScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen

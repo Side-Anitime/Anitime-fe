@@ -13,7 +13,12 @@ export const korMonth = [
   '12월',
 ];
 
-export const hiddenTabList = ['CalendarFormScreen', 'PetInfoEditScreen'];
+export const hiddenTabList = [
+  'CalendarFormScreen',
+  'PetInfoEditScreen',
+  'PetInfoDisplayScreen',
+  'SettingMenuScreen',
+];
 
 export const CATEGORIES = ['생일', '병원', '산책', '모임', '기타'];
 
