@@ -22,7 +22,7 @@ import {formatDateToString} from '../../../common/utils/TimeUtils';
 import {useAppDispatch} from '../../../app/store';
 import CustomTextInput from '../../../common/components/CustomTextInput';
 import {ScreenHeight} from '@rneui/base';
-import {useMutation, useQuery, useQueryClient} from 'react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {editPetInfo} from '../../../common/repositories/PetRepository';
 
 interface Props extends MyPetStackScreenProps<'PetInfoDisplayScreen'> {}
@@ -109,7 +109,9 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
                 <CustomSelector
                   isEditing={isEditing}
                   onChange={gender => {
-                    if (isEditing) onChange(gender);
+                    if (isEditing) {
+                      onChange(gender);
+                    }
                   }}
                   value={value}
                   options={[
