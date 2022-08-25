@@ -8,6 +8,8 @@ import {CalendarStackScreenProps} from '../../../common/models';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import styled from 'styled-components/native';
+import {useQuery} from '@tanstack/react-query';
+import {getPlans} from '../calendarSlice';
 
 LocaleConfig.locales.kr = {
   monthNames: korMonth,
@@ -41,6 +43,11 @@ const dummyData = {
 function CalendarScreen({
   navigation,
 }: CalendarStackScreenProps<'CalendarScreen'>) {
+  const {data, isError, error} = useQuery(['plans'], () =>
+    getPlans('2022', '07', 'testtoken'),
+  );
+  console.log(error);
+
   const [curDay, setCurDay] = useState('');
   const [selectedDay, setSelectedDay] = useState({});
 

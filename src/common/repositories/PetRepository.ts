@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Config from 'react-native-config';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import {PetInfo} from '../models';
 import PetListResponse from '../models/pet/response';
 

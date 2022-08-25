@@ -12,10 +12,14 @@ export const getPlans = async (
   month: string,
   userToken: string,
 ) => {
-  const res = await axios.get(
-    `${Config.API_HOST}/plan/calendar-view/${year}/${month}/${userToken}`,
-  );
-  return res.data;
+  try {
+    const res = await axios.get(
+      `${Config.API_HOST}/plan/calendar-view/${year}/${month}/${userToken}`,
+    );
+    return res.data;
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const initialState = {
