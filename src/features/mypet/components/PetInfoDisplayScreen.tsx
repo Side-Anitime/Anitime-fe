@@ -50,7 +50,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
       console.log('error');
     },
     onSettled: () => {
-      queryClient.invalidateQueries('modify');
+      // queryClient.invalidateQueries('modify');
     },
   });
 
@@ -86,7 +86,9 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
   };
 
   return (
-    <KeyboardAwareScrollView style={{flex: 1}} extraScrollHeight={60}>
+    <KeyboardAwareScrollView
+      style={{flex: 1, padding: 20}}
+      extraScrollHeight={60}>
       <View style={styles.wrapper}>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -204,8 +206,8 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
 const styles = StyleSheet.create({
   wrapper: {
     display: 'flex',
-    margin: 25,
-    height: ScreenHeight - 50,
+    height: ScreenHeight - 65,
+    overflow: 'visible',
   },
   avatarWrapper: {
     marginVertical: 15,
