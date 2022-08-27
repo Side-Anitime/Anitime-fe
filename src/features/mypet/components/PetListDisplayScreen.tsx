@@ -1,6 +1,15 @@
 import React, {useEffect, useRef} from 'react';
 import {Pressable, Text, TouchableOpacity} from 'react-native';
-import {Avatar, HStack, VStack, Spacer, Center, View, Image} from 'native-base';
+import {
+  Avatar,
+  HStack,
+  VStack,
+  Spacer,
+  Center,
+  View,
+  Image,
+  FlatList,
+} from 'native-base';
 
 import styled from 'styled-components/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -32,6 +41,10 @@ function PetListDisplayScreen({
   };
   const onPressAddPetButton = () => {
     refRBSheet.current?.open();
+  };
+
+  const onPressRemovePetButton = (item: PetInfo) => {
+    // TODO: 추후 디자인에 따라 삭제 버튼위치 변경될수있음
   };
 
   const onPressDetailPetButton = (item: PetInfo) => {
@@ -68,37 +81,41 @@ function PetListDisplayScreen({
         <PetListView>
           <PetListTitleText>반려동물 관리</PetListTitleText>
           <PetList
+            bounces
             data={data?.data}
             showsVerticalScrollIndicator={false}
             ListFooterComponent={<View style={{height: 200}} />}
             renderItem={({item, index}) => {
               const petItem = item as PetInfo;
               return (
-                <PetListHStack
-                  key={index}
-                  space={5}
-                  justifyContent="space-between">
-                  <Avatar
-                    bg="gray.300"
-                    size="59px"
-                    source={{
-                      uri: petItem.image,
-                    }}
-                  />
-                  <Center>
-                    <VStack>
-                      <PetNameText>{petItem.name}</PetNameText>
-                      <PetBreedText>{petItem.petKind?.kindName}</PetBreedText>
-                    </VStack>
-                  </Center>
-                  <Spacer />
-                  <Center>
-                    <TouchableOpacity
-                      onPress={() => onPressDetailPetButton(petItem)}>
-                      <Image source={arrow_right} alt=">" />
-                    </TouchableOpacity>
-                  </Center>
-                </PetListHStack>
+                <TouchableOpacity
+                  onPress={() => onPressRemovePetButton(petItem)}>
+                  <PetListHStack
+                    key={index}
+                    space={5}
+                    justifyContent="space-between">
+                    <Avatar
+                      bg="gray.300"
+                      size="59px"
+                      source={{
+                        uri: petItem.image,
+                      }}
+                    />
+                    <Center>
+                      <VStack>
+                        <PetNameText>{petItem.name}</PetNameText>
+                        <PetBreedText>{petItem.petKind?.kindName}</PetBreedText>
+                      </VStack>
+                    </Center>
+                    <Spacer />
+                    <Center>
+                      <TouchableOpacity
+                        onPress={() => onPressDetailPetButton(petItem)}>
+                        <Image source={arrow_right} alt=">" />
+                      </TouchableOpacity>
+                    </Center>
+                  </PetListHStack>
+                </TouchableOpacity>
               );
             }}
           />

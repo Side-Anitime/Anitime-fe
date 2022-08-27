@@ -7,15 +7,15 @@ import {useSelector} from 'react-redux';
 import {useAppDispatch} from '../../../../app/store';
 import {
   selectPetInfo,
-  setPetBirthDate,
+  setPetBirthday,
 } from '../../../../features/mypet/petInfoSlice';
 
 function BottomSheetPetBirthDate() {
   const dispatch = useAppDispatch();
   const currentPetInfo = useSelector(selectPetInfo);
-  const onSet = (petBirthDate: Date) => {
-    const formattedDate = formatDateToString(petBirthDate);
-    dispatch(setPetBirthDate(formattedDate));
+  const onSet = (birthday: Date) => {
+    const formattedDate = formatDateToString(birthday);
+    dispatch(setPetBirthday(formattedDate));
   };
 
   return (
@@ -30,8 +30,8 @@ function BottomSheetPetBirthDate() {
         mode="date"
         maximumDate={new Date()}
         date={
-          currentPetInfo.birthDate
-            ? new Date(currentPetInfo.birthDate)
+          currentPetInfo.birthday
+            ? new Date(currentPetInfo.birthday)
             : new Date()
         }
         onDateChange={petBirthDate => onSet(petBirthDate)}

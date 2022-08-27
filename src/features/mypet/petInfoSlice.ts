@@ -2,10 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../app/rootReducer';
 import {PetInfo} from '../../common/models';
 
-const initialState: PetInfo = {
-  petId: '',
-  userToken: '',
-};
+const initialState: PetInfo = {};
 
 const petInfoSlice = createSlice({
   name: 'petInfo',
@@ -22,11 +19,8 @@ const petInfoSlice = createSlice({
     setPetGender: (state, {payload}: PayloadAction<PetInfo['gender']>) => {
       state.gender = payload;
     },
-    setPetBirthDate: (
-      state,
-      {payload}: PayloadAction<PetInfo['birthDate']>,
-    ) => {
-      state.birthDate = payload;
+    setPetBirthday: (state, {payload}: PayloadAction<PetInfo['birthday']>) => {
+      state.birthday = payload;
     },
     setPetFirstMeetDate: (
       state,
@@ -55,7 +49,7 @@ export const {
   setPetSpecies,
   setPetName,
   setPetGender,
-  setPetBirthDate,
+  setPetBirthday,
   setPetFirstMeetDate,
   setPetNeutered,
   setPetMemo,

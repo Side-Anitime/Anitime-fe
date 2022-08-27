@@ -17,7 +17,11 @@ export function fetchPetList() {
 }
 
 export const editPetInfo = async (petInfo: PetInfo) => {
-  const result = await axios.put(`${Config.API_HOST}/pet/modify`, petInfo);
-  console.log('result', result);
-  return result.data;
+  try {
+    const result = await axios.put(`${Config.API_HOST}/pet/modify`, petInfo);
+    console.log('result', result);
+    return result.data;
+  } catch (e) {
+    console.log('ERROR: ', e);
+  }
 };
