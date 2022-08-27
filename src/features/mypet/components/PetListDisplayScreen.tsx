@@ -18,7 +18,10 @@ import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
 import {useAppDispatch} from '../../../app/store';
 import {toggleLoading} from '../../loading/loadingSlice';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
-import {fetchPetList} from '../../../common/repositories/PetRepository';
+import {
+  useDeletePet,
+  useListPet,
+} from '../../../common/repositories/PetRepository';
 import {arrow_right, menu} from '../../../common/asstes';
 import {setPetInfo} from '../petInfoSlice';
 import {useFocusEffect} from '@react-navigation/native';
@@ -33,8 +36,8 @@ function PetListDisplayScreen({
       return () => refRBSheet.current?.close();
     }, []),
   );
-
-  const {status, data, error, isFetching} = fetchPetList();
+  const {status, data, error, isFetching} = useListPet();
+  const {deletePet} = useDeletePet();
 
   const onPressSettingButton = () => {
     navigation.navigate('SettingMenuScreen');
@@ -45,6 +48,9 @@ function PetListDisplayScreen({
 
   const onPressRemovePetButton = (item: PetInfo) => {
     // TODO: 추후 디자인에 따라 삭제 버튼위치 변경될수있음
+    if (item.petId) {
+      deletePet({userToken: 'testtoken', petId: item.petId});
+    }
   };
 
   const onPressDetailPetButton = (item: PetInfo) => {
@@ -88,8 +94,7 @@ function PetListDisplayScreen({
             renderItem={({item, index}) => {
               const petItem = item as PetInfo;
               return (
-                <TouchableOpacity
-                  onPress={() => onPressRemovePetButton(petItem)}>
+                <TouchableOpacity>
                   <PetListHStack
                     key={index}
                     space={5}
@@ -114,6 +119,10 @@ function PetListDisplayScreen({
                         <Image source={arrow_right} alt=">" />
                       </TouchableOpacity>
                     </Center>
+                    <TouchableOpacity
+                      onPress={() => onPressRemovePetButton(petItem)}>
+                      <Text>삭제</Text>
+                    </TouchableOpacity>
                   </PetListHStack>
                 </TouchableOpacity>
               );

@@ -15,11 +15,9 @@ import CustomSelector from '../../../common/components/CustomSelector';
 import {Controller, useForm} from 'react-hook-form';
 import CustomDatePicker from '../../../common/components/CustomDatePicker';
 import {formatDateToString} from '../../../common/utils/TimeUtils';
-import {useAppDispatch} from '../../../app/store';
 import CustomTextInput from '../../../common/components/CustomTextInput';
 import {ScreenHeight} from '@rneui/base';
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {editPetInfo} from '../../../common/repositories/PetRepository';
+import {useUpdatePet} from '../../../common/repositories/PetRepository';
 
 interface Props extends MyPetStackScreenProps<'PetInfoDisplayScreen'> {}
 
@@ -36,23 +34,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
     mode: 'onBlur',
     defaultValues: currentPetInfo,
   });
-
-  const queryClient = useQueryClient();
-  const {
-    mutate,
-    status: mutateStatus,
-    error: mutateError,
-  } = useMutation<PetInfo, Error, PetInfo>(editPetInfo, {
-    onSuccess: data => {
-      console.log('success');
-    },
-    onError: () => {
-      console.log('error');
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries('modify');
-    },
-  });
+  const {updatePet} = useUpdatePet();
 
   const onUpdatePetInfo = () => {
     handleSubmit(formData => {
@@ -61,7 +43,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
         //TODO: petkindid 없을경우 믹스 견종 번호 ?
         petKindId: currentPetInfo.petKind?.petTypeId ?? 1,
       };
-      mutate(updatedPetInfo);
+      updatePet(updatedPetInfo);
     })();
   };
 
@@ -86,7 +68,9 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
   };
 
   return (
-    <KeyboardAwareScrollView style={{flex: 1}} extraScrollHeight={60}>
+    <KeyboardAwareScrollView
+      style={{flex: 1, padding: 20}}
+      extraScrollHeight={60}>
       <View style={styles.wrapper}>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -204,8 +188,8 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
 const styles = StyleSheet.create({
   wrapper: {
     display: 'flex',
-    margin: 25,
-    height: ScreenHeight - 50,
+    height: ScreenHeight - 65,
+    overflow: 'visible',
   },
   avatarWrapper: {
     marginVertical: 15,
