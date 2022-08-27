@@ -12,12 +12,12 @@ export type PetKind = {
 
 export type PetInfo = {
   // info req.
-  petId: string; // 반려동물 고유 아이디
-  userToken: string; // 사용자 식별 아이디
-  regDate: string;
-  updateDate: string;
+  petId?: string; // 반려동물 고유 아이디
+  userToken?: string; // 사용자 식별 아이디
+  regDate?: string;
+  updateDate?: string;
   // 반려동물 등록/수정시
-  petKindId: number;
+  petKindId?: number;
   // info opt
   type?: Species;
   name?: string;
@@ -25,7 +25,7 @@ export type PetInfo = {
   neuterYn?: StringBoolean;
 
   representYn?: StringBoolean;
-  petKind: PetKind;
+  petKind?: PetKind;
   shortIntroduce?: string;
   birthday?: string;
   firstMeetDate?: string;

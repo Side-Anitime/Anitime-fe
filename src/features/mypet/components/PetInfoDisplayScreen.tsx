@@ -1,19 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {
-  Dimensions,
-  FlatList,
-  KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useSelector} from 'react-redux';
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
-import {selectPetInfo, setPetBirthDate, setPetName} from '../petInfoSlice';
+import {selectPetInfo} from '../petInfoSlice';
 import {Avatar, Center} from 'native-base';
 import CustomSelector from '../../../common/components/CustomSelector';
 import {Controller, useForm} from 'react-hook-form';
@@ -62,7 +58,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
     handleSubmit(formData => {
       const updatedPetInfo: PetInfo = {
         ...formData,
-        //TODO: petkindid 없을경우 믹스 견종 번호
+        //TODO: petkindid 없을경우 믹스 견종 번호 ?
         petKindId: currentPetInfo.petKind?.petTypeId ?? 1,
       };
       mutate(updatedPetInfo);
@@ -70,9 +66,9 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
   };
 
   const onSavePetInfo = () => {
-    handleSubmit(data => {
-      console.log('DATA', data);
-    })();
+    // handleSubmit(data => {
+    //   console.log('SAVE NEW DATA', data);
+    // })();
   };
   const onPressEditButton = () => {
     // api

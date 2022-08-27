@@ -5,7 +5,7 @@ import {
   reset as resetPetInfo,
   setPetName,
   setPetGender,
-  setPetBirthDate,
+  setPetBirthday,
   setPetNeutered,
   setPetMemo,
   setPetFirstMeetDate,
@@ -15,7 +15,7 @@ enum PetBottomSheets {
   PETSPECIES,
   PETNAME,
   PETGENDER,
-  PETBIRTHDATE,
+  PETBIRTHDAY,
   PETFIRSTMEETDATE,
   PETNEUTERED,
   PETMEMO,
@@ -74,8 +74,8 @@ const bottomSheetPetSlice = createSlice({
         state.currentSheetComplete = true;
       }
     },
-    [setPetBirthDate.type]: (state, action) => {
-      if (state.currentSheet === PetBottomSheets.PETBIRTHDATE) {
+    [setPetBirthday.type]: (state, action) => {
+      if (state.currentSheet === PetBottomSheets.PETBIRTHDAY) {
         state.currentSheetComplete = true;
       }
     },
