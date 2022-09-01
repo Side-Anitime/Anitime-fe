@@ -14,9 +14,9 @@ export const getPlans = async (
 ) => {
   try {
     const res = await axios.get(
-      `${Config.API_HOST}/plan/calendar-view/${year}/${month}/${userToken}`,
+      `${Config.API_HOST}/plan/calendar-view/{year}/{month}/{userToken}?year=${year}&month=${month}&userToken=${userToken}`,
     );
-    return res.data;
+    return Object.assign({}, ...res.data.data);
   } catch (e) {
     console.log(e);
   }

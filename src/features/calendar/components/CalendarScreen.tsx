@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Text} from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import deepmerge from 'deepmerge';
 import {CATEGORIES, korMonth} from '../../../common/constants';
@@ -27,41 +26,24 @@ LocaleConfig.locales.kr = {
 };
 LocaleConfig.defaultLocale = 'kr';
 
-const hospital = {key: 'vacation', color: 'red'};
-const walk = {key: 'walk', color: 'blue'};
-const workout = {key: 'workout', color: 'green'};
-
-const dummyData = {
-  '2022-08-01': {
-    name: '병원',
-    dots: [hospital],
-  },
-  '2022-08-02': {name: ['산책', '병원'], dots: [walk, workout], disabled: true},
-  '2022-08-03': {dots: [walk, workout]},
-};
-
 function CalendarScreen({
   navigation,
 }: CalendarStackScreenProps<'CalendarScreen'>) {
-  const {data, isError, error} = useQuery(['plans'], () =>
+  const {data: calendarData, status} = useQuery(['plans'], () =>
     getPlans('2022', '07', 'testtoken'),
   );
-  console.log(error);
 
-  const [curDay, setCurDay] = useState('');
   const [selectedDay, setSelectedDay] = useState({});
-
   const refRBSheet = useRef<RBSheet>(null);
 
   useEffect(() => {
-    // getPlans('2022', '07', 'testtoken');
-    setSelectedDay(dummyData);
-  }, []);
+    setSelectedDay(calendarData);
+  }, [status, calendarData]);
 
   const onDayPress = day => {
-    setCurDay(day.dateString);
-    const mergedDay = deepmerge(dummyData, {
+    const mergedDay = deepmerge(calendarData, {
       [day.dateString]: {
+        marked: true,
         selected: true,
         color: 'blue',
       },
@@ -78,7 +60,6 @@ function CalendarScreen({
         markingType={'multi-dot'}
         markedDates={selectedDay}
       />
-      <Text>{dummyData?.[curDay]?.name}</Text>
       <ActionButton onPress={() => navigation.navigate('CalendarFormScreen')} />
       <BottomSheet
         title="말머리 선택"
