@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Calendar, LocaleConfig} from 'react-native-calendars';
+import {Calendar, LocaleConfig, DateData} from 'react-native-calendars';
 import deepmerge from 'deepmerge';
 import {CATEGORIES, korMonth} from '../../../common/constants';
 import BottomSheet from '../../../common/components/BottomSheet';
@@ -29,12 +29,13 @@ LocaleConfig.defaultLocale = 'kr';
 function CalendarScreen({
   navigation,
 }: CalendarStackScreenProps<'CalendarScreen'>) {
-  const {data: calendarData, status} = useQuery(['plans'], () =>
-    getPlans('2022', '07', 'testtoken'),
-  );
-
+  const [curMonth, setCurMonth] = useState<string>('');
   const [selectedDay, setSelectedDay] = useState({});
   const refRBSheet = useRef<RBSheet>(null);
+
+  const {data: calendarData, status} = useQuery(['plans', curMonth], () =>
+    getPlans('2022', curMonth, 'testtoken'),
+  );
 
   useEffect(() => {
     setSelectedDay(calendarData);
@@ -51,12 +52,17 @@ function CalendarScreen({
     setSelectedDay(mergedDay);
   };
 
+  const onMonthChange = (monthData: DateData) => {
+    setCurMonth(monthData.month.toString().padStart(2, '0'));
+  };
+
   return (
     <Container>
       <Calendar
         monthFormat={'yyyy년 MM월'}
         enableSwipeMonths={true}
         onDayPress={onDayPress}
+        onMonthChange={onMonthChange}
         markingType={'multi-dot'}
         markedDates={selectedDay}
       />
