@@ -6,6 +6,7 @@ import {ListItem} from '@rneui/themed';
 import {CATEGORIES} from '../../../common/constants';
 import styled from 'styled-components/native';
 import DatePicker from 'react-native-date-picker';
+import MyCalendar from './Calendar';
 
 function CalendarFormScreen({
   route,
@@ -23,11 +24,7 @@ function CalendarFormScreen({
 
   return (
     <Container>
-      {/*<Calendar*/}
-      {/*  monthFormat={'yyyy년 MM월'}*/}
-      {/*  enableSwipeMonths={true}*/}
-      {/*  markingType={'multi-dot'}*/}
-      {/*/>*/}
+      <MyCalendar />
       <ListItem.Accordion
         containerStyle={{
           borderRadius: 8,
