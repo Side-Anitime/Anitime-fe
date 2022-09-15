@@ -17,12 +17,17 @@ import CustomDatePicker from '../../../common/components/CustomDatePicker';
 import {formatDateToString} from '../../../common/utils/TimeUtils';
 import CustomTextInput from '../../../common/components/CustomTextInput';
 import {ScreenHeight} from '@rneui/base';
-import {useUpdatePet} from '../../../common/repositories/PetRepository';
+import {
+  useSavePet,
+  useUpdatePet,
+} from '../../../common/repositories/PetRepository';
+import {selectUser} from '../../auth/authSlice';
 
 interface Props extends MyPetStackScreenProps<'PetInfoDisplayScreen'> {}
 
 function PetInfoDisplayScreen({navigation, route}: Props) {
   const currentPetInfo: PetInfo = useSelector(selectPetInfo);
+  const currentUser = useSelector(selectUser);
   const [isEditing, setIsEditing] = useState<boolean>(
     route.params?.editMode ?? false,
   );
@@ -35,23 +40,47 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
     defaultValues: currentPetInfo,
   });
   const {updatePet} = useUpdatePet();
-
+  const {savePet} = useSavePet();
+  /*
+   *
+   * UPDATE
+   *
+   */
   const onUpdatePetInfo = () => {
     handleSubmit(formData => {
       const updatedPetInfo: PetInfo = {
         ...formData,
+        userToken: currentUser.userToken,
         //TODO: petkindid 없을경우 믹스 견종 번호 ?
-        petKindId: currentPetInfo.petKind?.petTypeId ?? 1,
+        petKindId: formData.petKind?.petTypeId ?? 1,
       };
       updatePet(updatedPetInfo);
     })();
   };
-
+  /*
+   *
+   * SAVE
+   *
+   */
   const onSavePetInfo = () => {
+    handleSubmit(formData => {
+      const createdPetInfo: PetInfo = {
+        ...formData,
+        userToken: currentUser.userToken,
+        petKindId: formData?.petKind?.petTypeId ?? 1,
+      };
+      savePet(createdPetInfo);
+    })();
+    // savePet(currentPetInfo)
     // handleSubmit(data => {
     //   console.log('SAVE NEW DATA', data);
     // })();
   };
+  /*
+   *
+   * HANDLER
+   *
+   */
   const onPressEditButton = () => {
     // api
     if (isEditing) {
@@ -85,6 +114,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
             <Text style={styles.label}>성별</Text>
             <Controller
               control={control}
+              rules={{required: true}}
               render={({field: {onChange, onBlur, value}}) => (
                 <CustomSelector
                   isEditing={isEditing}

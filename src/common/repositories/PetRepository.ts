@@ -10,14 +10,51 @@ const tempUserToken = 'testtoken';
  * LIST
  *
  */
-export const useListPet = () => {
-  return useQuery(['pet'], async () => {
-    const {data}: PetListResponse = await axios.get(
-      `${Config.API_HOST}/pet/list/{userToken}?userToken=${tempUserToken}`,
-    );
+export const useListPet = (refetchInterval?: number) => {
+  return useQuery(
+    ['pet'],
+    async () => {
+      console.log('REFETCH');
+      const {data}: PetListResponse = await axios.get(
+        `${Config.API_HOST}/pet/list/{userToken}?userToken=${tempUserToken}`,
+      );
 
-    return data;
+      return data;
+    },
+    // 자동으로 fetch 되는것 방지
+    {enabled: false},
+  );
+};
+/*
+ *
+ * SAVE
+ *
+ */
+const onSavePet = async (petInfo: PetInfo) => {
+  try {
+    const result = await axios.post(`${Config.API_HOST}/pet/save`, petInfo);
+    return result.data;
+  } catch (e) {
+    console.log('ERROR: ', e);
+  }
+};
+export const useSavePet = () => {
+  const {
+    mutate: savePet,
+    status: savePetStatus,
+    error: savePetError,
+  } = useMutation<PetInfo, AxiosError, PetInfo>(onSavePet, {
+    onSuccess: data => {
+      console.log('PET SAVE COMPLETE: ', data);
+    },
+    onError: error => {
+      console.log('PET SAVE ERROR: ', error);
+    },
+    onSettled: () => {
+      // queryClient.invalidateQueries('modify');
+    },
   });
+  return {savePet, savePetStatus, savePetError};
 };
 /*
  *
@@ -39,10 +76,10 @@ export const useUpdatePet = () => {
     error: updatePetError,
   } = useMutation<PetInfo, AxiosError, PetInfo>(onUpdatePet, {
     onSuccess: data => {
-      console.log('success');
+      console.log('PET UPDATE COMPLETE: ', data);
     },
-    onError: () => {
-      console.log('error');
+    onError: error => {
+      console.log('PET UPDATE ERROR: ', error);
     },
     onSettled: () => {
       // queryClient.invalidateQueries('modify');
@@ -75,11 +112,11 @@ export const useDeletePet = () => {
     status: deletePetStatus,
     error: deletePetError,
   } = useMutation<unknown, AxiosError, DeleteParams>(onDeletePet, {
-    onSuccess: () => {
-      console.log('success');
+    onSuccess: data => {
+      console.log('PET DELETE COMPLETE: ', data);
     },
-    onError: () => {
-      console.log('error');
+    onError: error => {
+      console.log('PET DELETE ERROR: ', error);
     },
     onSettled: () => {
       // queryClient.invalidateQueries('modify');

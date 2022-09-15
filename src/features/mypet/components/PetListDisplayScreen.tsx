@@ -36,34 +36,55 @@ function PetListDisplayScreen({
       return () => refRBSheet.current?.close();
     }, []),
   );
-  const {status, data, error, isFetching} = useListPet();
+  const {status, data, error, isFetching, refetch} = useListPet();
   const {deletePet} = useDeletePet();
 
   const onPressSettingButton = () => {
     navigation.navigate('SettingMenuScreen');
   };
+
+  /*
+   *
+   * 반려동물 등록
+   *
+   */
   const onPressAddPetButton = () => {
     refRBSheet.current?.open();
   };
-
-  const onPressRemovePetButton = (item: PetInfo) => {
-    // TODO: 추후 디자인에 따라 삭제 버튼위치 변경될수있음
-    if (item.petId) {
-      deletePet({userToken: 'testtoken', petId: item.petId});
-    }
-  };
-
-  const onPressDetailPetButton = (item: PetInfo) => {
-    dispatch(setPetInfo(item));
-    navigation.navigate('PetInfoDisplayScreen', {editMode: false});
-  };
-
   const onCompleteAddPet = () => {
     //TODO: LOADING SCREEN
     dispatch(toggleLoading());
     navigation.navigate('PetInfoDisplayScreen', {editMode: true});
     dispatch(toggleLoading());
   };
+  /*
+   *
+   * 반려동물 삭제
+   *
+   */
+  const onPressRemovePetButton = (item: PetInfo) => {
+    // TODO: 추후 디자인에 따라 삭제 버튼위치 변경될수있음
+    if (item.petId) {
+      deletePet({userToken: 'testtoken', petId: item.petId});
+    }
+  };
+  /*
+   *
+   * 반려동물 상세 정보
+   *
+   */
+  const onPressDetailPetButton = (item: PetInfo) => {
+    dispatch(setPetInfo(item));
+    navigation.navigate('PetInfoDisplayScreen', {editMode: false});
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      // Pet List Refetch
+      if (refetch) refetch();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <Wrapper>
@@ -94,7 +115,7 @@ function PetListDisplayScreen({
             renderItem={({item, index}) => {
               const petItem = item as PetInfo;
               return (
-                <TouchableOpacity>
+                <View>
                   <PetListHStack
                     key={index}
                     space={5}
@@ -124,7 +145,7 @@ function PetListDisplayScreen({
                       <Text>삭제</Text>
                     </TouchableOpacity>
                   </PetListHStack>
-                </TouchableOpacity>
+                </View>
               );
             }}
           />
