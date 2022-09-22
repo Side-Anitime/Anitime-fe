@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {Pressable, Text, TouchableOpacity} from 'react-native';
+import {Pressable, Text, TouchableOpacity, Image} from 'react-native';
 import {
   Avatar,
   HStack,
@@ -7,7 +7,6 @@ import {
   Spacer,
   Center,
   View,
-  Image,
   FlatList,
 } from 'native-base';
 
@@ -88,25 +87,28 @@ function PetListDisplayScreen({
 
   return (
     <Wrapper>
-      <PetHeader>
+      <Header>
         <TouchableOpacity
           onPress={() => navigation.navigate('SettingMenuScreen')}>
-          <Image source={menu} alt="메뉴" />
+          <HamburgerButton source={menu} />
         </TouchableOpacity>
-      </PetHeader>
-      <View mt={4} ml={4}>
-        <ProfileImgView>
-          <Avatar bg="gray.300" alignSelf="center" size="2xl" />
-          <ProfileText>닉네임</ProfileText>
-        </ProfileImgView>
-      </View>
+      </Header>
+      <ProfileWrapper>
+        <Avatar bg="gray.300" alignSelf="center" size="xl" />
+        <ProfileText>닉네임</ProfileText>
+      </ProfileWrapper>
       {status === 'loading' ? (
         <Text>Loading</Text>
       ) : status === 'error' ? (
         <Text>Error: {'ERROR'}</Text>
       ) : (
-        <PetListView>
-          <PetListTitleText>반려동물 관리</PetListTitleText>
+        <>
+          <PetListHeader>
+            <PetListTitleText>반려동물 관리</PetListTitleText>
+            <TouchableOpacity>
+              <PetListSettingText>관리</PetListSettingText>
+            </TouchableOpacity>
+          </PetListHeader>
           <PetList
             bounces
             data={data?.data}
@@ -127,31 +129,26 @@ function PetListDisplayScreen({
                         uri: petItem.image,
                       }}
                     />
-                    <Center>
-                      <VStack>
-                        <PetNameText>{petItem.name}</PetNameText>
-                        <PetBreedText>{petItem.petKind?.kindName}</PetBreedText>
-                      </VStack>
-                    </Center>
-                    <Spacer />
-                    <Center>
-                      <TouchableOpacity
-                        onPress={() => onPressDetailPetButton(petItem)}>
-                        <Image source={arrow_right} alt=">" />
-                      </TouchableOpacity>
-                    </Center>
-                    <TouchableOpacity
+                    <PetVStack>
+                      <PetNameText>{petItem.name}</PetNameText>
+                      <PetBreedText>{petItem.petKind?.kindName}</PetBreedText>
+                    </PetVStack>
+                    <PetDetailButton
+                      onPress={() => onPressDetailPetButton(petItem)}>
+                      <Image source={arrow_right} />
+                    </PetDetailButton>
+                    {/* <PetDeleteButton
                       onPress={() => onPressRemovePetButton(petItem)}>
                       <Text>삭제</Text>
-                    </TouchableOpacity>
+                    </PetDeleteButton> */}
                   </PetListHStack>
                 </View>
               );
             }}
           />
-        </PetListView>
+        </>
       )}
-      <ActionButton onPress={() => onPressAddPetButton()} />
+      <ActionButton offsetX={2} onPress={() => onPressAddPetButton()} />
       <BottomSheetPet
         refRBSheet={refRBSheet}
         onComplete={petInfo => onCompleteAddPet()}
@@ -163,20 +160,22 @@ function PetListDisplayScreen({
 const Wrapper = styled.View`
   height: 100%;
   flex: 1;
+  margin: 30px 20px 0px 20px;
 `;
 
-const PetHeader = styled.View`
+const HamburgerButton = styled.Image``;
+
+const Header = styled.View`
   display: flex;
-  margin: 20px 0px 0px 20px;
   flex-direction: row-reverse;
-  justify-content: space-between;
 `;
 
-const ProfileImgView = styled(Center)`
+const ProfileWrapper = styled(Center)`
   margin-top: 20px;
+  margin-bottom: 50px;
 `;
 const ProfileText = styled.Text`
-  margin-top: 15px
+  margin-top: 10px;
   color: #000;
   text-align: center;
   font-size: 18px;
@@ -186,13 +185,27 @@ const PetList = styled.FlatList`
   height: 300px;
   padding-bottom: 300px;
 `;
-const PetListView = styled.View`
-  margin: 75px 25px 0px 25px;
+const PetListHeader = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 `;
+
+const PetListSettingText = styled.Text`
+  margin-right: 10px;
+  color: #000;
+  font-size: 16px;
+`;
+
+const PetDeleteButton = styled.TouchableOpacity``;
+
+const PetDetailButton = styled.TouchableOpacity``;
+
 const PetListTitleText = styled.Text`
   color: #000;
-  font-size: 18px;
-  margin-bottom: 15px;
+  font-size: 16px;
 `;
 const PetNameText = styled.Text`
   color: #000;
@@ -207,10 +220,15 @@ const PetBreedText = styled.Text`
 const PetListHStack = styled(HStack)`
   background-color: white;
   padding: 13px 20px;
-  margin: 5px 0px
-  border-radius: 15px;
+  margin: 4px 0px
+  border-radius: 10px;
   border-width: 1px;
   border-color: #f3f3f3;
+  align-items: center;
+  `;
+
+const PetVStack = styled(VStack)`
+  flex-grow: 2;
 `;
 
 export default PetListDisplayScreen;

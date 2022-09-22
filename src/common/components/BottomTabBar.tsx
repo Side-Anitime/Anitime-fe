@@ -1,8 +1,8 @@
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import {getPathFromState} from '@react-navigation/native';
-import {Center, Image} from 'native-base';
+import {Center} from 'native-base';
 import React from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components/native';
 import {buttonHolder} from '../asstes';
 import {hiddenTabList} from '../constants';
@@ -23,7 +23,7 @@ export default function BottomTabBar({descriptors, state, navigation}: Props) {
       pointerEvents={'box-none'}
       style={{display: getDisplay() ? 'flex' : 'none'}}>
       <ImageWrapper pointerEvents={'none'}>
-        <ButtonHolder alt="buttonholder" source={buttonHolder} />
+        <ButtonHolder source={buttonHolder} resizeMode="stretch" />
       </ImageWrapper>
       <ButtonWrapper>
         {state.routes.map((route, index) => {
@@ -101,15 +101,13 @@ const Wrapper = styled.View`
   bottom: 0;
   background-color: transparent;
 `;
-const ButtonHolder = styled(Image)`
-  height: 62px;
+const ButtonHolder = styled.Image`
   width: 100%;
 `;
 const ButtonWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
   background-color: #f5f5f5;
-
   flex-grow: 1;
   background-color: transparent;
 `;
@@ -121,6 +119,6 @@ const BottomTabBarButton = styled(TouchableOpacity)`
 `;
 const ImageWrapper = styled.View`
   position: absolute;
-  bottom: 0;
   width: 100%;
+  bottom: 0;
 `;
