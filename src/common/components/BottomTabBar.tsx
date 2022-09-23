@@ -1,8 +1,8 @@
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
-import {getPathFromState} from '@react-navigation/native';
+import {getPathFromState, useNavigation} from '@react-navigation/native';
 import {Center} from 'native-base';
-import React from 'react';
-import {Image, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {Animated, Image, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components/native';
 import {buttonHolder} from '../asstes';
 import {hiddenTabList} from '../constants';
@@ -18,6 +18,29 @@ export default function BottomTabBar({descriptors, state, navigation}: Props) {
     return true;
   };
 
+  const dropAnim = useRef(new Animated.Value(1)).current;
+
+  const dropIn = () => {
+    Animated.timing(dropAnim, {
+      toValue: 1,
+      duration: 5000,
+      useNativeDriver: false,
+    }).start();
+  };
+  const dropOut = () => {
+    Animated.timing(dropAnim, {
+      toValue: 0,
+      duration: 3000,
+      useNativeDriver: false,
+    }).start();
+  };
+  useEffect(() => {
+    if (getDisplay()) {
+      dropIn();
+    } else {
+      dropOut();
+    }
+  }, [getDisplay()]);
   return (
     <Wrapper
       pointerEvents={'box-none'}
@@ -52,6 +75,7 @@ export default function BottomTabBar({descriptors, state, navigation}: Props) {
 
             if (!isFocused && !event.defaultPrevented) {
               // The `merge: true` option makes sure that the params inside the tab screen are preserved
+
               navigation.navigate({
                 name: route.name,
                 merge: true,
@@ -66,9 +90,7 @@ export default function BottomTabBar({descriptors, state, navigation}: Props) {
               target: route.key,
             });
           };
-          // if (options.tabBarStyle && options.tabBarStyle.display === 'none') {
-          //   return <View key={index}></View>;
-          // }
+
           return (
             <BottomTabBarButton
               key={index}
@@ -92,7 +114,7 @@ const Spacer = styled.View`
   width: 120px;
   height: 60px;
 `;
-const Wrapper = styled.View`
+const Wrapper = styled(Animated.View)`
   position: absolute;
   flex-direction: row;
   justify-content: space-between;
