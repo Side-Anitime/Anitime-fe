@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../app/rootReducer';
 
 const initialState = false;
@@ -8,6 +8,10 @@ const loadingSlice = createSlice({
   initialState,
   reducers: {
     toggleLoading: state => !state,
+    setLoading: (state, {payload}: PayloadAction<boolean>) => {
+      state = payload;
+      return state;
+    },
   },
   extraReducers: builder => {},
 });
@@ -15,4 +19,4 @@ const loadingSlice = createSlice({
 export default loadingSlice;
 
 export const selectLoading = (state: RootState) => state.loading;
-export const {toggleLoading} = loadingSlice.actions;
+export const {toggleLoading, setLoading} = loadingSlice.actions;

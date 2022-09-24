@@ -1,8 +1,8 @@
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
-import {getPathFromState} from '@react-navigation/native';
-import {Center, Image} from 'native-base';
-import React from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {getPathFromState, useNavigation} from '@react-navigation/native';
+import {Center} from 'native-base';
+import React, {useEffect, useRef} from 'react';
+import {Animated, Image, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components/native';
 import {buttonHolder} from '../asstes';
 import {hiddenTabList} from '../constants';
@@ -18,12 +18,37 @@ export default function BottomTabBar({descriptors, state, navigation}: Props) {
     return true;
   };
 
+  const dropAnim = useRef(new Animated.Value(1)).current;
+
+  const dropIn = () => {
+    Animated.timing(dropAnim, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  };
+  const dropOut = () => {
+    Animated.timing(dropAnim, {
+      toValue: 100,
+      duration: 800,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  useEffect(() => {
+    if (getDisplay()) {
+      dropIn();
+    } else {
+      dropOut();
+    }
+  }, [getDisplay()]);
+
   return (
     <Wrapper
       pointerEvents={'box-none'}
-      style={{display: getDisplay() ? 'flex' : 'none'}}>
+      style={{transform: [{translateY: dropAnim}]}}>
       <ImageWrapper pointerEvents={'none'}>
-        <ButtonHolder alt="buttonholder" source={buttonHolder} />
+        <ButtonHolder source={buttonHolder} resizeMode="stretch" />
       </ImageWrapper>
       <ButtonWrapper>
         {state.routes.map((route, index) => {
@@ -52,6 +77,7 @@ export default function BottomTabBar({descriptors, state, navigation}: Props) {
 
             if (!isFocused && !event.defaultPrevented) {
               // The `merge: true` option makes sure that the params inside the tab screen are preserved
+
               navigation.navigate({
                 name: route.name,
                 merge: true,
@@ -66,9 +92,7 @@ export default function BottomTabBar({descriptors, state, navigation}: Props) {
               target: route.key,
             });
           };
-          // if (options.tabBarStyle && options.tabBarStyle.display === 'none') {
-          //   return <View key={index}></View>;
-          // }
+
           return (
             <BottomTabBarButton
               key={index}
@@ -92,7 +116,7 @@ const Spacer = styled.View`
   width: 120px;
   height: 60px;
 `;
-const Wrapper = styled.View`
+const Wrapper = styled(Animated.View)`
   position: absolute;
   flex-direction: row;
   justify-content: space-between;
@@ -101,15 +125,13 @@ const Wrapper = styled.View`
   bottom: 0;
   background-color: transparent;
 `;
-const ButtonHolder = styled(Image)`
-  height: 62px;
+const ButtonHolder = styled.Image`
   width: 100%;
 `;
 const ButtonWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
   background-color: #f5f5f5;
-
   flex-grow: 1;
   background-color: transparent;
 `;
@@ -121,6 +143,6 @@ const BottomTabBarButton = styled(TouchableOpacity)`
 `;
 const ImageWrapper = styled.View`
   position: absolute;
-  bottom: 0;
   width: 100%;
+  bottom: 0;
 `;

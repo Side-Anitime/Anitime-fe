@@ -84,6 +84,6 @@ ActionButton.defaultProps = {
   fixNativeFeedbackRadius: false,
   size: 56,
   degrees: 45,
-  offsetX: 30,
+  offsetX: 22,
   offsetY: 30,
 };
