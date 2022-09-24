@@ -1,7 +1,4 @@
 import React, {RefObject} from 'react';
-import {Text} from 'react-native-svg';
-import union from '../../asstes/UI/rounded_edge_bottom_tab.png';
-import styled from 'styled-components/native';
 import {Image} from 'native-base';
 import actionButton from '../../asstes/UI/actionbutton.png';
 import {
@@ -11,7 +8,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {isAndroid} from '../../utils/shared';
 
 interface Props {
   onPress: () => void;
@@ -37,28 +33,24 @@ function ActionButton({
     onPress();
   };
 
-  const parentStyle =
-    isAndroid && fixNativeFeedbackRadius
-      ? {
-          right: offsetX,
-          zIndex: zIndex,
-          borderRadius: size ? size / 2 : undefined,
-          width: size,
-          paddingVertical: offsetY,
-        }
-      : {
-          marginHorizontal: offsetX,
-          zIndex: zIndex,
-          paddingVertical: offsetY,
-        };
+  const parentStyle = {
+    zIndex: zIndex,
+    paddingHorizontal: offsetX,
+    paddingVertical: offsetY,
+  };
 
   return (
     <View style={styles.overlay} pointerEvents={'box-none'}>
       <TouchableOpacity
-        style={parentStyle}
+        style={{...styles.wrapper, ...parentStyle}}
         accessibilityRole="button"
         onPress={handleOnPress}>
-        <Image source={src ?? actionButton} alt="버튼" />
+        <Image
+          source={src ?? actionButton}
+          alt="버튼"
+          style={styles.button}
+          resizeMode="contain"
+        />
       </TouchableOpacity>
     </View>
   );
@@ -75,7 +67,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     backgroundColor: 'transparent',
   },
-  button: {},
+  wrapper: {
+    width: '30%',
+  },
+  button: {alignSelf: 'center'},
 });
 
 export default ActionButton;
@@ -84,6 +79,6 @@ ActionButton.defaultProps = {
   fixNativeFeedbackRadius: false,
   size: 56,
   degrees: 45,
-  offsetX: 22,
+  offsetX: 10,
   offsetY: 30,
 };

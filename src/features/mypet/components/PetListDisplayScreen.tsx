@@ -101,80 +101,85 @@ function PetListDisplayScreen({
 
   return (
     <Wrapper>
-      <Header>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SettingMenuScreen')}>
-          <HamburgerButton source={menu} />
-        </TouchableOpacity>
-      </Header>
-      <ProfileWrapper>
-        <Avatar bg="gray.300" alignSelf="center" size="xl" />
-        <ProfileText>닉네임</ProfileText>
-      </ProfileWrapper>
-      <PetListHeader>
-        <PetListTitleText>반려동물 관리</PetListTitleText>
-        <TouchableOpacity>
-          <PetListSettingText>관리</PetListSettingText>
-        </TouchableOpacity>
-      </PetListHeader>
-      {/* TODO: 에러 처리 */}
-      {status === 'error' ? (
-        <Text>Error</Text>
-      ) : status === 'success' ? (
-        <>
-          <PetList
-            bounces
-            data={data?.data}
-            showsVerticalScrollIndicator={false}
-            ListFooterComponent={<View style={{height: 200}} />}
-            renderItem={({item, index}) => {
-              const petItem = item as PetInfo;
-              return (
-                <View>
-                  <PetListHStack
-                    key={index}
-                    space={5}
-                    justifyContent="space-between">
-                    <Avatar
-                      bg="gray.300"
-                      size="59px"
-                      source={{
-                        uri: petItem.image,
-                      }}
-                    />
-                    <PetVStack>
-                      <PetNameText>{petItem.name}</PetNameText>
-                      <PetBreedText>{petItem.petKind?.kindName}</PetBreedText>
-                    </PetVStack>
-                    <PetDetailButton
-                      onPress={() => onPressDetailPetButton(petItem)}>
-                      <Image source={arrow_right} />
-                    </PetDetailButton>
-                    {/* <PetDeleteButton
+      <ScreenWrapper>
+        <Header>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SettingMenuScreen')}>
+            <HamburgerButton source={menu} />
+          </TouchableOpacity>
+        </Header>
+        <ProfileWrapper>
+          <Avatar bg="gray.300" alignSelf="center" size="xl" />
+          <ProfileText>닉네임</ProfileText>
+        </ProfileWrapper>
+        <PetListHeader>
+          <PetListTitleText>반려동물 관리</PetListTitleText>
+          <TouchableOpacity>
+            <PetListSettingText>관리</PetListSettingText>
+          </TouchableOpacity>
+        </PetListHeader>
+        {/* TODO: 에러 처리 */}
+        {status === 'error' ? (
+          <Text>Error</Text>
+        ) : status === 'success' ? (
+          <>
+            <PetList
+              bounces
+              data={data?.data}
+              showsVerticalScrollIndicator={false}
+              ListFooterComponent={<View style={{height: 200}} />}
+              renderItem={({item, index}) => {
+                const petItem = item as PetInfo;
+                return (
+                  <View>
+                    <PetListHStack
+                      key={index}
+                      space={5}
+                      justifyContent="space-between">
+                      <Avatar
+                        bg="gray.300"
+                        size="59px"
+                        source={{
+                          uri: petItem.image,
+                        }}
+                      />
+                      <PetVStack>
+                        <PetNameText>{petItem.name}</PetNameText>
+                        <PetBreedText>{petItem.petKind?.kindName}</PetBreedText>
+                      </PetVStack>
+                      <PetDetailButton
+                        onPress={() => onPressDetailPetButton(petItem)}>
+                        <Image source={arrow_right} />
+                      </PetDetailButton>
+                      {/* <PetDeleteButton
                       onPress={() => onPressRemovePetButton(petItem)}>
                       <Text>삭제</Text>
                     </PetDeleteButton> */}
-                  </PetListHStack>
-                </View>
-              );
-            }}
-          />
-        </>
-      ) : (
-        <></>
-      )}
-      <ActionButton offsetX={2} onPress={() => onPressAddPetButton()} />
-      <BottomSheetPet
-        refRBSheet={refRBSheet}
-        onComplete={petInfo => onCompleteAddPet()}
-      />
+                    </PetListHStack>
+                  </View>
+                );
+              }}
+            />
+          </>
+        ) : (
+          <></>
+        )}
+        <BottomSheetPet
+          refRBSheet={refRBSheet}
+          onComplete={petInfo => onCompleteAddPet()}
+        />
+      </ScreenWrapper>
+      <ActionButton onPress={() => onPressAddPetButton()} />
     </Wrapper>
   );
 }
 
 const Wrapper = styled.View`
-  height: 100%;
   flex: 1;
+`;
+
+const ScreenWrapper = styled.View`
+  height: 100%;
   margin: 30px 20px 0px 20px;
 `;
 
