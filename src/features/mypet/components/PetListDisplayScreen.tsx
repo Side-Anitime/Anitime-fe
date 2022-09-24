@@ -15,7 +15,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomSheetPet';
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
 import {useAppDispatch} from '../../../app/store';
-import {toggleLoading} from '../../loading/loadingSlice';
+import {setLoading, toggleLoading} from '../../loading/loadingSlice';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
 import {
   useDeletePet,
@@ -29,6 +29,7 @@ function PetListDisplayScreen({
   navigation,
 }: MyPetStackScreenProps<'PetListDisplayScreen'>) {
   const refRBSheet = useRef<RBSheet>(null);
+
   const dispatch = useAppDispatch();
   useFocusEffect(
     React.useCallback(() => {
@@ -53,6 +54,7 @@ function PetListDisplayScreen({
   const onCompleteAddPet = () => {
     //TODO: LOADING SCREEN
     dispatch(toggleLoading());
+
     navigation.navigate('PetInfoDisplayScreen', {editMode: true});
     dispatch(toggleLoading());
   };
@@ -85,6 +87,18 @@ function PetListDisplayScreen({
     return unsubscribe;
   }, [navigation]);
 
+  useEffect(() => {
+    console.log('isFetching', isFetching);
+  }, [isFetching]);
+
+  useEffect(() => {
+    if (status === 'loading') {
+      dispatch(setLoading(true));
+    } else if (status === 'success') {
+      dispatch(setLoading(false));
+    }
+  }, [status]);
+
   return (
     <Wrapper>
       <Header>
@@ -97,18 +111,17 @@ function PetListDisplayScreen({
         <Avatar bg="gray.300" alignSelf="center" size="xl" />
         <ProfileText>닉네임</ProfileText>
       </ProfileWrapper>
-      {status === 'loading' ? (
-        <Text>Loading</Text>
-      ) : status === 'error' ? (
-        <Text>Error: {'ERROR'}</Text>
-      ) : (
+      <PetListHeader>
+        <PetListTitleText>반려동물 관리</PetListTitleText>
+        <TouchableOpacity>
+          <PetListSettingText>관리</PetListSettingText>
+        </TouchableOpacity>
+      </PetListHeader>
+      {/* TODO: 에러 처리 */}
+      {status === 'error' ? (
+        <Text>Error</Text>
+      ) : status === 'success' ? (
         <>
-          <PetListHeader>
-            <PetListTitleText>반려동물 관리</PetListTitleText>
-            <TouchableOpacity>
-              <PetListSettingText>관리</PetListSettingText>
-            </TouchableOpacity>
-          </PetListHeader>
           <PetList
             bounces
             data={data?.data}
@@ -147,6 +160,8 @@ function PetListDisplayScreen({
             }}
           />
         </>
+      ) : (
+        <></>
       )}
       <ActionButton offsetX={2} onPress={() => onPressAddPetButton()} />
       <BottomSheetPet

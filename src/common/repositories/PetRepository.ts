@@ -4,6 +4,10 @@ import {useMutation, useQuery} from '@tanstack/react-query';
 import {PetInfo} from '../models';
 import PetListResponse from '../models/pet/response';
 
+//NOTE: 로딩화면 테스트용 시간지연
+const timeout = (ms: number) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
 const tempUserToken = 'testtoken';
 /*
  *
@@ -18,11 +22,10 @@ export const useListPet = (refetchInterval?: number) => {
       const {data}: PetListResponse = await axios.get(
         `${Config.API_HOST}/pet/list/{userToken}?userToken=${tempUserToken}`,
       );
-
       return data;
     },
     // 자동으로 fetch 되는것 방지
-    {enabled: false},
+    // {enabled: false},
   );
 };
 /*
@@ -64,6 +67,7 @@ export const useSavePet = () => {
 const onUpdatePet = async (petInfo: PetInfo) => {
   try {
     const result = await axios.put(`${Config.API_HOST}/pet/modify`, petInfo);
+    await timeout(500);
     return result.data;
   } catch (e) {
     console.log('ERROR: ', e);

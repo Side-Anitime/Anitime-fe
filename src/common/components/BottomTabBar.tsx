@@ -22,18 +22,19 @@ export default function BottomTabBar({descriptors, state, navigation}: Props) {
 
   const dropIn = () => {
     Animated.timing(dropAnim, {
-      toValue: 1,
-      duration: 5000,
+      toValue: 0,
+      duration: 500,
       useNativeDriver: false,
     }).start();
   };
   const dropOut = () => {
     Animated.timing(dropAnim, {
-      toValue: 0,
-      duration: 3000,
+      toValue: 100,
+      duration: 800,
       useNativeDriver: false,
     }).start();
   };
+
   useEffect(() => {
     if (getDisplay()) {
       dropIn();
@@ -41,10 +42,11 @@ export default function BottomTabBar({descriptors, state, navigation}: Props) {
       dropOut();
     }
   }, [getDisplay()]);
+
   return (
     <Wrapper
       pointerEvents={'box-none'}
-      style={{display: getDisplay() ? 'flex' : 'none'}}>
+      style={{transform: [{translateY: dropAnim}]}}>
       <ImageWrapper pointerEvents={'none'}>
         <ButtonHolder source={buttonHolder} resizeMode="stretch" />
       </ImageWrapper>

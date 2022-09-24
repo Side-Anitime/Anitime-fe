@@ -3,7 +3,7 @@ import Home from './src/features/home';
 import Calendar from './src/features/calendar/components';
 import GuideScreen from './src/features/auth/component/GuideScreen';
 import * as React from 'react';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -25,6 +25,11 @@ import {
   home_off,
 } from './src/common/asstes/';
 import {Image} from 'react-native';
+import {useSelector} from 'react-redux';
+import {selectLoading, setLoading} from './src/features/loading/loadingSlice';
+import LoadingOverlay from './src/features/loading/LoadingOverlay';
+import {useIsMutating, useIsFetching} from '@tanstack/react-query';
+import {useAppDispatch} from './src/app/store';
 
 const Tab = createBottomTabNavigator<LoggedInTabParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -40,11 +45,28 @@ const MyTheme = {
 
 function AppInner() {
   const [isLoggedIn, setLoggedIn] = useState(true);
+  const isLoading = useSelector(selectLoading);
+
+  // **NOTE AppInner 에서 전체 로딩 관리할 경우 사용
+  // const dispatch = useAppDispatch();
+  // const isFetching = useIsFetching();
+  // const isMutating = useIsMutating();
+  // useEffect(() => {
+  //   if (isFetching || isMutating) {
+  //     dispatch(setLoading(true));
+  //     console.log('LOADING');
+  //   } else {
+  //     // dispatch(setLoading(false));
+  //     console.log('LOADING_OFF');
+  //     console.log('isfecthing', isFetching);
+  //   }
+  // }, [isFetching, isMutating]);
+
   return (
     <NativeBaseProvider>
       <NavigationContainer theme={MyTheme}>
         {isLoggedIn ? (
-          <BottomTab
+          <BottomTabNavigator
             tabBar={(props: BottomTabBarProps) => <BottomTabBar {...props} />}>
             <Tab.Screen
               name="Home"
@@ -88,7 +110,7 @@ function AppInner() {
                 },
               }}
             />
-          </BottomTab>
+          </BottomTabNavigator>
         ) : (
           <Stack.Navigator>
             <Stack.Screen
@@ -103,11 +125,12 @@ function AppInner() {
             />
           </Stack.Navigator>
         )}
+        {isLoading && <LoadingOverlay />}
       </NavigationContainer>
     </NativeBaseProvider>
   );
 }
 
-const BottomTab = styled(Tab.Navigator)``;
+const BottomTabNavigator = styled(Tab.Navigator)``;
 
 export default AppInner;

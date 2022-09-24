@@ -35,7 +35,7 @@ function CustomDatePicker({
 
   if (!isEditing) {
     return (
-      <Text style={styles.text}>
+      <Text style={labelStyle}>
         {date ? formatDateToString(date, 'YYYY') : '_____'}
         <Text style={labelStyle}> {'년 '}</Text>
         {date ? formatDateToString(date, 'MM') : '___'}
@@ -48,7 +48,7 @@ function CustomDatePicker({
   return (
     <View style={styles.wrapper}>
       <Pressable style={styles.textWrapper} onPress={() => onOpenDatePicker()}>
-        <Text style={styles.text}>
+        <Text style={labelStyle}>
           {date ? formatDateToString(date, 'YYYY') : '_____'}
           <Text style={labelStyle}> {'년 '}</Text>
           {date ? formatDateToString(date, 'MM') : '___'}
@@ -88,8 +88,4 @@ const styles = StyleSheet.create({
   },
   datePicker: {},
   textWrapper: {},
-  text: {
-    color: '#000000',
-    fontSize: 16,
-  },
 });
