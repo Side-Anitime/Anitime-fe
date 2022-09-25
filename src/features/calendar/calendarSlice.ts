@@ -23,22 +23,24 @@ export const getPlans = async (
 };
 
 const initialState = {
-  title: '',
-  date: '',
-  color: '',
+  selectedDate: {},
+  curMonthPlans: {},
 };
 
 const calendarSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
-    setCalendar(state, action) {
-      state.title = action.payload.title;
-      state.date = action.payload.date;
-      state.color = action.payload.color;
+    setSelectedDate(state, action) {
+      state.selectedDate = action.payload;
+    },
+    setCurMonthPlans(state, action) {
+      state.curMonthPlans = action.payload;
     },
   },
   extraReducers: builder => {},
 });
+
+export const {setSelectedDate, setCurMonthPlans} = calendarSlice.actions;
 
 export default calendarSlice;

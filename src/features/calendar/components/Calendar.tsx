@@ -3,7 +3,10 @@ import {Calendar, LocaleConfig, DateData} from 'react-native-calendars';
 import deepmerge from 'deepmerge';
 import {korMonth} from '../../../common/constants';
 import {useQuery} from '@tanstack/react-query';
-import {getPlans} from '../calendarSlice';
+import {getPlans, setCurMonthPlans, setSelectedDate} from '../calendarSlice';
+import {useSelector} from 'react-redux';
+import {useAppDispatch} from '../../../app/store';
+import dayjs from 'dayjs';
 
 LocaleConfig.locales.kr = {
   monthNames: korMonth,
@@ -22,16 +25,17 @@ LocaleConfig.locales.kr = {
 LocaleConfig.defaultLocale = 'kr';
 
 function MyCalendar() {
-  const [curMonth, setCurMonth] = useState<string>('');
-  const [selectedDay, setSelectedDay] = useState({});
+  const {curMonthPlans} = useSelector(state => state.calendar);
+  const dispatch = useAppDispatch();
+  const [curMonth, setCurMonth] = useState<string>(dayjs().format('MM'));
 
   const {data: calendarData, status} = useQuery(['plans', curMonth], () =>
     getPlans('2022', curMonth, 'testtoken'),
   );
 
   useEffect(() => {
-    setSelectedDay(calendarData);
-  }, [status, calendarData]);
+    dispatch(setCurMonthPlans(calendarData));
+  }, [status, calendarData, dispatch]);
 
   const onDayPress = (day: DateData) => {
     const mergedDay = deepmerge(calendarData, {
@@ -41,7 +45,8 @@ function MyCalendar() {
         color: 'blue',
       },
     });
-    setSelectedDay(mergedDay);
+    dispatch(setSelectedDate(day));
+    dispatch(setCurMonthPlans(mergedDay));
   };
 
   const onMonthChange = (monthData: DateData) => {
@@ -55,7 +60,7 @@ function MyCalendar() {
       onDayPress={onDayPress}
       onMonthChange={onMonthChange}
       markingType={'multi-dot'}
-      markedDates={selectedDay}
+      markedDates={curMonthPlans}
     />
   );
 }
