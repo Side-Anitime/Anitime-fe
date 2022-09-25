@@ -1,17 +1,26 @@
 import React, {useState} from 'react';
 import {Text} from 'react-native';
 import {CalendarStackScreenProps} from '../../../common/models';
-import {Calendar} from 'react-native-calendars';
 import {ListItem} from '@rneui/themed';
 import {CATEGORIES} from '../../../common/constants';
 import styled from 'styled-components/native';
 import DatePicker from 'react-native-date-picker';
 import MyCalendar from './Calendar';
+import {useSelector} from 'react-redux';
 
+const listItemStyle = {
+  borderRadius: 8,
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: '#E6E6E6',
+};
 function CalendarFormScreen({
   route,
 }: CalendarStackScreenProps<'CalendarFormScreen'>) {
+  const selectedDate = useSelector(state => state.calendar.selectedDate);
+
   const [date, setDate] = useState(new Date());
+  const [expandCalendar, setExpandedCalendar] = useState<boolean>(true);
   const [expandedCategory, setExpandedCategory] = useState<boolean>();
   const [expandedTime, setExpandedTime] = useState<boolean>();
   const [selectedCategory, setSelectedCategory] = useState<string>();
@@ -24,14 +33,28 @@ function CalendarFormScreen({
 
   return (
     <Container>
-      <MyCalendar />
       <ListItem.Accordion
-        containerStyle={{
-          borderRadius: 8,
-          borderWidth: 1,
-          borderStyle: 'solid',
-          borderColor: '#E6E6E6',
-        }}
+        containerStyle={listItemStyle}
+        content={
+          <ListItem.Content>
+            <Title>일정등록</Title>
+            <SubTitle>
+              {selectedDate?.dateString ? (
+                <Text>{selectedDate.dateString}</Text>
+              ) : (
+                '날짜를 선택해주세요'
+              )}
+            </SubTitle>
+          </ListItem.Content>
+        }
+        isExpanded={expandCalendar}
+        onPress={() => {
+          setExpandedCalendar(!expandCalendar);
+        }}>
+        <MyCalendar />
+      </ListItem.Accordion>
+      <ListItem.Accordion
+        containerStyle={listItemStyle}
         content={
           <ListItem.Content>
             <Title>카테고리</Title>
@@ -54,13 +77,7 @@ function CalendarFormScreen({
         ))}
       </ListItem.Accordion>
       <ListItem.Accordion
-        containerStyle={{
-          borderRadius: 8,
-          borderWidth: 1,
-          borderStyle: 'solid',
-          borderColor: '#E6E6E6',
-          marginTop: 10,
-        }}
+        containerStyle={listItemStyle}
         content={
           <ListItem.Content>
             <Title>시간</Title>
@@ -86,7 +103,7 @@ function CalendarFormScreen({
   );
 }
 
-const Container = styled.View`
+const Container = styled.ScrollView`
   padding: 20px;
 `;
 

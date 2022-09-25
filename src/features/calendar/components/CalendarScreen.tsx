@@ -16,15 +16,15 @@ function CalendarScreen({
     <Container>
       <MyCalendar />
       <ActionButton onPress={() => navigation.navigate('CalendarFormScreen')} />
-      <BottomSheet
-        title="말머리 선택"
-        height={400}
-        titlePosition={'center'}
-        refRBSheet={refRBSheet}>
-        {CATEGORIES.map(item => (
-          <ListText>{item}</ListText>
-        ))}
-      </BottomSheet>
+      {/*<BottomSheet*/}
+      {/*  title="말머리 선택"*/}
+      {/*  height={400}*/}
+      {/*  titlePosition={'center'}*/}
+      {/*  refRBSheet={refRBSheet}>*/}
+      {/*  {CATEGORIES.map(item => (*/}
+      {/*    <ListText>{item}</ListText>*/}
+      {/*  ))}*/}
+      {/*</BottomSheet>*/}
     </Container>
   );
 }
