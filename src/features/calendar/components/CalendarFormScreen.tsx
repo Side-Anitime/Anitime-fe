@@ -7,6 +7,9 @@ import styled from 'styled-components/native';
 import DatePicker from 'react-native-date-picker';
 import MyCalendar from './Calendar';
 import {useSelector} from 'react-redux';
+import {setSelectedDate} from '../calendarSlice';
+import dayjs from 'dayjs';
+import Button from '../../../common/components/Button';
 
 const listItemStyle = {
   borderRadius: 8,
@@ -20,11 +23,15 @@ function CalendarFormScreen({
   const selectedDate = useSelector(state => state.calendar.selectedDate);
 
   const [date, setDate] = useState(new Date());
+
+  // data state
+  const [selectedTime, setSelectedTime] = useState<string>();
+  const [selectedCategory, setSelectedCategory] = useState<string>();
+
+  // expand state
   const [expandCalendar, setExpandedCalendar] = useState<boolean>(true);
   const [expandedCategory, setExpandedCategory] = useState<boolean>();
   const [expandedTime, setExpandedTime] = useState<boolean>();
-  const [selectedCategory, setSelectedCategory] = useState<string>();
-  const [selectedTime, setSelectedTime] = useState<string>();
 
   const onPress = name => {
     setSelectedCategory(name);
@@ -95,10 +102,11 @@ function CalendarFormScreen({
           mode="time"
           date={date}
           onDateChange={date => {
-            console.log(date);
+            setSelectedTime(dayjs(date).format('HH:mm'));
           }}
         />
       </ListItem.Accordion>
+      <Button styleType="primary">저장</Button>
     </Container>
   );
 }
