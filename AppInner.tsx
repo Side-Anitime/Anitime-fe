@@ -54,12 +54,8 @@ function AppInner() {
   const isLoading = useSelector(selectLoading);
   const isFetchingPet = useIsFetching(['pet']);
   const isMutatingPet = useIsMutating(['pet']);
-  const isDeletingPet = useIsMutating(['petDelete']);
 
   useEffect(() => {
-    console.log('========================');
-    console.log('isFetching: ', isFetchingPet);
-    console.log('isMutating: ', isMutatingPet);
     if (isFetchingPet || isMutatingPet) {
       dispatch(setLoading(true));
     } else {

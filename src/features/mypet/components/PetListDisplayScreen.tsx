@@ -34,6 +34,7 @@ function PetListDisplayScreen({
 
   const currentPetInfo = useSelector(selectPetInfo);
   const {status, data, error, isFetching, refetch} = useListPet();
+  const isDataNull = !data?.data || data?.data.length < 1;
   const {deletePet, deletePetStatus} = useDeletePet();
 
   const onPressSettingButton = () => {
@@ -105,6 +106,12 @@ function PetListDisplayScreen({
     }
   }, [deletePetStatus]);
 
+  useEffect(() => {
+    if (isDataNull) {
+      SetManageMode(false);
+    }
+  }, [isDataNull]);
+
   return (
     <Wrapper>
       <ScreenWrapper>
@@ -120,8 +127,10 @@ function PetListDisplayScreen({
         </ProfileWrapper>
         <PetListHeader>
           <PetListTitleText>반려동물 관리</PetListTitleText>
-          <TouchableOpacity onPress={() => onPressManagePetButton()}>
-            <PetListSettingText>
+          <TouchableOpacity
+            onPress={() => onPressManagePetButton()}
+            disabled={isDataNull}>
+            <PetListSettingText style={{color: isDataNull ? 'gray' : '#000'}}>
               {isManageMode ? '완료' : '관리'}
             </PetListSettingText>
           </TouchableOpacity>
@@ -254,7 +263,6 @@ const PetListHeader = styled.View`
 `;
 
 const PetListSettingText = styled.Text`
-  margin-right: 10px;
   color: #000;
   font-size: 16px;
 `;
