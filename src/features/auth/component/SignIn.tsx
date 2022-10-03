@@ -3,6 +3,12 @@ import {Alert, Platform, Pressable, Image} from 'react-native';
 import styled from 'styled-components/native';
 import {login, getProfile, KakaoProfile} from '@react-native-seoul/kakao-login';
 import {ConfigParam, NaverLogin} from '@react-native-seoul/naver-login';
+import {Mode} from './GuideScreen';
+
+interface Props {
+  mode: Mode;
+  onPressSignUpButton: () => void;
+}
 
 const iosKeys = {
   kConsumerKey: 'VC5CPfjRigclJV_TFACU',
@@ -19,62 +25,66 @@ const androidKeys = {
 
 const initials = Platform.OS === 'ios' ? iosKeys : androidKeys;
 
-function SignIn() {
+function SignIn({mode}: Props) {
   const [naverToken, setNaverToken] = useState(null);
 
-  const loginByKakao = async (): Promise<void> => {
-    const {accessToken} = await login();
-    const {nickname, phoneNumber, ageRange, gender}: KakaoProfile =
-      await getProfile();
-  };
+  // const loginByKakao = async (): Promise<void> => {
+  //   const {accessToken} = await login();
+  //   const {nickname, phoneNumber, ageRange, gender}: KakaoProfile =
+  //     await getProfile();
+  // };
 
-  const naverLogin = (props: ConfigParam) => {
-    return new Promise((resolve, reject) => {
-      NaverLogin.login(props, (err, token) => {
-        console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
-        setNaverToken(token);
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(token);
-      });
-    });
-  };
+  // const naverLogin = (props: ConfigParam) => {
+  //   return new Promise((resolve, reject) => {
+  //     NaverLogin.login(props, (err, token) => {
+  //       console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
+  //       setNaverToken(token);
+  //       if (err) {
+  //         reject(err);
+  //         return;
+  //       }
+  //       resolve(token);
+  //     });
+  //   });
+  // };
 
-  const naverLogout = () => {
-    NaverLogin.logout();
-    setNaverToken('');
-  };
+  // const naverLogout = () => {
+  //   NaverLogin.logout();
+  //   setNaverToken('');
+  // };
 
-  const getUserProfile = async () => {
-    const profileResult = await getProfile(naverToken.accessToken);
-    if (profileResult.resultcode === '024') {
-      Alert.alert('로그인 실패', profileResult.message);
-      return;
-    }
-    console.log('profileResult', profileResult);
-  };
+  // const getUserProfile = async () => {
+  //   const profileResult = await getProfile(naverToken.accessToken);
+  //   if (profileResult.resultcode === '024') {
+  //     Alert.alert('로그인 실패', profileResult.message);
+  //     return;
+  //   }
+  //   console.log('profileResult', profileResult);
+  // };
 
   return (
     <Container>
       <Wrapper>
         <LoginIconWrapper>
-          <Pressable onPress={loginByKakao}>
+          <Pressable>
             <Image source={require('../../../common/asstes/kakaoLogin.png')} />
           </Pressable>
-          <Pressable onPress={naverLogin}>
+          <Pressable>
             <Image source={require('../../../common/asstes/naverLogin.png')} />
           </Pressable>
         </LoginIconWrapper>
       </Wrapper>
       <EmailLoginButton>
-        <EmailLoginText>이메일로 로그인</EmailLoginText>
+        <EmailLoginText>
+          이메일로 {mode === 'signIn' ? '로그인' : '회원가입'}
+        </EmailLoginText>
       </EmailLoginButton>
-      <FindIdWrapper>
-        <FindIdQuestionText>계정이 기억나지 않으세요? </FindIdQuestionText>
-        <FindIdText>계정찾기</FindIdText>
-      </FindIdWrapper>
+      {mode === 'signIn' && (
+        <FindIdWrapper>
+          <FindIdQuestionText>계정이 기억나지 않으세요? </FindIdQuestionText>
+          <FindIdText>계정찾기</FindIdText>
+        </FindIdWrapper>
+      )}
     </Container>
   );
 }
@@ -104,8 +114,8 @@ const EmailLoginButton = styled.Pressable`
   align-items: center;
   width: 315px;
   height: 54px;
-  border: 1.5px solid #c4c4c4;
-  border-radius: 30px;
+  border: 1px solid #c4c4c4;
+  border-radius: 8px;
   color: black;
   margin-bottom: 29px;
 `;

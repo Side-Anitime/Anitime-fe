@@ -1,11 +1,13 @@
 import RBSheet from 'react-native-raw-bottom-sheet';
 import React from 'react';
 import styled from 'styled-components/native';
+import {FlexAlignType, StyleProp, TextStyle} from 'react-native';
 
 interface BottomSheetProps {
   children: React.ReactNode;
   title: string;
-  titlePosition?: string;
+  titlePosition?: FlexAlignType;
+  titleStyle?: StyleProp<TextStyle>;
   height?: number;
   refRBSheet?: React.RefObject<RBSheet>;
 }
@@ -14,6 +16,7 @@ function BottomSheet({
   children,
   title,
   titlePosition,
+  titleStyle,
   height,
   refRBSheet,
 }: BottomSheetProps) {
@@ -35,7 +38,9 @@ function BottomSheet({
       }}>
       <Wrapper>
         <BottomSelectHeader titlePosition={titlePosition}>
-          <BottomSelectHeaderText>{title}</BottomSelectHeaderText>
+          <BottomSelectHeaderText style={titleStyle}>
+            {title}
+          </BottomSelectHeaderText>
         </BottomSelectHeader>
         {children}
       </Wrapper>
@@ -51,7 +56,8 @@ const Wrapper = styled.View`
 
 const BottomSelectHeader = styled.View`
   display: flex;
-  align-items: ${({titlePosition}) => titlePosition};
+  align-items: ${({titlePosition}: {titlePosition?: FlexAlignType}) =>
+    titlePosition};
   justify-content: center;
   height: 68px;
 `;
