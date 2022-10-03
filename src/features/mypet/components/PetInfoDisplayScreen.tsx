@@ -23,7 +23,6 @@ import {
 import {selectUser} from '../../auth/authSlice';
 import {setLoading} from '../../loading/loadingSlice';
 import {useAppDispatch} from '../../../app/store';
-import CompleteOverlay from '../../loading/CompleteOverlay';
 
 interface Props extends MyPetStackScreenProps<'PetInfoDisplayScreen'> {}
 
@@ -31,9 +30,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
   const currentPetInfo: PetInfo = useSelector(selectPetInfo);
   const currentUser = useSelector(selectUser);
   const dispatch = useAppDispatch();
-  const [isEditing, setIsEditing] = useState<boolean>(
-    route.params?.editMode ?? false,
-  );
+  const [isEditing, setIsEditing] = useState<boolean>(!currentPetInfo.petId);
   const {
     control,
     handleSubmit,
@@ -43,7 +40,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
     defaultValues: currentPetInfo,
   });
   const {updatePet, updatePetStatus} = useUpdatePet();
-  const {savePet} = useSavePet();
+  const {savePet, savePetStatus} = useSavePet();
   /*
    *
    * UPDATE
@@ -67,7 +64,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
    *
    */
   const onSavePetInfo = () => {
-    handleSubmit(formData => {
+    return handleSubmit(formData => {
       const createdPetInfo: PetInfo = {
         ...formData,
         userToken: currentUser.userToken,
@@ -83,6 +80,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
    */
   const onPressEditButton = () => {
     // api
+    setIsEditing(!isEditing);
     if (isEditing) {
       // 수정
       if (currentPetInfo.petId) {
@@ -90,20 +88,12 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
       }
       //신규
       else {
-        onSavePetInfo();
+        onSavePetInfo().then(() => {
+          navigation.navigate('PetListDisplayScreen');
+        });
       }
     }
-    setIsEditing(!isEditing);
   };
-
-  useEffect(() => {
-    if (updatePetStatus === 'loading') {
-      dispatch(setLoading(true));
-    } else if (updatePetStatus === 'success') {
-      dispatch(setLoading(false));
-      // TODO: COMPLETE 알림 모달
-    }
-  }, [updatePetStatus]);
 
   return (
     <View style={{display: 'flex'}}>
@@ -160,6 +150,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
                 control={control}
                 render={({field: {onChange, onBlur, value}}) => (
                   <CustomDatePicker
+                    labelStyle={styles.label}
                     isEditing={isEditing}
                     maximumDate={new Date()}
                     date={value ? new Date(value) : undefined}
@@ -238,7 +229,6 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
           <Text>{isEditing ? '완료' : '수정'}</Text>
         </TouchableOpacity>
       </View>
-      <CompleteOverlay visibility={updatePetStatus === 'success'} />
     </View>
   );
 }

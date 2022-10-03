@@ -30,6 +30,8 @@ import {selectLoading, setLoading} from './src/features/loading/loadingSlice';
 import LoadingOverlay from './src/features/loading/LoadingOverlay';
 import {useIsMutating, useIsFetching} from '@tanstack/react-query';
 import {useAppDispatch} from './src/app/store';
+import CompleteOverlay from './src/features/loading/CompleteOverlay';
+import {PetQueries} from './src/common/repositories/queries';
 
 const Tab = createBottomTabNavigator<LoggedInTabParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -45,22 +47,21 @@ const MyTheme = {
 
 function AppInner() {
   const [isLoggedIn, setLoggedIn] = useState(true);
-  const isLoading = useSelector(selectLoading);
+  const [isComplete, setComplete] = useState(false);
+  const dispatch = useAppDispatch();
 
-  // **NOTE AppInner 에서 전체 로딩 관리할 경우 사용
-  // const dispatch = useAppDispatch();
-  // const isFetching = useIsFetching();
-  // const isMutating = useIsMutating();
-  // useEffect(() => {
-  //   if (isFetching || isMutating) {
-  //     dispatch(setLoading(true));
-  //     console.log('LOADING');
-  //   } else {
-  //     // dispatch(setLoading(false));
-  //     console.log('LOADING_OFF');
-  //     console.log('isfecthing', isFetching);
-  //   }
-  // }, [isFetching, isMutating]);
+  //로딩 관리. 캘린더도 함께 사용할 경우 ['pet'] param 삭제 or 원하는 query key 추가
+  const isLoading = useSelector(selectLoading);
+  const isFetchingPet = useIsFetching(['pet']);
+  const isMutatingPet = useIsMutating(['pet']);
+
+  useEffect(() => {
+    if (isFetchingPet || isMutatingPet) {
+      dispatch(setLoading(true));
+    } else {
+      dispatch(setLoading(false));
+    }
+  }, [isFetchingPet, isMutatingPet]);
 
   return (
     <NativeBaseProvider>
@@ -126,6 +127,7 @@ function AppInner() {
           </Stack.Navigator>
         )}
         {isLoading && <LoadingOverlay />}
+        {isComplete && <CompleteOverlay />}
       </NavigationContainer>
     </NativeBaseProvider>
   );

@@ -1,7 +1,6 @@
 import {ScreenHeight, ScreenWidth} from '@rneui/base';
 import {Spinner} from 'native-base';
 import React from 'react';
-import {Text, View} from 'react-native';
 import styled from 'styled-components/native';
 
 function LoadingOverlay() {
@@ -29,7 +28,7 @@ const Wrapper = styled.View`
 const MessageBox = styled.View`
   display: flex;
   align-self: center;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.6);
   justify-content: center;
   height: 100px;
   width: 100px;
