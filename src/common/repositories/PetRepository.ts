@@ -3,6 +3,7 @@ import Config from 'react-native-config';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import {PetInfo} from '../models';
 import PetListResponse from '../models/pet/response';
+import {PetQueries} from './queries';
 
 //NOTE: 로딩화면 테스트용 시간지연
 const timeout = (ms: number) => {
@@ -16,13 +17,16 @@ const tempUserToken = 'testtoken';
  */
 export const useListPet = (refetchInterval?: number) => {
   return useQuery(
-    ['pet'],
+    [PetQueries.pet, PetQueries.petList],
     async () => {
-      console.log('REFETCH');
       const {data}: PetListResponse = await axios.get(
         `${Config.API_HOST}/pet/list/{userToken}?userToken=${tempUserToken}`,
       );
       return data;
+    },
+    {
+      refetchOnWindowFocus: true,
+      enabled: true,
     },
     // 자동으로 fetch 되는것 방지
     // {enabled: false},
@@ -46,17 +50,21 @@ export const useSavePet = () => {
     mutate: savePet,
     status: savePetStatus,
     error: savePetError,
-  } = useMutation<PetInfo, AxiosError, PetInfo>(onSavePet, {
-    onSuccess: data => {
-      console.log('PET SAVE COMPLETE: ', data);
+  } = useMutation<PetInfo, AxiosError, PetInfo>(
+    [PetQueries.pet, PetQueries.petSave],
+    onSavePet,
+    {
+      onSuccess: data => {
+        console.log('PET SAVE COMPLETE: ', data);
+      },
+      onError: error => {
+        console.log('PET SAVE ERROR: ', error);
+      },
+      onSettled: () => {
+        // queryClient.invalidateQueries('modify');
+      },
     },
-    onError: error => {
-      console.log('PET SAVE ERROR: ', error);
-    },
-    onSettled: () => {
-      // queryClient.invalidateQueries('modify');
-    },
-  });
+  );
   return {savePet, savePetStatus, savePetError};
 };
 /*
@@ -78,17 +86,21 @@ export const useUpdatePet = () => {
     mutate: updatePet,
     status: updatePetStatus,
     error: updatePetError,
-  } = useMutation<PetInfo, AxiosError, PetInfo>(onUpdatePet, {
-    onSuccess: data => {
-      console.log('PET UPDATE COMPLETE: ', data);
+  } = useMutation<PetInfo, AxiosError, PetInfo>(
+    [PetQueries.pet, PetQueries.petUpdate],
+    onUpdatePet,
+    {
+      onSuccess: data => {
+        console.log('PET UPDATE COMPLETE: ', data);
+      },
+      onError: error => {
+        console.log('PET UPDATE ERROR: ', error);
+      },
+      onSettled: () => {
+        // queryClient.invalidateQueries('modify');
+      },
     },
-    onError: error => {
-      console.log('PET UPDATE ERROR: ', error);
-    },
-    onSettled: () => {
-      // queryClient.invalidateQueries('modify');
-    },
-  });
+  );
   return {updatePet, updatePetStatus, updatePetError};
 };
 /*
@@ -105,6 +117,7 @@ const onDeletePet = async ({userToken, petId}: DeleteParams) => {
     const result = await axios.delete(
       `${Config.API_HOST}/pet/delete/${userToken}/${petId}`,
     );
+    await timeout(500);
     return result;
   } catch (e) {
     console.log('ERROR: ', e);
@@ -115,17 +128,21 @@ export const useDeletePet = () => {
     mutate: deletePet,
     status: deletePetStatus,
     error: deletePetError,
-  } = useMutation<unknown, AxiosError, DeleteParams>(onDeletePet, {
-    onSuccess: data => {
-      console.log('PET DELETE COMPLETE: ', data);
+  } = useMutation<unknown, AxiosError, DeleteParams>(
+    [PetQueries.pet, PetQueries.petDelete],
+    onDeletePet,
+    {
+      onSuccess: data => {
+        console.log('PET DELETE COMPLETE: ', data);
+      },
+      onError: error => {
+        console.log('PET DELETE ERROR: ', error);
+      },
+      onSettled: () => {
+        // queryClient.invalidateQueries('modify');
+      },
     },
-    onError: error => {
-      console.log('PET DELETE ERROR: ', error);
-    },
-    onSettled: () => {
-      // queryClient.invalidateQueries('modify');
-    },
-  });
+  );
   return {deletePet, deletePetStatus, deletePetError};
 };
 /*

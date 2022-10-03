@@ -58,16 +58,18 @@ function CustomDatePicker({
         </Text>
       </Pressable>
       <RBSheet ref={refRBSheet}>
-        <DatePicker
-          style={styles.datePicker}
-          locale="ko"
-          mode="date"
-          maximumDate={maximumDate}
-          date={date ?? new Date()}
-          onDateChange={date => {
-            onDateChange(date);
-          }}
-        />
+        <View style={styles.datePickerWrapper}>
+          <DatePicker
+            style={styles.datePicker}
+            locale="ko"
+            mode="date"
+            maximumDate={maximumDate}
+            date={date ?? new Date()}
+            onDateChange={date => {
+              onDateChange(date);
+            }}
+          />
+        </View>
       </RBSheet>
     </View>
   );
@@ -85,6 +87,12 @@ CustomDatePicker.defaultProps = {
 const styles = StyleSheet.create({
   wrapper: {
     display: 'flex',
+  },
+  datePickerWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
   },
   datePicker: {},
   textWrapper: {},
