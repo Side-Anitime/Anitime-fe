@@ -16,10 +16,7 @@ import {Controller, useForm} from 'react-hook-form';
 import CustomDatePicker from '../../../common/components/CustomDatePicker';
 import {formatDateToString} from '../../../common/utils/TimeUtils';
 import CustomTextInput from '../../../common/components/CustomTextInput';
-import {
-  useSavePet,
-  useUpdatePet,
-} from '../../../common/repositories/PetRepository';
+import {useSavePet, useUpdatePet} from '../../../common/api/PetRepository';
 import {selectUser} from '../../auth/authSlice';
 import {setLoading} from '../../loading/loadingSlice';
 import {useAppDispatch} from '../../../app/store';

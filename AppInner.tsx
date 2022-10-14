@@ -23,7 +23,7 @@ import {
   mypet,
   mypet_off,
   home_off,
-} from './src/common/asstes/';
+} from './src/common/assets';
 import {Image} from 'react-native';
 import {useSelector} from 'react-redux';
 import {selectLoading, setLoading} from './src/features/loading/loadingSlice';
@@ -31,7 +31,6 @@ import LoadingOverlay from './src/features/loading/LoadingOverlay';
 import {useIsMutating, useIsFetching} from '@tanstack/react-query';
 import {useAppDispatch} from './src/app/store';
 import CompleteOverlay from './src/features/loading/CompleteOverlay';
-import {PetQueries} from './src/common/repositories/queries';
 
 const Tab = createBottomTabNavigator<LoggedInTabParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -46,7 +45,7 @@ const MyTheme = {
 };
 
 function AppInner() {
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const [isComplete, setComplete] = useState(false);
   const dispatch = useAppDispatch();
 

@@ -8,11 +8,8 @@ import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
 import {useAppDispatch} from '../../../app/store';
 import {setLoading, toggleLoading} from '../../loading/loadingSlice';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
-import {
-  useDeletePet,
-  useListPet,
-} from '../../../common/repositories/PetRepository';
-import {arrow_right, menu} from '../../../common/asstes';
+import {useDeletePet, useListPet} from '../../../common/api/PetRepository';
+import {arrow_right, menu} from '../../../common/assets';
 import {selectPetInfo, setPetInfo} from '../petInfoSlice';
 import {useFocusEffect} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
