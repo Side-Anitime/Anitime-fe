@@ -6,36 +6,33 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomSheetPet';
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
 import {useAppDispatch} from '../../../app/store';
-import {setLoading, toggleLoading} from '../../loading/loadingSlice';
 import ActionButton from '../../../common/components/ActionButton/ActionButton';
-import {
-  useDeletePet,
-  useListPet,
-} from '../../../common/repositories/PetRepository';
-import {arrow_right, menu} from '../../../common/asstes';
+import {useDeletePet, useListPet} from '../../../common/api/pet';
+import {arrow_right, menu} from '../../../common/assets';
 import {selectPetInfo, setPetInfo} from '../petInfoSlice';
 import {useFocusEffect} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import CompleteOverlay from '../../loading/CompleteOverlay';
+import {selectUserToken} from '../../auth/authSlice';
 
 function PetListDisplayScreen({
   navigation,
   route,
 }: MyPetStackScreenProps<'PetListDisplayScreen'>) {
   const refRBSheet = useRef<RBSheet>(null);
+  const dispatch = useAppDispatch();
+  const userToken = useSelector(selectUserToken);
+  const currentPetInfo = useSelector(selectPetInfo);
+
   const [isManageMode, SetManageMode] = useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
-  const dispatch = useAppDispatch();
+  const {status, data, refetch} = useListPet(userToken);
+  const {mutateAsync: deletePet} = useDeletePet(userToken);
+
   useFocusEffect(
     React.useCallback(() => {
       return () => refRBSheet.current?.close();
     }, []),
   );
-
-  const currentPetInfo = useSelector(selectPetInfo);
-  const {status, data, error, isFetching, refetch} = useListPet();
-  const isDataNull = !data?.data || data?.data.length < 1;
-  const {deletePet, deletePetStatus} = useDeletePet();
 
   const onPressSettingButton = () => {
     navigation.navigate('SettingMenuScreen');
@@ -49,12 +46,8 @@ function PetListDisplayScreen({
   const onPressAddPetButton = () => {
     refRBSheet.current?.open();
   };
-  const onCompleteAddPet = () => {
-    //TODO: LOADING SCREEN
-    dispatch(toggleLoading());
-
+  const onCompleteAddPet = async () => {
     navigation.navigate('PetInfoDisplayScreen', {editMode: true});
-    dispatch(toggleLoading());
   };
   /*
    *
@@ -62,17 +55,22 @@ function PetListDisplayScreen({
    *
    */
   const onPressRemovePetButton = (item: PetInfo) => {
-    // TODO: 추후 디자인에 따라 삭제 버튼위치 변경될수있음
     if (item.petId) {
       dispatch(setPetInfo(item));
       setModalVisible(true);
     }
   };
 
-  const onPressConfirmRemovePetButton = () => {
-    if (currentPetInfo?.petId) {
-      deletePet({userToken: 'testtoken', petId: currentPetInfo.petId});
-    }
+  const onDeletePet = async () => {
+    if (currentPetInfo?.petId)
+      try {
+        console.log('Dfdf');
+        await deletePet(currentPetInfo.petId);
+        await refetch();
+      } catch (e) {
+        //TODO: handle error
+      } finally {
+      }
   };
   /*
    *
@@ -95,22 +93,14 @@ function PetListDisplayScreen({
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       // Pet List Refetch
-      refetch();
+      try {
+        refetch();
+      } catch (e) {
+        //TODO: EROR
+      }
     });
     return unsubscribe;
   }, [navigation]);
-
-  useEffect(() => {
-    if (deletePetStatus === 'success') {
-      refetch();
-    }
-  }, [deletePetStatus]);
-
-  useEffect(() => {
-    if (isDataNull) {
-      SetManageMode(false);
-    }
-  }, [isDataNull]);
 
   return (
     <Wrapper>
@@ -129,8 +119,11 @@ function PetListDisplayScreen({
           <PetListTitleText>반려동물 관리</PetListTitleText>
           <TouchableOpacity
             onPress={() => onPressManagePetButton()}
-            disabled={isDataNull}>
-            <PetListSettingText style={{color: isDataNull ? 'gray' : '#000'}}>
+            // disabled={isDataNull}
+          >
+            <PetListSettingText
+            //  style={{color: isDataNull ? 'gray' : '#000'}}
+            >
               {isManageMode ? '완료' : '관리'}
             </PetListSettingText>
           </TouchableOpacity>
@@ -142,7 +135,7 @@ function PetListDisplayScreen({
           <>
             <PetList
               bounces
-              data={data?.data}
+              data={data.data}
               showsVerticalScrollIndicator={false}
               ListFooterComponent={<View style={{height: 200}} />}
               renderItem={({item, index}) => {
@@ -204,8 +197,8 @@ function PetListDisplayScreen({
             </Text>
             <ButtonWrapper>
               <Button
-                onPress={() => {
-                  onPressConfirmRemovePetButton();
+                onPress={async () => {
+                  await onDeletePet();
                   setModalVisible(false);
                 }}
                 style={{backgroundColor: 'purple'}}>

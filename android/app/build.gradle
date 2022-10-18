@@ -201,6 +201,8 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
+    implementation 'com.facebook.fresco:animated-gif:2.5.0' // for gif support 
+
     implementation project(':react-native-seoul-naver-login')
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"

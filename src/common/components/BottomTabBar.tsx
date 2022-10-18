@@ -4,7 +4,7 @@ import {Center} from 'native-base';
 import React, {useEffect, useRef} from 'react';
 import {Animated, Image, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components/native';
-import {buttonHolder} from '../asstes';
+import {buttonHolder} from '../assets';
 import {hiddenTabList} from '../constants';
 
 interface Props extends BottomTabBarProps {}

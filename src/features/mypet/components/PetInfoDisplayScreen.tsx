@@ -14,13 +14,10 @@ import {Avatar, Center, useToast} from 'native-base';
 import CustomSelector from '../../../common/components/CustomSelector';
 import {Controller, useForm} from 'react-hook-form';
 import CustomDatePicker from '../../../common/components/CustomDatePicker';
-import {formatDateToString} from '../../../common/utils/TimeUtils';
+import {formatDateToString} from '../../../common/utils/timeUtils';
 import CustomTextInput from '../../../common/components/CustomTextInput';
-import {
-  useSavePet,
-  useUpdatePet,
-} from '../../../common/repositories/PetRepository';
-import {selectUser} from '../../auth/authSlice';
+import {useSavePet, useUpdatePet} from '../../../common/api/pet';
+import {selectUserToken} from '../../auth/authSlice';
 import {setLoading} from '../../loading/loadingSlice';
 import {useAppDispatch} from '../../../app/store';
 
@@ -28,7 +25,7 @@ interface Props extends MyPetStackScreenProps<'PetInfoDisplayScreen'> {}
 
 function PetInfoDisplayScreen({navigation, route}: Props) {
   const currentPetInfo: PetInfo = useSelector(selectPetInfo);
-  const currentUser = useSelector(selectUser);
+  const userToken = useSelector(selectUserToken);
   const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState<boolean>(!currentPetInfo.petId);
   const {
@@ -39,15 +36,18 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
     mode: 'onBlur',
     defaultValues: currentPetInfo,
   });
-  const {updatePet, updatePetStatus} = useUpdatePet();
-  const {savePet, savePetStatus} = useSavePet();
+
+  const {mutateAsync: savePet, status: savePetStatus} = useSavePet();
+
+  const {mutateAsync: updatePet, status: updatePetStatus} = useUpdatePet();
+
   /*
    *
    * UPDATE
    *
    */
-  const onUpdatePetInfo = () => {
-    handleSubmit(formData => {
+  const onUpdatePetInfo = async () => {
+    await handleSubmit(async formData => {
       const updatedPetInfo: PetInfo = {
         ...formData,
         //TODO: petkindid 없을경우 믹스 견종 번호 ?
@@ -55,7 +55,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
         //TODO: 대표 반려동물 등록 여부
         representYn: 'N',
       };
-      updatePet(updatedPetInfo);
+      await updatePet(updatedPetInfo);
     })();
   };
   /*
@@ -63,14 +63,14 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
    * SAVE
    *
    */
-  const onSavePetInfo = () => {
-    return handleSubmit(formData => {
+  const onSavePetInfo = async () => {
+    await handleSubmit(async formData => {
       const createdPetInfo: PetInfo = {
         ...formData,
-        userToken: currentUser.userToken,
+        userToken,
         petKindId: formData?.petKind?.petTypeId ?? 1,
       };
-      savePet(createdPetInfo);
+      await savePet(createdPetInfo);
     })();
   };
   /*
@@ -78,21 +78,24 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
    * HANDLER
    *
    */
-  const onPressEditButton = () => {
+  const onPressEditButton = async () => {
     // api
     setIsEditing(!isEditing);
-    if (isEditing) {
-      // 수정
-      if (currentPetInfo.petId) {
-        onUpdatePetInfo();
+    if (isEditing)
+      try {
+        // 수정
+        if (currentPetInfo.petId) {
+          await onUpdatePetInfo();
+        }
+        //신규
+        else {
+          await onSavePetInfo().then(() => {
+            navigation.navigate('PetListDisplayScreen');
+          });
+        }
+      } catch (e) {
+        //TODO: handle error
       }
-      //신규
-      else {
-        onSavePetInfo().then(() => {
-          navigation.navigate('PetListDisplayScreen');
-        });
-      }
-    }
   };
 
   return (

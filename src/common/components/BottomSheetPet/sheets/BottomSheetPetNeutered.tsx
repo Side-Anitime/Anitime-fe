@@ -11,7 +11,7 @@ import {
   setPetNeutered,
   setPetSpecies,
 } from '../../../../features/mypet/petInfoSlice';
-import {StringBoolean} from '../../../models/pet/types';
+import {StringBoolean} from '../../../models/data/pet';
 
 function BottomSheetPetNeutered() {
   const dispatch = useAppDispatch();

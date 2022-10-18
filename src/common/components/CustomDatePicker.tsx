@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import {formatDateToString} from '../utils/TimeUtils';
+import {formatDateToString} from '../utils/timeUtils';
 
 interface Props {
   date?: Date;

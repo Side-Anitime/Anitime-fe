@@ -21,6 +21,6 @@ const authSlice = createSlice({
   extraReducers: builder => {},
 });
 
-export const selectUser = (state: RootState) => state.auth;
+export const selectUserToken = (state: RootState) => state.auth.userToken;
 
 export default authSlice;
