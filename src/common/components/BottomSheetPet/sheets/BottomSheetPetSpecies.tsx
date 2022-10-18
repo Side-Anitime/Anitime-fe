@@ -6,8 +6,8 @@ import styled from 'styled-components/native';
 import {Heading, Avatar, Button} from 'native-base';
 import {Species} from '../../../models';
 //img
-import dogFace from '../../../asstes/UI/dogface.png';
-import catFace from '../../../asstes/UI/catface.png';
+import dogFace from '../../../assets/UI/dogface.png';
+import catFace from '../../../assets/UI/catface.png';
 import {
   selectPetInfo,
   setPetSpecies,

@@ -20,15 +20,15 @@ export const api = {
       ...params,
     }),
   post: <T>(url: string, data: any) =>
-    axios.post<T>(url, data, {
+    axios.post<T>(`${Config.API_HOST}/${url}`, data, {
       headers: {},
     }),
   put: <T>(url: string, data: any) =>
-    axios.put<T>(url, data, {
+    axios.put<T>(`${Config.API_HOST}/${url}`, data, {
       headers: {},
     }),
   delete: <T>(url: string) =>
-    axios.delete<T>(url, {
+    axios.delete<T>(`${Config.API_HOST}/${url}`, {
       headers: {},
     }),
 };
@@ -59,10 +59,11 @@ export const useFetch = <T>(
     [url, params],
     ({queryKey}) => fetcher({queryKey, meta: undefined}),
     {
-      onError: e => {
+      onError: err => {
         //TODO: handle error
+        console.log(err);
       },
-      enabled: true,
+      enabled: !!url,
       refetchOnWindowFocus: false,
       ...config,
     },
@@ -78,61 +79,29 @@ export const useGenericMutation = <T, S>(
   const queryClient = useQueryClient();
 
   return useMutation<AxiosResponse, AxiosError, T | S>(func, {
-    onMutate: async data => {
-      await queryClient.cancelQueries([url!, params]);
-
-      const previousData = queryClient.getQueryData([url!, params]);
-
-      queryClient.setQueryData<T>([url!, params], oldData => {
-        return updater ? updater(oldData!, data as S) : (data as T);
-      });
-
-      return previousData;
-    },
     onError: (err, _, context) => {
-      queryClient.setQueryData([url!, params], context);
+      queryClient.setQueryData([url, params], context);
+      //NOTE: unable to fully utillize setQueryData with current structure
+      console.log(err);
     },
     onSettled: () => {
-      queryClient.invalidateQueries([url!, params]);
+      queryClient.invalidateQueries([url, params]);
     },
   });
 };
 
-export const useDelete = <T>(
-  url: string,
-  params?: object,
-  updater?: (oldData: T, id: string | number) => T,
-) => {
-  return useGenericMutation<T, string | number>(
+export const useDelete = <T, S>(url: string, params?: object) => {
+  return useGenericMutation<T, S>(
     id => api.delete(`${url}/${id}`),
     url,
     params,
-    updater,
   );
 };
 
-export const usePost = <T, S>(
-  url: string,
-  params?: object,
-  updater?: (oldData: T, newData: S) => T,
-) => {
-  return useGenericMutation<T, S>(
-    data => api.post<S>(url, data),
-    url,
-    params,
-    updater,
-  );
+export const usePost = <T, S>(url: string, params?: object) => {
+  return useGenericMutation<T, S>(data => api.post<S>(url, data), url, params);
 };
 
-export const useUpdate = <T, S>(
-  url: string,
-  params?: object,
-  updater?: (oldData: T, newData: S) => T,
-) => {
-  return useGenericMutation<T, S>(
-    data => api.put<S>(url, data),
-    url,
-    params,
-    updater,
-  );
+export const useUpdate = <T, S>(url: string, params?: object) => {
+  return useGenericMutation<T, S>(data => api.put<S>(url, data), url, params);
 };

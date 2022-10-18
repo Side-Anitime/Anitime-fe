@@ -1,6 +1,6 @@
 import React, {RefObject} from 'react';
 import {Image} from 'native-base';
-import actionButton from '../../asstes/UI/actionbutton.png';
+import actionButton from '../../assets/UI/actionbutton.png';
 import {
   ImageSourcePropType,
   StyleProp,

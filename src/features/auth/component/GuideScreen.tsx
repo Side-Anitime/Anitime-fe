@@ -26,7 +26,7 @@ function GuideScreen({navigation}: GuideStackScreenProps) {
       <StyledGuideText>일정을 등록하고</StyledGuideText>
       <StyledGuideText>한 눈에 확인해보세요.</StyledGuideText>
       <StyledWrapper>
-        <StyledLogo source={require('../../../common/asstes/auth_logo.png')} />
+        <StyledLogo source={require('../../../common/assets/auth_logo.png')} />
         <ButtonWrapper>
           <StyledLoginButton onPress={() => onPressLoginButton('signIn')}>
             <StyledText>기존 회원 로그인</StyledText>

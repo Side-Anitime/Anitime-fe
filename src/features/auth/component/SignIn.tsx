@@ -67,10 +67,10 @@ function SignIn({mode}: Props) {
       <Wrapper>
         <LoginIconWrapper>
           <Pressable>
-            <Image source={require('../../../common/asstes/kakaoLogin.png')} />
+            <Image source={require('../../../common/assets/kakaoLogin.png')} />
           </Pressable>
           <Pressable>
-            <Image source={require('../../../common/asstes/naverLogin.png')} />
+            <Image source={require('../../../common/assets/naverLogin.png')} />
           </Pressable>
         </LoginIconWrapper>
       </Wrapper>
