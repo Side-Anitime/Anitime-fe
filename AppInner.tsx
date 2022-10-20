@@ -48,16 +48,16 @@ function AppInner() {
   const dispatch = useAppDispatch();
 
   const isLoading = useSelector(selectLoading);
-  const isFetchingPet = useIsFetching();
-  const isMutatingPet = useIsMutating();
+  const isFetching = useIsFetching();
+  const isMutating = useIsMutating();
 
   useEffect(() => {
-    if (isFetchingPet || isMutatingPet) {
+    if (isFetching || isMutating) {
       dispatch(setLoading(true));
     } else {
       dispatch(setLoading(false));
     }
-  }, [isFetchingPet, isMutatingPet]);
+  }, [isFetching, isMutating]);
 
   return (
     <NativeBaseProvider>

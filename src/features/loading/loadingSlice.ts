@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../app/rootReducer';
 
-const initialState = false;
+const initialState = true;
 
 const loadingSlice = createSlice({
   name: 'loading',
