@@ -5,6 +5,7 @@
  */
 export {default as union} from './UI/rounded_edge_bottom_tab.png';
 export {default as buttonHolder} from './UI/buttonholder.png';
+export {default as actionBtn} from './UI/actionbutton.png';
 /*
  *
  * ICONS

@@ -113,8 +113,8 @@ export default function BottomTabBar({descriptors, state, navigation}: Props) {
 }
 
 const Spacer = styled.View`
-  width: 120px;
-  height: 60px;
+  width: 100px;
+  height: 70px;
 `;
 const Wrapper = styled(Animated.View)`
   position: absolute;
@@ -133,6 +133,7 @@ const ButtonWrapper = styled.View`
   justify-content: space-between;
   background-color: #f5f5f5;
   flex-grow: 1;
+  padding-left: 10px;
   background-color: transparent;
 `;
 const BottomTabBarButton = styled(TouchableOpacity)`
