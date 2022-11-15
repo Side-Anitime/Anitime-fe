@@ -6,18 +6,21 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import BottomSheetPet from '../../../common/components/BottomSheetPet/BottomSheetPet';
 import {MyPetStackScreenProps, PetInfo} from '../../../common/models';
 import {useAppDispatch} from '../../../app/store';
-import ActionButton from '../../../common/components/ActionButton/ActionButton';
 import {useDeletePet, useListPet} from '../../../common/api/pet';
 import {arrow_right, menu} from '../../../common/assets';
 import {selectPetInfo, setPetInfo} from '../petInfoSlice';
-import {useFocusEffect} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {selectUserToken} from '../../auth/authSlice';
+import {
+  selectActionButton,
+  resetButton,
+} from '../../../common/components/ActionButton/actionButtonSlice';
 
 function PetListDisplayScreen({
   navigation,
   route,
 }: MyPetStackScreenProps<'PetListDisplayScreen'>) {
+  const buttonPressed = useSelector(selectActionButton)[2];
   const refRBSheet = useRef<RBSheet>(null);
   const dispatch = useAppDispatch();
   const userToken = useSelector(selectUserToken);
@@ -27,12 +30,6 @@ function PetListDisplayScreen({
   const [modalVisible, setModalVisible] = React.useState(false);
   const {status, data, refetch} = useListPet(userToken);
   const {mutateAsync: deletePet} = useDeletePet(userToken);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      return () => refRBSheet.current?.close();
-    }, []),
-  );
 
   const onPressSettingButton = () => {
     navigation.navigate('SettingMenuScreen');
@@ -64,7 +61,6 @@ function PetListDisplayScreen({
   const onDeletePet = async () => {
     if (currentPetInfo?.petId)
       try {
-        console.log('Dfdf');
         await deletePet(currentPetInfo.petId);
         await refetch();
       } catch (e) {
@@ -101,6 +97,14 @@ function PetListDisplayScreen({
     });
     return unsubscribe;
   }, [navigation]);
+
+  useEffect(() => {
+    console.log('Route', route.name);
+    if (buttonPressed) {
+      onPressAddPetButton();
+      dispatch(resetButton());
+    }
+  }, [buttonPressed]);
 
   return (
     <Wrapper>
@@ -179,37 +183,39 @@ function PetListDisplayScreen({
         )}
         <BottomSheetPet
           refRBSheet={refRBSheet}
-          onComplete={petInfo => onCompleteAddPet()}
+          onComplete={() => onCompleteAddPet()}
         />
       </ScreenWrapper>
-      <ActionButton offsetX={0} onPress={() => onPressAddPetButton()} />
+      {/* <ActionButton offsetX={0} onPress={() => onPressAddPetButton()} /> */}
       {/* MODAL */}
       <PetDeleteModal animationType="none" visible={modalVisible} transparent>
-        <Pressable
-          onPress={() => setModalVisible(false)}
-          style={{
-            height: '100%',
-            justifyContent: 'center',
-          }}>
-          <PetDeleteModalView>
-            <Text style={{textAlign: 'center', marginVertical: 20}}>
-              {currentPetInfo.name}를(을) 삭제 하시겠습니까?
-            </Text>
-            <ButtonWrapper>
-              <Button
-                onPress={async () => {
-                  await onDeletePet();
-                  setModalVisible(false);
-                }}
-                style={{backgroundColor: 'purple'}}>
-                <ButtonText style={{color: 'white'}}>확인</ButtonText>
-              </Button>
-              <Button onPress={() => setModalVisible(false)}>
-                <ButtonText>취소</ButtonText>
-              </Button>
-            </ButtonWrapper>
-          </PetDeleteModalView>
-        </Pressable>
+        <View style={{backgroundColor: 'rgba(0,0,0,0.1)'}}>
+          <Pressable
+            onPress={() => setModalVisible(false)}
+            style={{
+              height: '100%',
+              justifyContent: 'center',
+            }}>
+            <PetDeleteModalView>
+              <Text style={{textAlign: 'center', marginVertical: 20}}>
+                {currentPetInfo.name}를(을) 삭제 하시겠습니까?
+              </Text>
+              <ButtonWrapper>
+                <Button
+                  onPress={async () => {
+                    await onDeletePet();
+                    setModalVisible(false);
+                  }}
+                  style={{backgroundColor: '#ffa801'}}>
+                  <ButtonText style={{color: 'white'}}>확인</ButtonText>
+                </Button>
+                <Button onPress={() => setModalVisible(false)}>
+                  <ButtonText>취소</ButtonText>
+                </Button>
+              </ButtonWrapper>
+            </PetDeleteModalView>
+          </Pressable>
+        </View>
       </PetDeleteModal>
       {/* MODAL */}
     </Wrapper>
@@ -292,13 +298,15 @@ const PetVStack = styled(VStack)`
   flex-grow: 2;
 `;
 
-const PetDeleteModal = styled(Modal)``;
+const PetDeleteModal = styled(Modal)`
+  color: red;
+`;
 
 const PetDeleteModalView = styled.View`
   align-self: center;
   background-color: #fff;
   padding: 20px;
-  border-radius: 7px;
+  border-radius: 4px;
 `;
 
 const ButtonWrapper = styled.View`

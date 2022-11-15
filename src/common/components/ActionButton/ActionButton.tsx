@@ -20,29 +20,15 @@ interface Props {
   degrees?: number;
 }
 
-function ActionButton({
-  onPress,
-  fixNativeFeedbackRadius,
-  offsetX,
-  offsetY,
-  size,
-  zIndex,
-  src,
-}: Props) {
+function ActionButton({onPress, src}: Props) {
   const handleOnPress = () => {
     onPress();
-  };
-
-  const parentStyle = {
-    zIndex: zIndex,
-    paddingHorizontal: offsetX,
-    paddingVertical: offsetY,
   };
 
   return (
     <View style={styles.overlay} pointerEvents={'box-none'}>
       <TouchableOpacity
-        style={{...styles.wrapper, ...parentStyle}}
+        style={{...styles.wrapper}}
         accessibilityRole="button"
         onPress={handleOnPress}>
         <Image
@@ -59,13 +45,12 @@ function ActionButton({
 const styles = StyleSheet.create({
   overlay: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 34,
     left: 0,
     right: 0,
     top: 0,
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    backgroundColor: 'transparent',
   },
   wrapper: {
     width: '30%',
@@ -74,11 +59,3 @@ const styles = StyleSheet.create({
 });
 
 export default ActionButton;
-
-ActionButton.defaultProps = {
-  fixNativeFeedbackRadius: false,
-  size: 80,
-  degrees: 45,
-  offsetX: 0,
-  offsetY: 30,
-};

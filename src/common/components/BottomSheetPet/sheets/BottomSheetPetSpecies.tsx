@@ -33,9 +33,7 @@ function BottomSheetPetSpecies() {
             size="2xl"
             source={dogFace}
             //FIXME: correct adjustments after getting unified image sizes. As of now the images are incoherent
-            safeArea={5}>
-            RB
-          </DogAva>
+          />
           <PetText>
             <Heading>강아지</Heading>
           </PetText>
