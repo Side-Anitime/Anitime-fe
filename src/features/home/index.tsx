@@ -38,7 +38,7 @@ function Home() {
           <Text>9월 25일 토 AM 8:00</Text>
         </View>
       </View>
-      <ActionButton onPress={() => onPressAddHomeButton()} />
+      {/* <ActionButton onPress={() => onPressAddHomeButton()} /> */}
     </SafeAreaView>
   );
 }
@@ -52,11 +52,11 @@ const styles = StyleSheet.create({
   },
   cameraBtn: {
     position: 'absolute',
-    top: 10,
-    right: 10,
+    top: 16,
+    right: 16,
   },
   calendarBlocks: {
-    padding: 15,
+    padding: 16,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     display: 'flex',
-    paddingTop: 10,
+    paddingTop: 4,
   },
   calendarTitle: {},
 });

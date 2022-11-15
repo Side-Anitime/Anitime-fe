@@ -3,13 +3,23 @@ import {getPathFromState, useNavigation} from '@react-navigation/native';
 import {Center} from 'native-base';
 import React, {useEffect, useRef} from 'react';
 import {Animated, Image, TouchableOpacity, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import styled from 'styled-components/native';
+import {useAppDispatch} from '../../app/store';
 import {buttonHolder} from '../assets';
 import {hiddenTabList} from '../constants';
+import ActionButton from './ActionButton/ActionButton';
+import {
+  resetButton,
+  selectActionButton,
+  setButton,
+} from './ActionButton/actionButtonSlice';
 
 interface Props extends BottomTabBarProps {}
 
 export default function BottomTabBar({descriptors, state, navigation}: Props) {
+  const dispatch = useAppDispatch();
+
   const getDisplay = () => {
     const path = getPathFromState(state);
     if (hiddenTabList.find(value => path.includes(value))) {
@@ -107,6 +117,11 @@ export default function BottomTabBar({descriptors, state, navigation}: Props) {
           );
         })}
       </ButtonWrapper>
+      <ActionButton
+        onPress={() => {
+          dispatch(setButton(navigation.getState().index));
+        }}
+      />
       <Spacer />
     </Wrapper>
   );
@@ -115,6 +130,7 @@ export default function BottomTabBar({descriptors, state, navigation}: Props) {
 const Spacer = styled.View`
   width: 100px;
   height: 70px;
+  backgroundcolor: 'blue';
 `;
 const Wrapper = styled(Animated.View)`
   position: absolute;

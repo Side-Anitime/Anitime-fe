@@ -26,6 +26,7 @@ import BottomSheetPetMemo from './sheets/BottomSheetPetMemo';
 interface Props {
   refRBSheet: RefObject<RBSheet>;
   onComplete: (petInfo: PetInfo) => void;
+  onClose?: () => void;
 }
 
 type Sheet = {
@@ -33,7 +34,7 @@ type Sheet = {
   component: ReactNode;
 };
 
-function BottomSheetPet(props: Props) {
+function BottomSheetPet({onClose, onComplete, refRBSheet}: Props) {
   const currentSheet = useSelector(selectCurrentSheet);
   const currentSheetComplete = useSelector(selectCurrentSheetComplete);
   const currentPetInfo = useSelector(selectPetInfo);
@@ -53,13 +54,14 @@ function BottomSheetPet(props: Props) {
   const onPressNextButton = () => {
     dispatch(incrementSheet());
     if (currentSheet + 1 === maxSheetLength) {
-      props.onComplete(currentPetInfo);
+      onComplete(currentPetInfo);
     }
   };
 
   return (
     <RBSheet
-      ref={props.refRBSheet}
+      onClose={onClose}
+      ref={refRBSheet}
       height={400}
       onOpen={() => dispatch(reset())}
       closeOnDragDown={true}
