@@ -31,7 +31,7 @@ const Wrapper = styled.View`
   width: ${ScreenWidth}px;
   height: ${ScreenHeight}px;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(255, 255, 255, 0.5);
 `;
 
 const MessageBox = styled.View`

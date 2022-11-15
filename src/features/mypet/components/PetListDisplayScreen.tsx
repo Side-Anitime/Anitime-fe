@@ -182,7 +182,7 @@ function PetListDisplayScreen({
           onComplete={petInfo => onCompleteAddPet()}
         />
       </ScreenWrapper>
-      <ActionButton onPress={() => onPressAddPetButton()} />
+      <ActionButton offsetX={0} onPress={() => onPressAddPetButton()} />
       {/* MODAL */}
       <PetDeleteModal animationType="none" visible={modalVisible} transparent>
         <Pressable
