@@ -1,6 +1,6 @@
 import React, {RefObject} from 'react';
 import {Image} from 'native-base';
-import actionButton from '../../assets/UI/actionbutton.png';
+import {actionBtn} from '../../assets';
 import {
   ImageSourcePropType,
   StyleProp,
@@ -46,7 +46,7 @@ function ActionButton({
         accessibilityRole="button"
         onPress={handleOnPress}>
         <Image
-          source={src ?? actionButton}
+          source={src ?? actionBtn}
           alt="버튼"
           style={styles.button}
           resizeMode="contain"
@@ -77,8 +77,8 @@ export default ActionButton;
 
 ActionButton.defaultProps = {
   fixNativeFeedbackRadius: false,
-  size: 56,
+  size: 80,
   degrees: 45,
-  offsetX: 10,
+  offsetX: 0,
   offsetY: 30,
 };
