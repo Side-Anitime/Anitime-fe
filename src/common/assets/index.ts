@@ -19,3 +19,5 @@ export {default as schedule_off} from './icons/schedule_off.png';
 export {default as schedule} from './icons/schedule.png';
 export {default as menu} from './icons/menu.png';
 export {default as arrow_right} from './icons/arrow_right.png';
+export {default as camera} from './icons/camera.png';
+export {default as dday} from './icons/dday.png';
