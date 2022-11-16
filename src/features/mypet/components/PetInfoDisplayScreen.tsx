@@ -81,7 +81,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
   const onPressEditButton = async () => {
     // api
     setIsEditing(!isEditing);
-    if (isEditing)
+    if (isEditing) {
       try {
         // 수정
         if (currentPetInfo.petId) {
@@ -96,6 +96,7 @@ function PetInfoDisplayScreen({navigation, route}: Props) {
       } catch (e) {
         //TODO: handle error
       }
+    }
   };
 
   return (
