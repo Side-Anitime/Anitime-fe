@@ -25,6 +25,7 @@ import {
   home_off,
 } from './src/common/assets';
 import {Image} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
 import {selectLoading, setLoading} from './src/features/loading/loadingSlice';
 import LoadingOverlay from './src/features/loading/LoadingOverlay';
@@ -60,71 +61,75 @@ function AppInner() {
   }, [isFetching, isMutating]);
 
   return (
-    <NativeBaseProvider>
-      <NavigationContainer theme={MyTheme}>
-        {!isLoggedIn ? (
-          <BottomTabNavigator
-            tabBar={(props: BottomTabBarProps) => <BottomTabBar {...props} />}>
-            <Tab.Screen
-              name="Home"
-              component={Home}
-              options={{
-                title: '홈',
-                headerShown: false,
-                tabBarIcon: ({focused, color, size}) => {
-                  if (!focused) {
-                    return <Image source={home_off} />;
-                  }
-                  return <Image source={home} />;
-                },
-              }}
-            />
-            <Tab.Screen
-              name="Calendar"
-              component={Calendar}
-              options={{
-                title: '캘린더',
-                headerShown: false,
-                tabBarIcon: ({focused, color, size}) => {
-                  if (!focused) {
-                    return <Image source={schedule_off} />;
-                  }
-                  return <Image source={schedule} />;
-                },
-              }}
-            />
-            <Tab.Screen
-              name="MyPet"
-              component={MyPet}
-              options={{
-                title: '마이펫',
-                headerShown: false,
-                tabBarIcon: ({focused, color, size}) => {
-                  if (!focused) {
-                    return <Image source={mypet_off} />;
-                  }
-                  return <Image source={mypet} />;
-                },
-              }}
-            />
-          </BottomTabNavigator>
-        ) : (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="GuideScreen"
-              component={GuideScreen}
-              options={{title: '가이드', headerShown: false}}
-            />
-            <Stack.Screen
-              name="SignUpScreen"
-              component={SignUpScreen}
-              options={{title: '회원가입', headerShown: true}}
-            />
-          </Stack.Navigator>
-        )}
-        {isLoading && <LoadingOverlay />}
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <SafeAreaProvider>
+      <NativeBaseProvider>
+        <NavigationContainer theme={MyTheme}>
+          {!isLoggedIn ? (
+            <BottomTabNavigator
+              tabBar={(props: BottomTabBarProps) => (
+                <BottomTabBar {...props} />
+              )}>
+              <Tab.Screen
+                name="Home"
+                component={Home}
+                options={{
+                  title: '홈',
+                  headerShown: false,
+                  tabBarIcon: ({focused, color, size}) => {
+                    if (!focused) {
+                      return <Image source={home_off} />;
+                    }
+                    return <Image source={home} />;
+                  },
+                }}
+              />
+              <Tab.Screen
+                name="Calendar"
+                component={Calendar}
+                options={{
+                  title: '캘린더',
+                  headerShown: false,
+                  tabBarIcon: ({focused, color, size}) => {
+                    if (!focused) {
+                      return <Image source={schedule_off} />;
+                    }
+                    return <Image source={schedule} />;
+                  },
+                }}
+              />
+              <Tab.Screen
+                name="MyPet"
+                component={MyPet}
+                options={{
+                  title: '마이펫',
+                  headerShown: false,
+                  tabBarIcon: ({focused, color, size}) => {
+                    if (!focused) {
+                      return <Image source={mypet_off} />;
+                    }
+                    return <Image source={mypet} />;
+                  },
+                }}
+              />
+            </BottomTabNavigator>
+          ) : (
+            <Stack.Navigator>
+              <Stack.Screen
+                name="GuideScreen"
+                component={GuideScreen}
+                options={{title: '가이드', headerShown: false}}
+              />
+              <Stack.Screen
+                name="SignUpScreen"
+                component={SignUpScreen}
+                options={{title: '회원가입', headerShown: true}}
+              />
+            </Stack.Navigator>
+          )}
+          {isLoading && <LoadingOverlay />}
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </SafeAreaProvider>
   );
 }
 

@@ -10,6 +10,7 @@ import {useSelector} from 'react-redux';
 import {setSelectedDate} from '../calendarSlice';
 import dayjs from 'dayjs';
 import Button from '../../../common/components/Button';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const listItemStyle = {
   borderRadius: 8,
@@ -111,7 +112,8 @@ function CalendarFormScreen({
   );
 }
 
-const Container = styled.ScrollView`
+const Container = styled(SafeAreaView)`
+  flex: 1;
   padding: 20px;
 `;
 

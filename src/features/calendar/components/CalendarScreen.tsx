@@ -1,6 +1,4 @@
 import React, {useEffect, useRef} from 'react';
-import {CATEGORIES} from '../../../common/constants';
-import BottomSheet from '../../../common/components/BottomSheet';
 import {CalendarStackScreenProps} from '../../../common/models';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {useSelector} from 'react-redux';
@@ -42,7 +40,7 @@ function CalendarScreen({
   );
 }
 
-const Container = styled.View`
+const Container = styled.SafeAreaView`
   flex: 1;
 `;
 
