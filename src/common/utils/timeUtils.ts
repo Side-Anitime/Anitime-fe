@@ -20,3 +20,10 @@ export const formatStringToString = (
 export const formatStringToDate = (date?: string) => {
   return dayjs(date);
 };
+
+export const getToday = (format?: string) => {
+  if (!format) {
+    return dayjs().format('YYYY-MM-DD');
+  }
+  return dayjs().format(format);
+};

@@ -16,18 +16,26 @@ export type {MyPetStackScreenProps} from './navigation/types';
  * API
  *
  */
-export type {BaseParams} from './api/interfaces';
-export type {PetListResponse} from './api/interfaces';
-export type {PetDeleteParams} from './api/interfaces';
+export type {
+  BaseParams,
+  PetListResponse,
+  PetDeleteParams,
+  PlanByDateParams,
+  PlanByDateResponse,
+} from './api/interfaces';
+
 /*
  *
  * PET
  *
  */
-export type {PetInfo} from './data/pet';
-export type {PetKind} from './data/pet';
-export type {Gender} from './data/pet';
-export type {Species} from './data/pet';
+export type {PetInfo, PetKind, Gender, Species} from './data/pet';
+/*
+ *
+ * CALENDAR
+ *
+ */
+export type {Plan} from './data/calendar';
 /*
  *
  * Shared

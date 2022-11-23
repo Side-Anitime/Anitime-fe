@@ -14,11 +14,15 @@ import Config from 'react-native-config';
  *
  */
 export const api = {
-  get: <T>(url: string, params?: object) =>
-    axios.get<T>(`${Config.API_HOST}/${url}`, {
+  get: <T>(url: string, params?: object) => {
+    console.log('parmas', params);
+    console.log('url', url);
+
+    return axios.get<T>(`${Config.API_HOST}/${url}`, {
       headers: {},
       ...params,
-    }),
+    });
+  },
   post: <T>(url: string, data: any) =>
     axios.post<T>(`${Config.API_HOST}/${url}`, data, {
       headers: {},
