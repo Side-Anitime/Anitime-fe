@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import Button from '../../../common/components/Button';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useForm} from 'react-hook-form';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const listItemTopStyle = {
   borderTopLeftRadius: 8,
@@ -75,7 +76,7 @@ function CalendarFormScreen({
 
   return (
     <Container>
-      <View>
+      <KeyboardAwareScrollView>
         <ListItem.Accordion
           containerStyle={listItemTopStyle}
           content={
@@ -144,7 +145,7 @@ function CalendarFormScreen({
             }}
           />
         </ListItem.Accordion>
-      </View>
+      </KeyboardAwareScrollView>
 
       <Button styleType="primary" onPress={handleSubmit(onSubmit)}>
         저장
