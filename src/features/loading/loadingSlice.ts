@@ -13,7 +13,6 @@ const loadingSlice = createSlice({
       return state;
     },
   },
-  extraReducers: builder => {},
 });
 
 export default loadingSlice;
