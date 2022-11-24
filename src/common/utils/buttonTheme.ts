@@ -1,4 +1,5 @@
 import {css} from 'styled-components';
+import {colors} from './colors';
 
 // 공통 버튼 테마
 
@@ -9,13 +10,11 @@ const disabled = css`
 `;
 
 const primary = css`
-  background-color: blue;
-  color: ${({theme}) => theme.white};
+  background-color: ${colors.primary};
+  border-radius: 8px;
   border: none;
   height: 40px;
-  &:disabled {
-    ${disabled}
-  }
+  color: aqua;
 `;
 
 const buttonTheme = {

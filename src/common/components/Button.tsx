@@ -7,8 +7,8 @@ interface Props {
   layoutMode?: 'inline' | 'fullWidth';
   buttonTheme?: unknown; // Todo: 개선 필요
   styleType?: string;
-  title: string;
   children: React.ReactNode;
+  onPress: () => void;
 }
 
 function CommonButton({
@@ -23,7 +23,7 @@ function CommonButton({
       styleType={styleType}
       layoutMode={layoutMode}
       {...rest}>
-      <Text>{children}</Text>
+      <StyledText>{children}</StyledText>
     </StyledButton>
   );
 }
@@ -38,11 +38,12 @@ const StyledButton = styled(Pressable)`
   letter-spacing: -0.3px;
   cursor: ${({disabled}) => (disabled ? 'not-allowed' : 'pointer')};
   ${({buttonTheme, styleType = 'primary'}) => buttonTheme[styleType]};
-  ${props =>
-    props.layoutMode === 'fullWidth' &&
-    css`
-      width: 100%;
-    `}
+`;
+
+const StyledText = styled.Text`
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
 `;
 
 export default CommonButton;
