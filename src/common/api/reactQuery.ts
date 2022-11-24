@@ -5,8 +5,8 @@ import {
   useQueryClient,
   useMutation,
 } from '@tanstack/react-query';
-import axios, {AxiosError, AxiosResponse} from 'axios';
-import Config from 'react-native-config';
+import {AxiosError, AxiosResponse} from 'axios';
+import {client} from './client';
 
 /*
  *
@@ -18,21 +18,21 @@ export const api = {
     console.log('parmas', params);
     console.log('url', url);
 
-    return axios.get<T>(`${Config.API_HOST}/${url}`, {
+    return client.get<T>(`${url}`, {
       headers: {},
       ...params,
     });
   },
   post: <T>(url: string, data: any) =>
-    axios.post<T>(`${Config.API_HOST}/${url}`, data, {
+    client.post<T>(`${url}`, data, {
       headers: {},
     }),
   put: <T>(url: string, data: any) =>
-    axios.put<T>(`${Config.API_HOST}/${url}`, data, {
+    client.put<T>(`${url}`, data, {
       headers: {},
     }),
   delete: <T>(url: string) =>
-    axios.delete<T>(`${Config.API_HOST}/${url}`, {
+    client.delete<T>(`${url}`, {
       headers: {},
     }),
 };
