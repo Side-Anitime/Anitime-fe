@@ -55,6 +55,8 @@ function MyCalendar() {
 
   return (
     <Calendar
+      initialDate=""
+      context={{date: ''}}
       monthFormat={'yyyy년 MM월'}
       enableSwipeMonths={true}
       onDayPress={onDayPress}
