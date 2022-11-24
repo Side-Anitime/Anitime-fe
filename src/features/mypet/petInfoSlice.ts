@@ -38,7 +38,6 @@ const petInfoSlice = createSlice({
       state.shortIntroduce = payload;
     },
   },
-  extraReducers: builder => {},
 });
 
 export const selectPetInfo = (state: RootState) => state.petInfo;

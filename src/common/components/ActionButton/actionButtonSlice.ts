@@ -15,7 +15,6 @@ const actionButtonSlice = createSlice({
     },
     resetButton: () => initialState,
   },
-  extraReducers: {},
 });
 export const selectActionButton = (state: RootState) => state.actionButton;
 
